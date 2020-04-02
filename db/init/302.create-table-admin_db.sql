@@ -1,3 +1,4 @@
+USE admin_db;
 -- MySQL dump 10.13  Distrib 5.6.20, for Linux (x86_64)
 --
 -- Host: localhost    Database: admin_db
