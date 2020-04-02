@@ -20,12 +20,13 @@ services:
     ports:
       - "3306:3306"
     restart: always
+
   web:
     build:
       context: ./web
-      args:
-        - HTTPS=${HTTPS}
-        - ENVIRONMENT=${ENVIRONMENT}
+      #      args:
+      #        - HTTPS=${HTTPS}
+      #        - ENVIRONMENT=${ENVIRONMENT}
     tty: true
     container_name: web
     logging:
@@ -34,7 +35,7 @@ services:
         max-size: "10m"
         max-file: "3"
     volumes:
-      - "./web/app:/app:z"
+      - "./web/admin:/var/comauth/admin:z"
     depends_on:
       - db
     ports:
