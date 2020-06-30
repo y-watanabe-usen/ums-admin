@@ -1,0 +1,215 @@
+@charset "UTF-8";
+
+.usengrid {
+	padding:0;
+	margin:0;
+/*	font-size: 10px;*/
+	position: relative;
+	border: 1px #d3d3d3 solid;
+	overflow: hidden;
+	color: #000;
+	border-collapse: collapse;
+	border-spacing: 0;
+	white-space: nowrap;
+	background: #fff;
+}
+
+.usengrid div {
+	padding:0;
+	margin:0;
+	border:0;
+
+
+}
+
+.usengrid table.mTable {
+	padding:0;
+	margin:0;
+	border:0;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.usengrid th {
+	padding:0;
+	margin:0;
+	border: 1px #bbb solid;
+	border-width: 0 1px 1px 0;
+	text-align:center;
+}
+
+.usengrid div.mDiv {
+	position: relative;
+/*	background: #fff;*/
+	padding: 0;
+	margin: 0;
+	border: 0;
+	overflow-y: hidden;
+	overflow-x: scroll;
+	float: left;
+}
+
+.usengrid div.hDiv {
+	position: absolute;
+	width: 100%;
+	padding: 0;
+	margin: 0 0 0 0;
+	border: 0;
+	border: 1px #bbb solid;
+	border-width: 0 0 1px 0;
+}
+
+.usengrid div.sDiv {
+	background: #e1e1e1;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.usengrid div.nDiv {
+
+}
+
+.usengrid div.cDrag {
+	position: absolute;
+	top: 1px;
+	width: 1px;
+	border: 0;
+	border-right: 1px solid #fff;
+	background: #888;
+	display:none;
+}
+
+.usengrid div.lDiv {
+	position: absolute;
+	left: 0;
+	bottom: 22px;
+	height: 20px;
+	width: 100%;
+	background: #fff;
+	display:none;
+	text-align: center;
+	filter: alpha(opacity=90);
+	-moz-opacity:0.90;
+	opacity:0.90;
+}
+
+.usengrid div.dDiv {
+/*	background: #fff;*/
+	padding: 0;
+	margin: 0;
+	border: 0;
+	overflow: hidden;
+}
+
+.usengrid div.rDiv {
+	position: absolute;
+	border: 1px #bbb solid;
+	border-width: 0 0 0 1px;
+	top: 2px;
+	right: 0;
+	width: 3px;
+	height: 17px;
+	margin: 0;
+	padding: 0;
+	background-repeat: no-repeat;
+}
+
+.usengrid div.rDiv:hover {
+	cursor: col-resize;
+}
+.usengrid tbody {
+	padding:0;
+	margin:0;
+}
+
+.dataTable {
+	border-collapse: collapse;
+	border-spacing: 0;
+	border:0;
+	padding: 0;
+	margin: 0;
+	white-space: nowrap;
+}
+
+.usengrid table.dataTable td {
+	padding:0;
+	margin:0;
+	border: 1px #d3d3d3 solid;
+	border-width: 0 1px 1px 0;
+	height:23px;
+	overflow: hidden;
+/*	line-height: 130%;*/
+}
+
+.usengrid span.dSpan {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	padding: 0 3px;
+	margin:0;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.usengrid tr.even {
+	background: #f9f9f9;
+}
+
+.usengrid tr:nth-child(even) {
+	background: #f9f9f9;
+}
+
+.usengrid tr.odd {
+	background: #ffffff;
+}
+
+.usengrid table.dataTable tr:hover {
+	background: #e5f2ff;
+}
+
+.usengrid tr.selected {
+	background: #cce5ff;
+}
+
+.usengrid-bg-green {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#dfffdf , endColorStr=#a9edab, GradientType=0);
+	background: #fff;  /* ie filterバグ対応 */
+	background: -webkit-gradient(linear, center top,center bottom, from(#dfffdf),to(#a9edab));	/* Safari,Chrome */
+	background: -moz-linear-gradient(top, #dfffdf, #a9edab);
+}
+
+.usengrid-bg-darkgreen {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#d3f1ea , endColorStr=#8cbeac, GradientType=0);
+	background: #fff;  /* ie filterバグ対応 */
+	background: -webkit-gradient(linear, center top,center bottom, from(#d3f1ea),to(#8cbeac));
+	background: -moz-linear-gradient(top, #d3f1ea, #8cbeac);
+}
+
+.usengrid-bg-red {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#fee9de , endColorStr=#e1a98d, GradientType=0);
+	background: #fff;  /* ie filterバグ対応 */
+	background: -webkit-gradient(linear, center top,center bottom, from(#fee9de),to(#e1a98d));
+	background: -moz-linear-gradient(top, #fee9de, #e1a98d);
+}
+
+.usengrid-bg-blue {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#BCD8D4, endColorStr=#A6BFBB, GradientType=0);
+	background: #fff;  /* ie filterバグ対応 */
+	background: -ms-linear-gradient(top, #BCD8D4, #A6BFBB);
+	background: -webkit-gradient(linear, center top,center bottom, from(#BCD8D4),to(#A6BFBB));
+	background: -moz-linear-gradient(top, #BCD8D4, #A6BFBB);
+}
+
+.usengrid-bg-purple {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#e9ddf7 , endColorStr=#cebaf7, GradientType=0);
+	background: #fff;  /* ie filterバグ対応 */
+	background: -webkit-gradient(linear, center top,center bottom, from(#e9ddf7),to(#cebaf7));
+	background: -moz-linear-gradient(top, #e9ddf7, #cebaf7);
+}
+
+.usengrid-bg-gray {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#e1e1e1 , endColorStr=#d1d1d1, GradientType=0);
+	background: #fff;  /* ie filterバグ対応 */
+	background: -webkit-gradient(linear, center top,center bottom, from(#f9f9f9),to(#d1d1d1));
+	background: -moz-linear-gradient(top, #f9f9f9, #d1d1d1);
+}

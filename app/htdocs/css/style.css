@@ -1,0 +1,604 @@
+@CHARSET "UTF-8";
+
+@import url('style_blue.css');
+/*@import url('style_green.css');*/
+/*@import url('style_lightgreen.css');*/
+
+
+/* general elements --------------------------------------------------------- */
+html, body {height:100%;}
+body {margin: 0;padding: 0;color: #333333;font-size: 11px;line-height: 1.5;text-align: center;background:#fff;}
+body,table *,form * {font-family: "Meiryo UI", Meiryo, "Bitstream Vera Sans","Hiragino Kaku Gothic Pro", Meiryo, Verdana, "MS PGothic","Takao P�S�V�b�N", sans-serif;}
+section,nav,article,aside,hgroup,header,footer,figure,figcaption {display: block;}
+h1,h2,h3,h4,h5,h6 {overflow: hidden;margin: 0;line-height: 1.4;}
+h1 {font-size: 48px;}
+h2 {height: 28px;font-size: 24px;line-height: 28px;}
+h3 {font-size: 18px;}
+h4 {font-size: 14px;}
+h5,h6 {font-size: 12px;}
+p,dt,dd,li,address {line-height: 1.8;}
+p,ul,ol,dl,pre {margin: 1em 0;}
+ul {padding: 0;}
+ol {padding-left: 2.5em;}
+ul li,ol li ul li {padding: 4px 0 4px 20px;list-style-type: none;}
+ol li,ul li ol li {list-style: decimal outside;}
+dt {font-weight: bold;}
+dd {margin-left: 1em;}
+pre {white-space: pre;}
+blockquote {margin: 1em;}
+figure,figcaption {margin: 0;}
+table {border-collapse: collapse;border-spacing: 0;margin: 0;}
+td,th {border: 0;}
+address {font-style: normal;}
+/*:first-child {margin-top: 0;}
+:last-child {margin-bottom: 0;}*/
+img {vertical-align: top;}
+input {padding: 0;}
+em {font-style: normal;text-decoration: underline;}
+a,a img {border: 0;}
+a:link,a:visited {color: #4f4f4f;}
+a:hover,a:focus,a:active {text-decoration: underline;color: #4f4f4f;}
+abbr,acronym {border-bottom: 1px dotted #000;cursor: help;}
+sup {vertical-align: top;}
+q:before {content: "�g";}
+q:after {content: "�h";}
+* html body * {height: 1%;}
+* html input {height: auto;}
+input,button {font-size:11px;font-family: "Meiryo UI", Meiryo, "Bitstream Vera Sans","Hiragino Kaku Gothic Pro", Meiryo, Verdana, "MS PGothic","Takao P�S�V�b�N", sans-serif;}
+input[type="file"]{height:22px;}
+input[type="text"],input[type="password"]{width: 180px;height:18px;margin-bottom:4px;}
+textarea {margin-bottom:4px;font-size:11px;}
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:focus {border: 2px solid #387bfa;}
+select {height:20px;font-size:11px;}
+select:focus {border: 1px solid #387bfa;}
+ul li {list-style: disc outside;}
+
+
+/* usen elements --------------------------------------------------------- */
+
+/* ---------- ヘッダー(タイトル) ---------- */
+.csstitle {
+    position: fixed;
+    color:#000;
+    background: #fff;
+    width: 100%;
+    min-width: 900px;
+    top: 0;
+    height: 54px;
+    padding: 0;
+    opacity: 1.0;
+    z-Index:1000;
+}
+.icon {
+    width: 16px;
+    height: 16px;
+    cursor:pointer;
+}
+.icon_button {
+    width: 20px;
+    height: 18px;
+    padding-top:2px;
+    padding-left:0px;
+    border-radius: 3px;
+}
+.icon_button:hover {
+    background:#e2e2e2;
+}
+
+
+/* ---------- ヘッダー(メニュー) ---------- */
+.cssmenu {
+    position: fixed;
+    top: 30px;
+    width: 100%;
+    min-width: 1200px;
+    margin:0px;
+    padding:0 0 5px 0;
+    font-size:12px;
+    z-Index:1001;
+    overflow:hidden;
+}
+.cssmenu ul {
+    position: relative;
+    list-style:none;
+    margin:0;
+    padding:0 0 0 5px;
+    text-align: left;
+}
+.cssmenu ul:after { /* メニューの下線 */
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 5px;
+    background:#f9f9f9;
+    bottom: -5px;
+    left: 0;
+    border-top: 1px solid #aaa;
+    z-index: 1002;
+}
+.cssmenu li {
+    position: relative;
+    display: inline-block;
+    margin: 0 3px;
+    padding: 0px;
+    border:1px solid #aaa;
+    background: #b1b1b1;
+    z-index: 1000;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+/*
+.cssmenu li:before {
+        border: 1px solid #aaa;
+        position: absolute;
+        bottom: -1px;
+        width: 5px;
+        height: 5px;
+        content: " ";
+        left: -7px;
+        border-bottom-right-radius: 6px;
+        border-width: 0 1px 1px 0;
+        box-shadow: 1px 2px 0 #c1c1c1;
+}
+.cssmenu li:after {
+        border: 1px solid #aaa;
+        position: absolute;
+        bottom: -1px;
+        width: 5px;
+        height: 5px;
+        content: " ";
+        right: -7px;
+        border-bottom-left-radius: 6px;
+        border-width: 0 0 1px 1px;
+        box-shadow: -1px 2px 0 #c1c1c1;
+}
+*/
+.cssmenu a {
+    color:#000;
+    display:block;
+    line-height:23px;
+    padding:0px 20px;
+    text-align:center;
+    text-decoration:none;
+}
+.cssmenu li.active {
+    z-index: 1003;
+    background: #f9f9f9;
+    border-bottom-color: #f9f9f9;
+}
+
+.cssmenu li.active:before {
+    box-shadow: 2px 2px 0 #f9f9f9;
+}
+.cssmenu li.active:after {
+    box-shadow: -2px 2px 0 #f9f9f9;
+}
+
+
+/* ---------- メイン ---------- */
+div.main {
+    box-sizing: border-box;			/* IE */
+    -moz-box-sizing: border-box;	/* FireFox */
+    width: 100%;
+    height:100%;
+    background: #fff;
+    padding: 35px 0px 0px 0px;
+}
+
+
+/* ---------- メインパネル ---------- */
+div.main-panel {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    position:relative;
+    width: 100%;
+    min-width: 1200px;
+    height: 100%;
+    min-height: 570px;
+    /*	overflow: hidden;*/
+    padding-top: 50px;
+    padding-bottom: 8px;
+    padding-left: 7px;
+    background: #f9f9f9;
+}
+
+div.main-title {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    position:absolute;
+    top: 25px;
+    left: 10px;
+    right:10px;
+    text-align:left;
+    padding: 1px 0px 1px 10px;
+    margin: 0;
+    font-size:18px;
+    font-weight:600;
+}
+
+div.main-title:before, div.main-title-sm:before {
+    content:'◆';
+}
+
+
+/* ---------- パネル ---------- */
+div.panel-base {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    padding: 8px 8px 2px 2px;
+    margin: 0;
+}
+
+div.panel {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    position:relative;
+    text-align: left;
+    width: 100%;
+    height: 100%;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    background:#FFF;
+    border-radius: 3px;
+    overflow:hidden;
+    box-shadow: 0 1px 2px 1px #ccc;
+    -webkit-box-shadow: 0 1px 2px 1px #ccc; /* Chrome, Safari */
+}
+
+div.panel-title {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    position:absolute;
+    top: 0;
+    left: 0;
+    width:100%;
+    text-align:left;
+    padding: 3px 0px 3px 10px;
+    margin: 0;
+    font-size:12px;
+    border-bottom:1px solid #eee;
+    font-weight:600;
+}
+
+div.panel-pop {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    position:relative;
+    text-align: left;
+    width: 100%;
+    height: 100%;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    background:#FFF;
+    border-radius: 3px;
+    overflow:hidden;
+    display:none;
+}
+
+/* ---------- ユニット ---------- */
+div.unit {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    position:relative;
+    text-align: left;
+    width: 100%;
+    height:100%;
+    margin:0;
+}
+
+div.unit-title {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    position:absolute;
+    top: 0;
+    left: 20px;
+    right:20px;
+    text-align:left;
+    padding-left: 10px;
+    margin: 0;
+    font-size:13px;
+    background:#2B7396;
+    color:#fff;
+}
+
+
+/* ---------- メニューパネル ---------- */
+div.sidemenu-panel {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    position:relative;
+    text-align: left;
+    width: 100%;
+    height: 100%;
+    padding: 12px 0 5px 0;
+    border-radius: 3px;
+    overflow:hidden;
+    border: 1px solid #ccc;
+}
+div.sidemenu-panel ul {
+    padding: 0px;
+    border-top: 1px solid #eeeeee;
+    border-bottom: 1px solid #fdfdfd;
+}
+div.sidemenu-panel ul li {
+    padding: 0px;
+    list-style-type: none;
+}
+div.sidemenu-panel ul li a {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    display: block;
+    padding: 5px 5px;
+    border-top: 1px solid #fdfdfd;
+    border-bottom: 1px solid #eeeeee;
+    text-decoration: none;
+    color: blue;
+}
+div.sidemenu-panel ul li.sidemenu-item a:hover {background: #e5f2ff;}
+div.sidemenu-panel ul li.sidemenu-active a {
+    position: relative;
+    background:#eee;
+    color: #000;
+}
+div.sidemenu-panel ul li.sidemenu-active a:after {
+    content: '';
+    position: absolute;
+    border-left: 10px solid #eee;
+    border-top:12px solid transparent;
+    border-bottom:12px solid transparent;
+    right:-10px;
+    top:0;
+}
+div.sidemenu-title {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    position:absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align:left;
+    padding: 3px 10px 3px 10px;
+    margin: 0;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#e5e5e5 , endColorStr=#d1d1d1, GradientType=0);
+    background: -webkit-gradient(linear, center top,center bottom, from(#e5e5e5),to(#d1d1d1));
+    background: -moz-linear-gradient(top, #e5e5e5, #d1d1d1);
+}
+
+
+/* ---------- ログイン ---------- */
+div.login-main {
+    box-sizing: border-box;			/* IE */
+    -moz-box-sizing: border-box;	/* FireFox */
+    width: 100%;
+    height:100%;
+    background: #fff;
+    padding-top: 20px;
+}
+
+div.login-panel-base {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    margin: 0 auto;
+}
+
+div.login-panel {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    position:relative;
+    text-align: left;
+    width: 100%;
+    height: 100%;
+    padding: 30px 15px 7px 15px;
+    background:#FFF;
+    border-radius: 3px;
+    overflow:hidden;
+    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.3); /* Chrome, Safari */
+}
+
+
+/* ---------- メッセージ ---------- */
+div.message {
+    display:none;
+    padding:10px;
+    text-align:left;
+}
+.err-message {
+    color: red;
+}
+
+/* ---------- その他 ---------- */
+.container {
+    padding: 5px;
+}
+
+.compulsory {
+    display: inline;
+    color: red;
+}
+
+/* ---------- ボタン ---------- */
+button {
+    position: relative;
+    padding: 3px 20px;
+    margin: 3px 0;
+    min-height:22px;
+    background: #e3e3e3;
+    border-radius: 2px;
+    border: 0;
+    border-collapse: separate;
+    box-shadow: 1px 1px 3px #666;
+    -webkit-box-shadow: 1px 1px 3px #999;  
+}
+button:hover {
+    background: #bbb;
+}
+
+button.bt_green {color:#000;background: lightgreen;}
+button.bt_green:hover {background: limegreen;}
+button.bt_blue {color:#000;background: #44A5FF;}
+button.bt_blue:hover {background: #1D8BF2;}
+button.bt_red {color:#000;background: #FF836D;}
+button.bt_red:hover {background: #FF583A;}
+button.bt_search {padding: 2px 18px 0 15px;}
+/*button.bt_search:before {position: absolute;content: url(../img/find.png);left:13px;top:3px;}*/
+button.bt_search:before {content: url(../img/find.png);float:left;margin: 0 5px 0 0;}
+button.bt_clear {color:red;padding: 3px 15px 3px 35px;}
+button.bt_clear:before {position: absolute;content: url(../img/delete.png);left:13px;top:3px;}
+
+
+button.bt_mini {padding: 1px 10px;margin: 1px 0;min-height:15px;}
+button.bt_mini_green {padding: 1px 10px;margin: 1px 0;min-height:15px;color:#000;background: lightgreen;}
+button.bt_mini_green:hover {background: limegreen;}
+button.bt_mini_blue {padding: 1px 10px;margin: 1px 0;min-height:15px;color:#000;background: #44A5FF;}
+button.bt_mini_blue:hover {background: #1D8BF2;}
+button.bt_mini_red {padding: 1px 10px;margin: 1px 0;min-height:15px;color:#000;background: #FF836D;}
+button.bt_mini_red:hover {background: #FF583A;}
+
+button.bt_noactive {
+    position: relative;
+    padding: 3px 20px;
+    margin: 3px 0;
+    min-height:22px;
+    background: #e3e3e3;
+    border-radius: 2px;
+    border: 0;
+    border-collapse: separate;
+    box-shadow: 1px 1px 1px #666;
+    -webkit-box-shadow: 1px 1px 1px #666;
+}
+button.bt_noactive:hover {
+    background: #e3e3e3;
+}
+button.bt_noactive_mini {
+    padding: 1px 10px;
+    margin: 1px 0;
+    min-height:15px;
+    background: #e3e3e3;
+    border-radius: 2px;
+    border: 0;
+    border-collapse: separate;
+    box-shadow: 1px 1px 1px #666;
+    -webkit-box-shadow: 1px 1px 1px #666;
+}
+button.bt_noactive_mini:hover {
+    background: #e3e3e3;
+}
+
+
+/* ---------- 画面共通 ---------- */
+.color_red {color:red;}
+.color_blue {color:blue;}
+.grayout {background: #dfdfdf;color:#888;}
+.required:after {
+    content:"*";
+    color: #f00;
+}
+.txt_left {text-align: left;}
+.txt_center {text-align: center;}
+.txt_right {text-align: right;}
+.m5 {margin: 5px;}
+.m10 {margin: 10px;}
+.m15 {margin: 15px;}
+.m20 {margin: 20px;}
+.m25 {margin: 25px;}
+.m30 {margin: 30px;}
+.ml5 {margin-left: 5px;}
+.ml10 {margin-left: 10px;}
+.ml15 {margin-left: 15px;}
+.ml20 {margin-left: 20px;}
+.ml25 {margin-left: 25px;}
+.ml30 {margin-left: 30px;}
+.mt5 {margin-top: 5px;}
+.mt10 {margin-top: 10px;}
+.mt15 {margin-top: 15px;}
+.mt20 {margin-top: 20px;}
+.mt25 {margin-top: 25px;}
+.mt30 {margin-top: 30px;}
+.mb5 {margin-bottom: 5px;}
+.mb10 {margin-bottom: 10px;}
+.mb15 {margin-bottom: 15px;}
+.mb20 {margin-bottom: 20px;}
+.mb25 {margin-bottom: 25px;}
+.mb30 {margin-bottom: 30px;}
+.p5 {padding: 5px;}
+.p10 {padding: 10px;}
+.p15 {padding: 15px;}
+.p20 {padding: 20px;}
+.p25 {padding: 25px;}
+.p30 {padding: 30px;}
+.pl5 {padding-left: 5px;}
+.pl10 {padding-left: 10px;}
+.pl15 {padding-left: 15px;}
+.pl20 {padding-left: 20px;}
+.pl25 {padding-left: 25px;}
+.pl30 {padding-left: 30px;}
+.pt5 {padding-top: 5px;}
+.pt10 {padding-top: 10px;}
+.pt15 {padding-top: 15px;}
+.pt20 {padding-top: 20px;}
+.pt25 {padding-top: 25px;}
+.pt30 {padding-top: 30px;}
+.pb5 {padding-bottom: 5px;}
+.pb10 {padding-bottom: 10px;}
+.pb15 {padding-bottom: 15px;}
+.pb20 {padding-bottom: 20px;}
+.pb25 {padding-bottom: 25px;}
+.pb30 {padding-bottom: 30px;}
+.clearfix:after { /*floatの解除*/
+    display:block;
+    clear:both;
+    height:0px;
+    visibility:hidden;
+    content:".";
+}
+.clearfix {
+    min-height: 1px; /*IE6、7対策*/
+}
+* html .clearfix {
+   height: 1px;
+   /*MAC IE5.x対策*/
+   height: auto;
+   overflow: hidden;
+}
+
+/* ---------- アカウント詳細画面用 ---------- */
+.s_info_ctl {text-align: center;color:red;}
+.s_info_center {text-align: center;}
+.s_info_right {text-align: right;}
+.s_info_check {text-align: center;color:green;}
+
+/* ---------- 発送データアップロード画面用 ---------- */
+.upload_unis {color:#999;}
+
+/* ---------- gridなしテーブル用 ---------- */
+.nogrid_table {
+    border: 1px #d3d3d3 solid;
+    table-layout:fixed;
+    width: 100%;
+}
+.nogrid_table tr:nth-child(odd) {
+    background: #f9f9f9;
+}
+.nogrid_table th {
+    height: 19px;
+    border: 1px #bbb solid;
+    border-width: 0 1px 1px 0;
+    background: #BCD8D4;
+    white-space: nowrap;
+    text-align: center;
+}
+.nogrid_table td {
+    padding: 0 3px;
+    margin: 0;
+    height: 23px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border: 1px #d3d3d3 solid;
+    border-width: 0 1px 1px 0;
+    overflow: hidden;
+}
+.required:after {
+    content:"*";
+    color: #f00;
+}
