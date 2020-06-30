@@ -2,12 +2,12 @@ FROM centos:6.6
 
 ENV PHP_VERSION 5.3.3
 
-WORKDIR /var/comauth/admin
-COPY conf/httpd.conf /etc/httpd/conf/httpd.conf
-
 RUN yum install -y epel-release
 RUN sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 RUN yum install -y php php-mbstring php-xml php-mysql php-gd php-pear php-pear-Mail supervisor telnet zip ftp
+
+WORKDIR /var/comauth/admin
+COPY conf/httpd.conf /etc/httpd/conf/httpd.conf
 
 EXPOSE 80
 CMD [ "apachectl", "-D", "FOREGROUND" ]
