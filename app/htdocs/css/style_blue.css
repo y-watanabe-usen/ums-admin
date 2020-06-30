@@ -1,0 +1,37 @@
+@CHARSET "UTF-8";
+
+/* ---------- ヘッダー(タイトル) ---------- */
+.csstitle {
+	background: #4c597f !important;
+	color:#fff !important;
+}
+
+/* ---------- パネル ---------- */
+div.panel-title {
+/*	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#95A3D6, endColorStr=#7c87b2, GradientType=0) !important;
+	background: -webkit-gradient(linear, center top,center bottom, from(#95A3D6),to(#7c87b2)) !important;
+	background: -moz-linear-gradient(top,#95A3D6,#7c87b2) !important;
+	color:#fff !important;*/
+	color:#333;
+	
+}
+
+
+/* ---------- メニューパネル ---------- */
+
+.menu-active,.menu-active:link,.menu-active:visited {
+	color:#f1f1f1;
+	text-decoration: none;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#5F77BF , endColorStr=#4c597f, GradientType=0);		/* IE */
+	background: -webkit-gradient(linear, center top,center bottom, from(#5F77BF),to(#4c597f));	/* Safari,Chrome */
+	background: -moz-linear-gradient(bottom,#4c597f,#5F77BF);	/* FireFox */
+}
+
+
+/* ---------- サブウィンドウ ---------- */
+.subwin_head {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#5F77BF , endColorStr=#4c597f, GradientType=0);		/* IE */
+	background: -webkit-gradient(linear, center top,center bottom, from(#5F77BF),to(#4c597f));	/* Safari,Chrome */
+	background: -moz-linear-gradient(bottom,#4c597f,#5F77BF);	/* FireFox */
+}
+

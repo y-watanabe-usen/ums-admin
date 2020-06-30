@@ -1,10 +1,10 @@
 version: '3'
 
 services:
-  db:
-    build: ./db
+  ums-db:
+    build: ./docker/db
     tty: true
-    container_name: db
+    container_name: ums-db
     logging:
       driver: "json-file"
       options:
@@ -14,30 +14,27 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
       TZ: "Asia/Tokyo"
     volumes:
-      - "./db/init:/docker-entrypoint-initdb.d"
-      - "./db/my.cnf:/etc/mysql/conf.d/my.cnf"
+      - "./docker/db/init:/docker-entrypoint-initdb.d"
+      - "./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf"
       - "comauth_data:/var/lib/mysql"
     ports:
       - "3306:3306"
     restart: always
 
-  web:
+  ums-admin:
     build:
-      context: ./web
-      #      args:
-      #        - HTTPS=${HTTPS}
-      #        - ENVIRONMENT=${ENVIRONMENT}
+      context: ./docker/web
     tty: true
-    container_name: web
+    container_name: umg-admin
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
         max-file: "3"
     volumes:
-      - "./web/admin:/var/comauth/admin:z"
+      - "./app:/var/comauth/admin:z"
     depends_on:
-      - db
+      - ums-db
     ports:
       - "80:80"
     restart: always
