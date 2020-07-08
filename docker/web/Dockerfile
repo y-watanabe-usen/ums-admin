@@ -26,7 +26,7 @@ RUN yum update -y \
   && rm -rf /var/cache/yum \
   && sed -i -e "s/;date.timezone *=.*$/date.timezone = Asia\/Tokyo/" /etc/php.ini
 
-WORKDIR /var/comauth/admin
+WORKDIR /var/ums/ums-admin
 COPY conf/httpd.conf /etc/httpd/conf/httpd.conf
 
 EXPOSE 80
