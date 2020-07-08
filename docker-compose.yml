@@ -32,7 +32,7 @@ services:
         max-size: "10m"
         max-file: "3"
     volumes:
-      - "./app:/var/comauth/admin:z"
+      - "./app:/var/ums/ums-admin:z"
     depends_on:
       - ums-db
     ports:
