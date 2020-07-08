@@ -1,0 +1,45 @@
+version: '2.1'
+
+services:
+  selenium:
+    image: "elgalu/selenium"
+
+  zalenium:
+    image: "dosel/zalenium"
+    container_name: zalenium
+    hostname: zalenium
+    tty: true
+    volumes:
+      - /tmp/videos:/home/seluser/videos
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 4444:4444
+    command: >
+      start --desiredContainers 1
+            --maxDockerSeleniumContainers 8
+            --screenWidth 1200 --screenHeight 800
+            --timeZone "Asia/Tokyo"
+            --videoRecordingEnabled true
+            --sauceLabsEnabled false
+            --browserStackEnabled false
+            --testingBotEnabled false
+            --cbtEnabled false
+            --startTunnel false
+    environment:
+      - HOST_UID
+      - HOST_GID
+      - SAUCE_USERNAME
+      - SAUCE_ACCESS_KEY
+      - BROWSER_STACK_USER
+      - BROWSER_STACK_KEY
+      - TESTINGBOT_KEY
+      - TESTINGBOT_SECRET
+      - CBT_USERNAME
+      - CBT_AUTHKEY
+    depends_on:
+      - selenium
+
+networks:
+  default:
+    external:
+      name: ums-admin_default
