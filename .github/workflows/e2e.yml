@@ -50,6 +50,7 @@ jobs:
       - run: chmod 777 app/log
       - run: cd app/config
       - run: ln -s config_local.php config.php
+      - run: ls -la
       - run: cd ../../
       - run: docker-compose up -d --build
       - run: yarn install
