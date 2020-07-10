@@ -22,6 +22,7 @@ let testMain = async () => {
       // ** 実行
       // ****************************
       await driver.get(url);
+      console.log(await driver.getPageSource());
 
       // ****************************
       // ** 検証
