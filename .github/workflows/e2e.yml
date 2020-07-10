@@ -36,7 +36,6 @@ jobs:
     services:
       selenium:
         image: selenium/standalone-chrome
-        # name: selenium
         ports:
           - 4444:4444
         volumes:
