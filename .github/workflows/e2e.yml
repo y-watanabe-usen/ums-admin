@@ -56,6 +56,7 @@ jobs:
       - run: yarn add mocha selenium-webdriver
       - run: docker network connect ums-admin_default selenium
       - run: sleep 30
+      - run: docker ps -a
       - run: yarn mocha test/e2e/src/app/index.js
         env:
           BROWSER: chrome
