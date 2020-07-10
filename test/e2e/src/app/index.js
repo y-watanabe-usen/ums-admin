@@ -3,8 +3,8 @@ const chrome = require('selenium-webdriver/chrome');
 const firefox = require('selenium-webdriver/firefox');
 const assert = require('assert');
 
-const LoginScreen = require('/app/screen/login_screen.js');
-const AccountSearchScreen = require('/app/screen/account_search_screen.js');
+const LoginScreen = require(process.env.CI ? '/home/runner/work/ums-admin/ums-admin/test/e2e/src/app/screen/login_screen.js' : '/app/screen/login_screen.js');
+const AccountSearchScreen = require(process.env.CI ? '/home/runner/work/ums-admin/ums-admin/test/e2e/src/app/screen/account_search_screen.js' : '/app/screen/account_search_screen.js');
 
 const url = 'http://ums-admin/';
 
