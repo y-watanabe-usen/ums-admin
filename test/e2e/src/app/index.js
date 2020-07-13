@@ -119,15 +119,14 @@ let testMain = async () => {
       // ****************************
       const loginScreen = new LoginScreen(driver);
       const accountSearchScreen = new AccountSearchScreen(driver);
-
-      // ****************************
-      // ** 実行
-      // ****************************
       await driver.get(url);
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
 
+      // ****************************
+      // ** 実行
+      // ****************************
       await accountSearchScreen.clickBtnSearch();
 
       // ****************************
