@@ -1,4 +1,4 @@
-const { Builder, By, Key, Capabilities } = require('selenium-webdriver');
+const { Builder, By, Key, Capabilities, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 const firefox = require('selenium-webdriver/firefox');
 const assert = require('assert');
@@ -105,6 +105,35 @@ let testMain = async () => {
       // ****************************
       assert.deepEqual(await driver.getCurrentUrl(), url + 'account/search');
       assert.deepEqual(await accountSearchScreen.title, 'アカウント検索');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+  });
+
+  describe('アカウント検索のテスト', () => {
+    it('検索が出来ること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const accountSearchScreen = new AccountSearchScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await accountSearchScreen.clickBtnSearch();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await driver.getCurrentUrl(), url + 'account/search');
+      assert.deepEqual(await accountSearchScreen.firstCustCd, 'admin0001');
 
       // ****************************
       // ** 後始末
