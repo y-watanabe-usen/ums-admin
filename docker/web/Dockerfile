@@ -28,6 +28,8 @@ RUN yum update -y \
 
 WORKDIR /var/ums/ums-admin
 COPY conf/httpd.conf /etc/httpd/conf/httpd.conf
+COPY data /data
+RUN chmod 777 -R /data
 
 EXPOSE 80
 CMD [ "apachectl", "-D", "FOREGROUND" ]
