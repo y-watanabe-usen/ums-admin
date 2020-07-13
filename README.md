@@ -16,6 +16,22 @@ docker-compose up -d --build
 
 http://localhost  
 
+## 開発環境
+hostsに登録
+```
+10.222.33.111 dev-admin-members.usen.com
+```
+http://dev-admin-members.usen.com
+
+## ステージング環境
+http://10.222.41.243/
+
+## 本番環境
+http://10.222.41.242/
+
+## ログイン情報
+
 | ログインID | パスワード |
 ----|---- 
 | admin | !QAZ2wsx |
+
