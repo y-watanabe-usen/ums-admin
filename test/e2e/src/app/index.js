@@ -3,8 +3,11 @@ const chrome = require('selenium-webdriver/chrome');
 const firefox = require('selenium-webdriver/firefox');
 const assert = require('assert');
 
-const LoginScreen = require(process.env.CI ? '/home/runner/work/ums-admin/ums-admin/test/e2e/src/app/screen/login_screen.js' : '/app/screen/login_screen.js');
-const AccountSearchScreen = require(process.env.CI ? '/home/runner/work/ums-admin/ums-admin/test/e2e/src/app/screen/account_search_screen.js' : '/app/screen/account_search_screen.js');
+const HOME_DIR = process.env.CI ? '/home/runner/work/ums-admin/ums-admin/test/e2e/src/app' : '/app';
+const SCREEN_DIR = HOME_DIR + '/screen';
+
+const LoginScreen = require(SCREEN_DIR + '/login_screen');
+const AccountSearchScreen = require(SCREEN_DIR + '/account_search_screen');
 
 const url = 'http://ums-admin/';
 
@@ -184,7 +187,7 @@ let testMain = async () => {
       // ****************************
       assert.deepEqual(await driver.getCurrentUrl(), url + 'account/search');
       assert.deepEqual(await accountSearchScreen.firstCustCd, 'admin0002');
-  
+
       // ****************************
       // ** 後始末
       // ****************************
@@ -212,7 +215,7 @@ let testMain = async () => {
       // ** 検証
       // ****************************
       assert.deepEqual(await driver.getCurrentUrl(), url + 'account/account_list');
-  
+
       // ****************************
       // ** 後始末
       // ****************************
