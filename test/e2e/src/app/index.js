@@ -176,7 +176,7 @@ let testMain = async () => {
       // ****************************
       // ** 実行
       // ****************************
-      await accountSearchScreen.custcd('admin0002');
+      await accountSearchScreen.inputCustCd('admin0002');
       await accountSearchScreen.clickBtnSearch();
 
       // ****************************
@@ -200,7 +200,7 @@ let testMain = async () => {
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
       await driver.get(url + 'account/search');
-      await accountSearchScreen.custcd('admin0002');
+      await accountSearchScreen.inputCustCd('admin0002');
       await accountSearchScreen.clickBtnSearch();
 
       // ****************************
