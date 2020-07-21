@@ -85,6 +85,27 @@ let testMain = async () => {
       // ****************************
     });
 
+    it('未ログイン状態でアクセスした場合、ログイン画面にリダイレクトされること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await driver.get(url + 'account/search');
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await driver.getCurrentUrl(), url + 'login/');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
     it('社員番号とパスワードが合っている場合はログイン出来ること', async () => {
       // ****************************
       // ** 準備
@@ -135,6 +156,35 @@ let testMain = async () => {
       assert.deepEqual(await driver.getCurrentUrl(), url + 'account/search');
       assert.deepEqual(await accountSearchScreen.firstCustCd, 'admin0001');
 
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('顧客CDを検索し検索が出来ること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const accountSearchScreen = new AccountSearchScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await driver.get(url + 'account/search');
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await accountSearchScreen.custcd('admin0002');
+      await accountSearchScreen.clickBtnSearch();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await driver.getCurrentUrl(), url + 'account/search');
+      assert.deepEqual(await accountSearchScreen.firstCustCd, 'admin0002');
+  
       // ****************************
       // ** 後始末
       // ****************************

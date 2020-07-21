@@ -14,6 +14,9 @@ module.exports = class AccountSearchScreen {
     get firstCustCd() {
         return this.driver.findElement(By.xpath('//*[@id="search_table"]/tbody/tr[1]/td[1]')).getText();
     }
+    async custcd(custcd) {
+        await this.driver.findElement(By.id('cust_cd')).sendKeys(custcd);
+    }
 
     async clickBtnSearch() {
         await this.driver.findElement(By.id('bt_search')).click();
