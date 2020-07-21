@@ -2,12 +2,14 @@ const { Builder, By, Key, Capabilities, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 const firefox = require('selenium-webdriver/firefox');
 const assert = require('assert');
+const moment = require('moment');
 
 const HOME_DIR = process.env.CI ? '/home/runner/work/ums-admin/ums-admin/test/e2e/src/app' : '/app';
 const SCREEN_DIR = HOME_DIR + '/screen';
 
 const LoginScreen = require(SCREEN_DIR + '/login_screen');
 const AccountSearchScreen = require(SCREEN_DIR + '/account_search_screen');
+const InitedCustCdDownloadScreen = require(SCREEN_DIR + '/extraction/inited_cust_cd_download');
 
 const url = 'http://ums-admin/';
 
@@ -215,6 +217,274 @@ let testMain = async () => {
       // ** 検証
       // ****************************
       assert.deepEqual(await driver.getCurrentUrl(), url + 'account/account_list');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+  });
+
+
+  describe('データ抽出・初回認証済顧客抽出のテスト', () => {
+    it('データ抽出タブ押下で初回認証済顧客抽出が表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await driver.getCurrentUrl(), url + 'extraction/inited_cust_cd_download/');
+      assert.deepEqual(await initedCustCdDownloadScreen.title, '初回認証済顧客抽出');
+      assert.deepEqual(await initedCustCdDownloadScreen.from, '');
+      assert.deepEqual(await initedCustCdDownloadScreen.to, '');
+      //assert.deepEqual(await initedCustCdDownloadScreen.select, 'USEN CART');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+
+    it('先月ボタン押下でテキストボックスに先月の日時が入力されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      var lastMonth = moment().subtract(1, 'month');
+      var lastMonthFormatted = lastMonth.format('YYYY/MM/');
+      var cntLastMonthDay = moment(lastMonth.format('YYYY-MM')).daysInMonth(); // 先月の日数取得
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await initedCustCdDownloadScreen.clickBtnLastMonth();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await initedCustCdDownloadScreen.from, lastMonthFormatted + '01');
+      assert.deepEqual(await initedCustCdDownloadScreen.to, lastMonthFormatted + cntLastMonthDay);
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('今月ボタン押下でテキストボックスに今月の日時が入力されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      var thisMonthFormatted = moment().format('YYYY/MM/');
+      var cntThisMonthDay = moment(moment().format('YYYY-MM')).daysInMonth(); // 先月の日数取得
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await initedCustCdDownloadScreen.clickBtnThisMonth();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await initedCustCdDownloadScreen.from, thisMonthFormatted + '01');
+      assert.deepEqual(await initedCustCdDownloadScreen.to, thisMonthFormatted + cntThisMonthDay);
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('初回認証日fromの入力ミス（年のみ）の場合エラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await initedCustCdDownloadScreen.inputFrom('2020');
+      await initedCustCdDownloadScreen.clickBtnDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await initedCustCdDownloadScreen.alert, '初回認証日FROMを正しく入力してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('初回認証日fromの入力ミス（年月のみ）の場合エラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await initedCustCdDownloadScreen.inputFrom('2020/07');
+      await initedCustCdDownloadScreen.clickBtnDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await initedCustCdDownloadScreen.alert, '初回認証日FROMを正しく入力してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('初回認証日to（年のみ）の入力ミスの場合エラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await initedCustCdDownloadScreen.inputFrom('2020/07/01');
+      await initedCustCdDownloadScreen.inputTo('2020');
+      await initedCustCdDownloadScreen.clickBtnDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await initedCustCdDownloadScreen.alert, '初回認証日TOを正しく入力してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('初回認証日to（年月のみ）の入力ミスの場合エラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await initedCustCdDownloadScreen.inputFrom('2020/07/01');
+      await initedCustCdDownloadScreen.inputTo('2020/07');
+      await initedCustCdDownloadScreen.clickBtnDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await initedCustCdDownloadScreen.alert, '初回認証日TOを正しく入力してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('初回認証日の入力ミスの場合（from, to逆）エラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await initedCustCdDownloadScreen.inputFrom('2020/07/31');
+      await initedCustCdDownloadScreen.inputTo('2020/07/01');
+      await initedCustCdDownloadScreen.clickBtnDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await initedCustCdDownloadScreen.alert, '初回認証日はFrom <= Toで入力してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('抽出対象データがない場合エラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await initedCustCdDownloadScreen.clickBtnLastMonth();
+      await initedCustCdDownloadScreen.clickBtnDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await initedCustCdDownloadScreen.alert, '対象データはありません。');
 
       // ****************************
       // ** 後始末
