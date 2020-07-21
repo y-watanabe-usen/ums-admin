@@ -189,6 +189,34 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+    it('詳細ボタン押下後アカウント一覧画面に遷移すること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const accountSearchScreen = new AccountSearchScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await driver.get(url + 'account/search');
+      await accountSearchScreen.custcd('admin0002');
+      await accountSearchScreen.clickBtnSearch();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await accountSearchScreen.clickBtnDetail();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await driver.getCurrentUrl(), url + 'account/account_list');
+  
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
   });
 }
 
