@@ -19,18 +19,33 @@ jobs:
 #       - run: node scratch.js
 #         env:
 #           BROWSER: ie
-#   firefox:
-#     runs-on: windows-latest
-#     steps:
-#       - uses: actions/checkout@v1
-#       - uses: actions/setup-node@v1
-#         with:
-#           node-version: 12
-#       - run: yarn install
-#       - run: yarn add selenium-webdriver
-#       - run: node scratch.js
-#         env:
-#           BROWSER: firefox
+  firefox:
+    runs-on: ubuntu-latest
+    services:
+      selenium:
+        image: selenium/standalone-firefox
+        ports:
+          - 4444:4444
+        volumes:
+          - /dev/shm:/dev/shm
+        options: "--name selenium"
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: chmod 777 app/log
+      - run: cd app/config && ln -s config_local.php config.php && ls -la
+      - run: docker-compose up -d --build
+      - run: yarn install
+      - run: yarn add mocha selenium-webdriver
+      - run: docker network connect ums-admin_default selenium
+      - run: sleep 30
+      - run: docker ps -a
+      - run: yarn mocha test/e2e/src/app/index.js
+        env:
+          BROWSER: firefox
+          CI: true
   chrome:
     runs-on: ubuntu-latest
     services:
