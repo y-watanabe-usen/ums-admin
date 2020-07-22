@@ -224,10 +224,10 @@ let testMain = async () => {
 }
 
 describe('USEN MEMBERS管理機能のSeleniumテスト', () => {
-  before(() => {
+  before(async () => {
     let usingServer = buildUsingServer();
     let capabilities = buildCapabilities();
-    driver = new Builder()
+    driver = await new Builder()
       .usingServer(usingServer)
       .withCapabilities(capabilities)
       .build();
@@ -254,7 +254,14 @@ function buildUsingServer() {
 }
 
 function buildCapabilities() {
-  switch (process.env.BROWSER) {
+  const capabilities = Capabilities.firefox();
+  capabilities.set('firefoxOptions', {
+    args: [
+      '-headless',
+    ]
+  });
+  return capabilities;
+switch (process.env.BROWSER) {
     // case "ie": {
     //   process.env.PATH = `${process.env.PATH};${__dirname}/Selenium.WebDriver.IEDriver.3.150.0/driver/;`;
     //   const capabilities = webdriver.Capabilities.ie();
@@ -267,6 +274,7 @@ function buildCapabilities() {
       const capabilities = Capabilities.firefox();
       capabilities.set('firefoxOptions', {
         args: [
+          '-headless',
         ]
       });
       return capabilities;
