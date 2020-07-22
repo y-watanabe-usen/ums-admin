@@ -223,21 +223,13 @@ let testMain = async () => {
   });
 }
 
-describe('chrome_USEN MEMBERS管理機能のSeleniumテスト', () => {
+describe('USEN MEMBERS管理機能のSeleniumテスト', () => {
   before(() => {
-    let usingServer;
-    if (process.env.CI) {
-      usingServer = 'http://localhost:4444/wd/hub';
-    } else {
-      usingServer = 'http://zalenium:4444/wd/hub';
-    }
-    let chromeCapabilities = Capabilities.chrome();
-    let chromeOptions = new chrome.Options();
-    chromeOptions.setAcceptInsecureCerts(true);
+    let usingServer = buildUsingServer();
+    let capabilities = buildCapabilities();
     driver = new Builder()
       .usingServer(usingServer)
-      .withCapabilities(chromeCapabilities)
-      .setChromeOptions(chromeOptions)
+      .withCapabilities(capabilities)
       .build();
     process.on('unhandledRejection', console.dir);
   });
@@ -252,3 +244,45 @@ describe('chrome_USEN MEMBERS管理機能のSeleniumテスト', () => {
 
   testMain();
 });
+
+function buildUsingServer() {
+  if (process.env.CI) {
+    return 'http://localhost:4444/wd/hub';
+  } else {
+    return 'http://zalenium:4444/wd/hub';
+  }
+}
+
+function buildCapabilities() {
+  switch (process.env.BROWSER) {
+    // case "ie": {
+    //   process.env.PATH = `${process.env.PATH};${__dirname}/Selenium.WebDriver.IEDriver.3.150.0/driver/;`;
+    //   const capabilities = webdriver.Capabilities.ie();
+    //   capabilities.set("ignoreProtectedModeSettings", true);
+    //   capabilities.set("ignoreZoomSetting", true);
+    //   return capabilities;
+    // }
+    case "firefox": {
+      console.log("start testing in firefox");
+      const capabilities = Capabilities.firefox();
+      capabilities.set('firefoxOptions', {
+        args: [
+        ]
+      });
+      return capabilities;
+    }
+    case "chrome":
+    default: {
+      console.log("start testing in chrome");
+      const capabilities = Capabilities.chrome();
+      capabilities.set('chromeOptions', {
+        args: [
+        ]
+      });
+      return capabilities;
+    }
+    // case "safari": {
+    //     return webdriver.Capabilities.safari();
+    // }
+  }
+}
