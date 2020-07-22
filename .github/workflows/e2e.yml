@@ -42,7 +42,7 @@ jobs:
       - run: docker network connect ums-admin_default selenium
       - run: sleep 30
       - run: docker ps -a
-      - run: yarn mocha test/e2e/src/app/index.js
+      - run: yarn mocha test/e2e/src/app/index.js --timeout 3600000
         env:
           BROWSER: firefox
           CI: true
@@ -69,7 +69,7 @@ jobs:
       - run: docker network connect ums-admin_default selenium
       - run: sleep 30
       - run: docker ps -a
-      - run: yarn mocha test/e2e/src/app/index.js
+      - run: yarn mocha test/e2e/src/app/index.js --timeout 3600000
         env:
           BROWSER: chrome
           CI: true
