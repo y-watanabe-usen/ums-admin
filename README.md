@@ -1,5 +1,5 @@
 # USEN MEMBERS 管理機能
-
+![e2e](https://github.com/openusen/ums-admin/workflows/e2e/badge.svg)
 ## 各ディレクトリの説明
 - **app** プロダクションコードを格納。このディレクトリをデプロイする
 - **docker** ローカル環境構築用のDockerfile等を格納
