@@ -223,21 +223,13 @@ let testMain = async () => {
   });
 }
 
-describe('chrome_USEN MEMBERS管理機能のSeleniumテスト', () => {
-  before(() => {
-    let usingServer;
-    if (process.env.CI) {
-      usingServer = 'http://localhost:4444/wd/hub';
-    } else {
-      usingServer = 'http://zalenium:4444/wd/hub';
-    }
-    let chromeCapabilities = Capabilities.chrome();
-    let chromeOptions = new chrome.Options();
-    chromeOptions.setAcceptInsecureCerts(true);
-    driver = new Builder()
+describe('USEN MEMBERS管理機能のSeleniumテスト', () => {
+  before(async () => {
+    let usingServer = await buildUsingServer();
+    let capabilities = await buildCapabilities();
+    driver = await new Builder()
       .usingServer(usingServer)
-      .withCapabilities(chromeCapabilities)
-      .setChromeOptions(chromeOptions)
+      .withCapabilities(capabilities)
       .build();
     process.on('unhandledRejection', console.dir);
   });
@@ -252,3 +244,40 @@ describe('chrome_USEN MEMBERS管理機能のSeleniumテスト', () => {
 
   testMain();
 });
+
+let buildUsingServer = () => `http://${process.env.CI ? 'localhost' : 'zalenium'}:4444/wd/hub`;
+
+let buildCapabilities = () => {
+  switch (process.env.BROWSER) {
+    // case "ie": {
+    //   process.env.PATH = `${process.env.PATH};${__dirname}/Selenium.WebDriver.IEDriver.3.150.0/driver/;`;
+    //   const capabilities = webdriver.Capabilities.ie();
+    //   capabilities.set("ignoreProtectedModeSettings", true);
+    //   capabilities.set("ignoreZoomSetting", true);
+    //   return capabilities;
+    // }
+    case "firefox": {
+      console.log("start testing in firefox");
+      const capabilities = Capabilities.firefox();
+      capabilities.set('firefoxOptions', {
+        args: [
+          '-headless',
+        ]
+      });
+      return capabilities;
+    }
+    case "chrome":
+    default: {
+      console.log("start testing in chrome");
+      const capabilities = Capabilities.chrome();
+      capabilities.set('chromeOptions', {
+        args: [
+        ]
+      });
+      return capabilities;
+    }
+    // case "safari": {
+    //     return webdriver.Capabilities.safari();
+    // }
+  }
+}
