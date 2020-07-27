@@ -245,15 +245,9 @@ describe('USEN MEMBERS管理機能のSeleniumテスト', () => {
   testMain();
 });
 
-function buildUsingServer() {
-  if (process.env.CI) {
-    return 'http://localhost:4444/wd/hub';
-  } else {
-    return 'http://zalenium:4444/wd/hub';
-  }
-}
+let buildUsingServer = () => `http://${process.env.CI ? 'localhost' : 'zalenium'}:4444/wd/hub`;
 
-function buildCapabilities() {
+let buildCapabilities = () => {
   switch (process.env.BROWSER) {
     // case "ie": {
     //   process.env.PATH = `${process.env.PATH};${__dirname}/Selenium.WebDriver.IEDriver.3.150.0/driver/;`;
