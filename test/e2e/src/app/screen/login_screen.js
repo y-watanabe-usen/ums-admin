@@ -1,10 +1,7 @@
 const { Builder, By, Key, Capabilities } = require('selenium-webdriver');
+const NotAuthedScreen = require(`${__dirname}/common/not_authed_screen`);
 
-module.exports = class LoginScreen {
-    constructor(driver) {
-        this.driver = driver;
-    }
-
+module.exports = class LoginScreen extends NotAuthedScreen {
     get code() {
         return this.driver.findElement(By.name('code')).getText();
     }

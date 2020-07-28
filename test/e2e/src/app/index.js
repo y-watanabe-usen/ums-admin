@@ -1,15 +1,11 @@
 const { Builder, By, Key, Capabilities, until } = require('selenium-webdriver');
-const chrome = require('selenium-webdriver/chrome');
-const firefox = require('selenium-webdriver/firefox');
 const assert = require('assert');
 const moment = require('moment');
 
-const HOME_DIR = process.env.CI ? '/home/runner/work/ums-admin/ums-admin/test/e2e/src/app' : '/app';
-const SCREEN_DIR = HOME_DIR + '/screen';
-
-const LoginScreen = require(SCREEN_DIR + '/login_screen');
-const AccountSearchScreen = require(SCREEN_DIR + '/account_search_screen');
-const InitedCustCdDownloadScreen = require(SCREEN_DIR + '/extraction/inited_cust_cd_download');
+const SCREEN_DIR = `${__dirname}/screen`;
+const LoginScreen = require(`${SCREEN_DIR}/login_screen`);
+const AccountSearchScreen = require(`${SCREEN_DIR}/account_search_screen`);
+const InitedCustCdDownloadScreen = require(`${SCREEN_DIR}/extraction/inited_cust_cd_download`);
 
 const url = 'http://ums-admin/';
 
