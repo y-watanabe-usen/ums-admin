@@ -1,10 +1,8 @@
 const { Builder, By, Key, Capabilitiesi, until} = require('selenium-webdriver');
+const AuthedScreen = require(`${__dirname}/../common/authed_screen`);
 
 // データ抽出・初回認証済顧客抽出画面
-module.exports = class InitedCustCdDownloadScreen {
-    constructor(driver) {
-        this.driver = driver;
-    }
+module.exports = class InitedCustCdDownloadScreen extends AuthedScreen {
 
     get title() {
         return this.driver.findElement(By.className('main-title')).getText();
@@ -37,10 +35,6 @@ module.exports = class InitedCustCdDownloadScreen {
 
     async inputTo(to) {
         await this.driver.findElement(By.name('to')).sendKeys(to);
-    }
-
-    async clickTabExtraction() {
-        await this.driver.findElement(By.linkText("データ抽出")).click();
     }
 
     async clickBtnLastMonth() {

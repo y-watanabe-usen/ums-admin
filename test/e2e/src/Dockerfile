@@ -1,4 +1,7 @@
 FROM node
 
-RUN npm install mocha selenium-webdriver
-RUN npm install moment
+RUN yarn install && \
+  yarn add \
+    mocha \
+    moment \
+    selenium-webdriver
