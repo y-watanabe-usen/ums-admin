@@ -247,7 +247,7 @@ let testMain = async () => {
       assert.deepEqual(await initedCustCdDownloadScreen.title, '初回認証済顧客抽出');
       assert.deepEqual(await initedCustCdDownloadScreen.from, '');
       assert.deepEqual(await initedCustCdDownloadScreen.to, '');
-      //assert.deepEqual(await initedCustCdDownloadScreen.select, 'USEN CART');
+      assert.deepEqual(await initedCustCdDownloadScreen.service, '100'); // valueを取得（テキストの取得調査中）
 
       // ****************************
       // ** 後始末
@@ -455,6 +455,168 @@ let testMain = async () => {
       // ** 検証
       // ****************************
       assert.deepEqual(await initedCustCdDownloadScreen.alert, '初回認証日はFrom <= Toで入力してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('サービスのプルダウンで「OTORAKU」が選択されていること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await initedCustCdDownloadScreen.selectService('120');
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await initedCustCdDownloadScreen.service, '120');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('サービスのプルダウンで「スタシフ」が選択されていること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await initedCustCdDownloadScreen.selectService('130');
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await initedCustCdDownloadScreen.service, '130');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('サービスのプルダウンで「REACH STOCK（飲食店）」が選択されていること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await initedCustCdDownloadScreen.selectService('140');
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await initedCustCdDownloadScreen.service, '140');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('サービスのプルダウンで「REACH STOCK（生産者）」が選択されていること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await initedCustCdDownloadScreen.selectService('150');
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await initedCustCdDownloadScreen.service, '150');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('サービスのプルダウンで「USPOT」が選択されていること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await initedCustCdDownloadScreen.selectService('160');
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await initedCustCdDownloadScreen.service, '160');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('サービスのプルダウンで「デンタル・コンシェルジュ」が選択されていること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await initedCustCdDownloadScreen.selectService('170');
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await initedCustCdDownloadScreen.service, '170');
 
       // ****************************
       // ** 後始末
