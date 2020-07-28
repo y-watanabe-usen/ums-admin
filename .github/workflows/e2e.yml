@@ -39,6 +39,7 @@ jobs:
       - run: docker-compose up -d --build
       - run: yarn install
       - run: yarn add mocha selenium-webdriver
+      - run: yarn add mocha moment
       - run: docker network connect ums-admin_default selenium
       - run: sleep 30
       - run: docker ps -a
@@ -66,6 +67,7 @@ jobs:
       - run: docker-compose up -d --build
       - run: yarn install
       - run: yarn add mocha selenium-webdriver
+      - run: yarn add mocha moment
       - run: docker network connect ums-admin_default selenium
       - run: sleep 30
       - run: docker ps -a
