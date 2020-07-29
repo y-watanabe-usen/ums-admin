@@ -1,7 +1,7 @@
 const { Builder, By, Key, Capabilities, until } = require('selenium-webdriver');
 const AuthedScreen = require(`${__dirname}/common/authed_screen`);
 
-module.exports = class AccountSearchScreen extends AuthedScreen {
+module.exports = class AccountListScreen extends AuthedScreen {
 
     get firstCustCd() {
         return this.driver.findElement(By.xpath('//*[@id="grid_unis1"]/tbody/tr/td/div/table/tbody/tr[1]/td[2]')).getText();
@@ -110,6 +110,9 @@ module.exports = class AccountSearchScreen extends AuthedScreen {
     }
     async clickBtnReturnList() {
         await this.driver.findElement(By.id('bt_back')).click();
+    }
+    async clickBtnDetail() {
+        await this.driver.findElement(By.xpath('//*[@id="account_table"]/tbody/tr[2]/td[10]')).click();
     }
     async clickBtnReRegist() {
         await this.driver.findElement(By.id('bt_issue')).click();
