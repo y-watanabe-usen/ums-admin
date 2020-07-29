@@ -502,7 +502,7 @@ let testMain = async () => {
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
       await driver.get(url + 'account/search');
-      await accountSearchScreen.inputCustCd('admin0002');
+      await accountSearchScreen.inputCustCd('admin0001');
       await accountSearchScreen.clickBtnSearch();
 
       // ****************************
@@ -514,38 +514,39 @@ let testMain = async () => {
       // ** 検証
       // ****************************
       // UNIS情報
-      assert.deepEqual(await accountListScreen.firstCustCd, 'admin0002');
-      assert.deepEqual(await accountListScreen.name, 'テストデータ0002(ﾃｽﾄﾃﾞｰﾀ0002)');
+      assert.deepEqual(await accountListScreen.firstCustCd, 'admin0001');
+      assert.deepEqual(await accountListScreen.name, 'テストデータ0001(ﾃｽﾄﾃﾞｰﾀ0001)');
       assert.deepEqual(await accountListScreen.clientStatus, '確定');
-      assert.deepEqual(await accountListScreen.address, '〒150-0045 渋谷区神泉町９－８ビル２Ｆ');
+      assert.deepEqual(await accountListScreen.address, '〒150-0045 渋谷区神泉町９－８ビル１Ｆ');
       assert.deepEqual(await accountListScreen.tel, '0120-117-448');
       assert.deepEqual(await accountListScreen.branch, '東京統括支店青山(0204140700)');
+      assert.deepEqual(await accountListScreen.regularStore, '');
       assert.deepEqual(await accountListScreen.industry, 'その他　会社関連(001699)');
       assert.deepEqual(await accountListScreen.launch, '2014-10-01');
       assert.deepEqual(await accountListScreen.close, '');
       assert.deepEqual(await accountListScreen.cancell, '');
       assert.deepEqual(await accountListScreen.lastUpdate, '2014-11-20 15:21:24');
       // アカウント一覧
-      assert.deepEqual(await accountListScreen.accountId, '2');
+      assert.deepEqual(await accountListScreen.accountId, '1');
       assert.deepEqual(await accountListScreen.accountStatus, '有効');
-      assert.deepEqual(await accountListScreen.loginId, 'test00002');
-      assert.deepEqual(await accountListScreen.mailAddress, 'y-dobashi@usen.co.jp');
+      assert.deepEqual(await accountListScreen.loginId, 'ir_dev@usen.co.jp');
+      assert.deepEqual(await accountListScreen.mailAddress, 'a-sakurai@usen.co.jp');
       assert.deepEqual(await accountListScreen.umsidStartDate, '2014-10-01');
-      assert.deepEqual(await accountListScreen.umsidRegistDate, '2016-02-22');
+      assert.deepEqual(await accountListScreen.umsidRegistDate, '2014-12-01');
       assert.deepEqual(await accountListScreen.umsidLostDate, '');
       assert.deepEqual(await accountListScreen.availability, '✔');
       // アカウント証発送情報
       assert.deepEqual(await accountListScreen.shippingDate, '');
       assert.deepEqual(await accountListScreen.missedDate, '');
-      assert.deepEqual(await accountListScreen.shippingName, 'テストデータ0002');
-      assert.deepEqual(await accountListScreen.shippingAddress, '〒150-0045 渋谷区神泉町９－８ビル２Ｆ');
-      assert.deepEqual(await accountListScreen.destination, '顧客直送');
-      assert.deepEqual(await accountListScreen.shippingStatus, '未発送');
+      assert.deepEqual(await accountListScreen.shippingName, '');
+      assert.deepEqual(await accountListScreen.shippingAddress, '');
+      assert.deepEqual(await accountListScreen.destination, '');
+      assert.deepEqual(await accountListScreen.shippingStatus, '');
       // アカウント証ダイレクト出力履歴
-      assert.deepEqual(await accountListScreen.outputDate, '2020-07-22');
-      assert.deepEqual(await accountListScreen.outputName, 'テストデータ0002');
-      assert.deepEqual(await accountListScreen.outputAddress, '〒150-0045 渋谷区神泉町９－８ビル２Ｆ');
-      assert.deepEqual(await accountListScreen.outputPerson, 'システム 管理者(admin)');
+      assert.deepEqual(await accountListScreen.outputDate, '');
+      assert.deepEqual(await accountListScreen.outputName, '');
+      assert.deepEqual(await accountListScreen.outputAddress, '');
+      assert.deepEqual(await accountListScreen.outputPerson, '');
 
       // ****************************
       // ** 後始末
