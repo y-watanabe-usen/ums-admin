@@ -5,6 +5,7 @@ const moment = require('moment');
 const SCREEN_DIR = `${__dirname}/screen`;
 const LoginScreen = require(`${SCREEN_DIR}/login_screen`);
 const AccountSearchScreen = require(`${SCREEN_DIR}/account_search_screen`);
+const AccountListScreen = require(`${SCREEN_DIR}/account_list_screen`);
 const InitedCustCdDownloadScreen = require(`${SCREEN_DIR}/extraction/inited_cust_cd_download`);
 
 const url = 'http://ums-admin/';
@@ -481,6 +482,237 @@ let testMain = async () => {
       // ** 検証
       // ****************************
       assert.deepEqual(await initedCustCdDownloadScreen.alert, '対象データはありません。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+  });
+
+  describe('アカウント一覧画面のテスト', () => {
+    it(' 画面に表示されている内容が正しいこと', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const accountSearchScreen = new AccountSearchScreen(driver);
+      const accountListScreen = new AccountListScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await driver.get(url + 'account/search');
+      await accountSearchScreen.inputCustCd('admin0002');
+      await accountSearchScreen.clickBtnSearch();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await accountSearchScreen.clickBtnDetail();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      // UNIS情報
+      assert.deepEqual(await accountListScreen.firstCustCd, 'admin0002');
+      assert.deepEqual(await accountListScreen.name, 'テストデータ0002(ﾃｽﾄﾃﾞｰﾀ0002)');
+      assert.deepEqual(await accountListScreen.clientStatus, '確定');
+      assert.deepEqual(await accountListScreen.address, '〒150-0045 渋谷区神泉町９－８ビル２Ｆ');
+      assert.deepEqual(await accountListScreen.tel, '0120-117-448');
+      assert.deepEqual(await accountListScreen.branch, '東京統括支店青山(0204140700)');
+      assert.deepEqual(await accountListScreen.industry, 'その他　会社関連(001699)');
+      assert.deepEqual(await accountListScreen.launch, '2014-10-01');
+      assert.deepEqual(await accountListScreen.close, '');
+      assert.deepEqual(await accountListScreen.cancell, '');
+      assert.deepEqual(await accountListScreen.lastUpdate, '2014-11-20 15:21:24');
+      // アカウント一覧
+      assert.deepEqual(await accountListScreen.accountId, '2');
+      assert.deepEqual(await accountListScreen.accountStatus, '有効');
+      assert.deepEqual(await accountListScreen.loginId, 'test00002');
+      assert.deepEqual(await accountListScreen.mailAddress, 'y-dobashi@usen.co.jp');
+      assert.deepEqual(await accountListScreen.umsidStartDate, '2014-10-01');
+      assert.deepEqual(await accountListScreen.umsidRegistDate, '2016-02-22');
+      assert.deepEqual(await accountListScreen.umsidLostDate, '');
+      assert.deepEqual(await accountListScreen.availability, '✔');
+      // アカウント証発送情報
+      assert.deepEqual(await accountListScreen.shippingDate, '');
+      assert.deepEqual(await accountListScreen.missedDate, '');
+      assert.deepEqual(await accountListScreen.shippingName, 'テストデータ0002');
+      assert.deepEqual(await accountListScreen.shippingAddress, '〒150-0045 渋谷区神泉町９－８ビル２Ｆ');
+      assert.deepEqual(await accountListScreen.destination, '顧客直送');
+      assert.deepEqual(await accountListScreen.shippingStatus, '未発送');
+      // アカウント証ダイレクト出力履歴
+      assert.deepEqual(await accountListScreen.outputDate, '2020-07-22');
+      assert.deepEqual(await accountListScreen.outputName, 'テストデータ0002');
+      assert.deepEqual(await accountListScreen.outputAddress, '〒150-0045 渋谷区神泉町９－８ビル２Ｆ');
+      assert.deepEqual(await accountListScreen.outputPerson, 'システム 管理者(admin)');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+    it('一覧へ戻るボタンを押下すると、アカウント検索画面に遷移すること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const accountSearchScreen = new AccountSearchScreen(driver);
+      const accountListScreen = new AccountListScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await driver.get(url + 'account/search');
+      await accountSearchScreen.inputCustCd('admin0002');
+      await accountSearchScreen.clickBtnSearch();
+      await accountSearchScreen.clickBtnDetail();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await accountListScreen.clickBtnReturnList();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await driver.getCurrentUrl(), url + 'account/search');
+      assert.deepEqual(await accountSearchScreen.title, 'アカウント検索');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+    it('詳細ボタンを押下すると、アカウント詳細画面に遷移すること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const accountSearchScreen = new AccountSearchScreen(driver);
+      const accountListScreen = new AccountListScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await driver.get(url + 'account/search');
+      await accountSearchScreen.inputCustCd('admin0002');
+      await accountSearchScreen.clickBtnSearch();
+      await accountSearchScreen.clickBtnDetail();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await accountListScreen.clickBtnDetail();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await driver.getCurrentUrl(), url + 'account/detail');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+    it('未発送のID通知書データが削除されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const accountSearchScreen = new AccountSearchScreen(driver);
+      const accountListScreen = new AccountListScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await driver.get(url + 'account/search');
+      await accountSearchScreen.inputCustCd('admin0002');
+      await accountSearchScreen.clickBtnSearch();
+      await accountSearchScreen.clickBtnDetail();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await accountListScreen.clickBtnShippingDelete();
+      await accountListScreen.clickBtnShippingDeleteClose();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await accountListScreen.deleteTableShippingDate, '');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+    it('再送登録をすると、未発送のID通知書データが作られること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const accountSearchScreen = new AccountSearchScreen(driver);
+      const accountListScreen = new AccountListScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await driver.get(url + 'account/search');
+      await accountSearchScreen.inputCustCd('admin0002');
+      await accountSearchScreen.clickBtnSearch();
+      await accountSearchScreen.clickBtnDetail();
+      await accountListScreen.clickBtnReRegist();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await accountListScreen.clickBtnReRegistSave();
+      await accountListScreen.clickBtnReRegistClose();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await accountListScreen.shippingDate, '');
+      assert.deepEqual(await accountListScreen.missedDate, '');
+      assert.deepEqual(await accountListScreen.shippingName, 'テストデータ0002');
+      assert.deepEqual(await accountListScreen.shippingAddress, '〒150-0045 渋谷区神泉町９－８ビル２Ｆ');
+      assert.deepEqual(await accountListScreen.destination, '顧客直送');
+      assert.deepEqual(await accountListScreen.shippingStatus, '未発送');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+    it('ダイレクト出力すると、PDFがダウンロードできてダイレクト出力履歴データが作られること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const accountSearchScreen = new AccountSearchScreen(driver);
+      const accountListScreen = new AccountListScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await driver.get(url + 'account/search');
+      await accountSearchScreen.inputCustCd('admin0002');
+      await accountSearchScreen.clickBtnSearch();
+      await accountSearchScreen.clickBtnDetail();
+      await accountListScreen.clickBtnDirectOutput();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await accountListScreen.clickBtnDirectOutputSave();
+      await accountListScreen.clickBtnDirectOutputClose();
+      await driver.navigate().refresh();
+
+      var thisMonthFormatted = moment().format('YYYY-MM-DD');
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await accountListScreen.addTableDirectOutputDate, thisMonthFormatted);
+      assert.deepEqual(await accountListScreen.addTableDirectOutputName, 'テストデータ0002');
+      assert.deepEqual(await accountListScreen.addTableDirectOutputAddress, '〒150-0045 渋谷区神泉町９－８ビル２Ｆ');
+      assert.deepEqual(await accountListScreen.addTableDirectOutputPerson, 'システム 管理者(admin)');
 
       // ****************************
       // ** 後始末
