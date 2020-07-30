@@ -1,6 +1,7 @@
 const { Builder, By, Key, Capabilities, until } = require('selenium-webdriver');
 const assert = require('assert');
 const moment = require('moment');
+const fs = require('fs');
 
 const SCREEN_DIR = `${__dirname}/screen`;
 const LoginScreen = require(`${SCREEN_DIR}/login_screen`);
@@ -10,6 +11,7 @@ const AccountDetailScreen = require(`${SCREEN_DIR}/account_detail_screen`);
 const InitedCustCdDownloadScreen = require(`${SCREEN_DIR}/extraction/inited_cust_cd_download`);
 
 const url = 'http://ums-admin/';
+const downloadPath = '/home/seluser/Downloads';
 
 let driver;
 
@@ -650,6 +652,33 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+
+    it('初回認証済顧客抽出され、ファイルがダウンロードされていることを確認', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await initedCustCdDownloadScreen.clickBtnDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      await assert.deepEqual(fs.existsSync(downloadPath + '/100_inited_cust_cd_*.csv'), Boolean('true'));
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
   });
 
   describe('アカウント一覧画面のテスト', () => {
@@ -1177,8 +1206,19 @@ let buildCapabilities = () => {
       console.log("start testing in chrome");
       const capabilities = Capabilities.chrome();
       capabilities.set('chromeOptions', {
-        args: [
-        ]
+        args: [],
+        prefs: {
+          'download': {
+            'default_directory': downloadPath,
+            'prompt_for_download': false,
+            'directory_upgrade': true
+          }
+        }
+        //prefs: {
+        //  'download.default_directory': 'C:\\Users\\m-gima\\Downloads',
+        //  'download.prompt_for_download': false,
+        //},
+        //w3c: false
       });
       return capabilities;
     }
