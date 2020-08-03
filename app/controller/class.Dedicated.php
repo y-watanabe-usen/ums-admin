@@ -133,6 +133,7 @@ class Dedicated extends Controller {
             throw new BadRequestException();
         }
         $account["decripted_login_id"] = Cipher::rsaDecrypt($account["login_id"]);
+        $account["decripted_password"] = Cipher::rsaDecrypt($account["init_password"]);
         $this->set("account", $account);
 
         // 視聴履歴の取得
@@ -150,6 +151,8 @@ class Dedicated extends Controller {
         $this->set("listened_time", $listened_time);
 
         $this->render('dedicated' . DS . 'trial_detail.tpl');
+
+
     }
 
     /*
@@ -534,6 +537,7 @@ class Dedicated extends Controller {
     private function get_account_data_by_account_id($account_id, $account_div = '1') {
         $query = "SELECT ma.id, "
                . "    ma.login_id, "
+               . "    ma.init_password, "
                . "    ma.account_div, "
                . "    ma.start_date, "
                . "    ma.status_flag, "
