@@ -44,6 +44,7 @@ $(function () {
                             <tr>
                                 <th width="100px">アカウントID</th>
                                 <th width="100px">ログインID</th>
+                                <th width="100px">パスワード</th>
                                 <th width="100px">販路</th>
                                 <th width="100px">発行日</th>
                                 <th width="100px">初回認証日時</th>
@@ -54,6 +55,7 @@ $(function () {
                             <tr>
                                 <td class="s_info_center"><?php echo Func::h($account["id"]); ?></td>
                                 <td class="s_info_center"><?php echo Func::h($account["decripted_login_id"]); ?></td>
+                                <td class="s_info_center"><?php echo Func::h($account["decripted_password"]); ?></td>
                                 <td class="s_info_center"><?php echo Func::h($account["market_name"]); ?></td>
                                 <td class="s_info_center"><?php echo Func::h($account["start_date"]); ?></td>
                                 <td class="s_info_center"><?php echo Func::h($account["init_auth_datetime"]); ?></td>
