@@ -16,18 +16,17 @@ module.exports = class InitedCustCdDownloadScreen extends AuthedScreen {
         return this.driver.findElement(By.name('to')).getAttribute("value");
     }
 
-    //get select() {
-    //    return this.driver.findElement(By.xpath('//*[@id="fr_dl"]/table/tbody/tr[3]/td[2]/select/option[1]'));
-    //}
+    get service() {
+        return this.driver.findElement(By.name('service')).getAttribute("value"); // valueを取得（テキストの取得調査中）
+    }
 
     get alert() {
         return this.driver.findElement(By.xpath('//*[@id="dl_message"]')).getText();
     }
 
-    //async selectService(value) {
-    //   let dropdown = this.driver.findElement(By.xpath('//*[@id="fr_dl"]/table/tbody/tr[3]/td[2]/select'));
-    //   await Select(dropdown).selectByValue(value);
-    //}
+    async selectService(value) {
+        await this.driver.findElement(By.xpath('//*[@id="fr_dl"]/table/tbody/tr[3]/td[2]/select/option[@value="' + value + '"]')).click();
+    }
 
     async inputFrom(from) {
         await this.driver.findElement(By.name('from')).sendKeys(from);
