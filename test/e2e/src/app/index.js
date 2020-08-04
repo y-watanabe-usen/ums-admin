@@ -1,14 +1,19 @@
 const { Builder, By, Key, Capabilities, until } = require('selenium-webdriver');
+const remote = require('selenium-webdriver/remote');
 const assert = require('assert');
 const moment = require('moment');
-//const fs = require('fs');
 
 const SCREEN_DIR = `${__dirname}/screen`;
 const LoginScreen = require(`${SCREEN_DIR}/login_screen`);
 const AccountSearchScreen = require(`${SCREEN_DIR}/account_search_screen`);
 const AccountListScreen = require(`${SCREEN_DIR}/account_list_screen`);
 const AccountDetailScreen = require(`${SCREEN_DIR}/account_detail_screen`);
+const ExtractionScreen = require(`${SCREEN_DIR}/extraction/extraction`);
 const InitedCustCdDownloadScreen = require(`${SCREEN_DIR}/extraction/inited_cust_cd_download`);
+const IssueHistoryDownloadScreen = require(`${SCREEN_DIR}/extraction/issue_history_download`);
+const IdPwDownloadScreen = require(`${SCREEN_DIR}/extraction/id_pw_download`);
+const MailAddressInitImportScreen = require(`${SCREEN_DIR}/extraction/mail_address_init_import`);
+const ChainStoreBulkRegistScreen = require(`${SCREEN_DIR}/extraction/chain_store_bulk_regist`);
 
 const url = 'http://ums-admin/';
 //const downloadPath = '/home/seluser/Downloads';
@@ -224,9 +229,8 @@ let testMain = async () => {
     });
   });
 
-
   describe('データ抽出・初回認証済顧客抽出のテスト', () => {
-    it('データ抽出タブ押下で初回認証済顧客抽出が表示されること', async () => {
+    it('データ抽出タブ押下で初回認証済顧客抽出画面が表示されること', async () => {
       // ****************************
       // ** 準備
       // ****************************
@@ -255,7 +259,6 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
-
 
     it('先月ボタン押下でテキストボックスに先月の日時が入力されること', async () => {
       // ****************************
@@ -682,6 +685,869 @@ let testMain = async () => {
 //    });
   });
 
+  describe('データ抽出・アカウント証発送履歴抽出のテスト', () => {
+    it('データ抽出画面のメニューからアカウント証発送履歴抽出を押下しアカウント証発送履歴抽出画面が表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const issueHistoryDownloadScreen = new IssueHistoryDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await extractionScreen.clickExtractionMenuIssueHistoryDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await driver.getCurrentUrl(), url + 'extraction/issue_history_download/');
+      assert.deepEqual(await issueHistoryDownloadScreen.title, 'アカウント証発送履歴抽出');
+      assert.deepEqual(await issueHistoryDownloadScreen.from, '');
+      assert.deepEqual(await issueHistoryDownloadScreen.to, '');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('先月ボタン押下でテキストボックスに先月の日時が入力されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const issueHistoryDownloadScreen = new IssueHistoryDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuIssueHistoryDownload();
+
+      var lastMonth = moment().subtract(1, 'month');
+      var lastMonthFormatted = lastMonth.format('YYYY/MM/');
+      var cntLastMonthDay = moment(lastMonth.format('YYYY-MM')).daysInMonth(); // 先月の日数取得
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await issueHistoryDownloadScreen.clickBtnLastMonth();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await issueHistoryDownloadScreen.from, lastMonthFormatted + '01');
+      assert.deepEqual(await issueHistoryDownloadScreen.to, lastMonthFormatted + cntLastMonthDay);
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('今月ボタン押下でテキストボックスに今月の日時が入力されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const issueHistoryDownloadScreen = new IssueHistoryDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuIssueHistoryDownload();
+
+      var thisMonthFormatted = moment().format('YYYY/MM/');
+      var cntThisMonthDay = moment(moment().format('YYYY-MM')).daysInMonth(); // 先月の日数取得
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await issueHistoryDownloadScreen.clickBtnThisMonth();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await issueHistoryDownloadScreen.from, thisMonthFormatted + '01');
+      assert.deepEqual(await issueHistoryDownloadScreen.to, thisMonthFormatted + cntThisMonthDay);
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('発送日fromの入力ミス（年のみ）の場合エラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const issueHistoryDownloadScreen = new IssueHistoryDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuIssueHistoryDownload();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await issueHistoryDownloadScreen.inputFrom('2020');
+      await issueHistoryDownloadScreen.clickBtnDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await issueHistoryDownloadScreen.alert, '発送日FROMを正しく入力してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('発送日fromの入力ミス（年月のみ）の場合エラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const issueHistoryDownloadScreen = new IssueHistoryDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuIssueHistoryDownload();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await issueHistoryDownloadScreen.inputFrom('2020/07');
+      await issueHistoryDownloadScreen.clickBtnDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await issueHistoryDownloadScreen.alert, '発送日FROMを正しく入力してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('発送日to（年のみ）の入力ミスの場合エラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const issueHistoryDownloadScreen = new IssueHistoryDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuIssueHistoryDownload();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await issueHistoryDownloadScreen.inputFrom('2020/07/01');
+      await issueHistoryDownloadScreen.inputTo('2020');
+      await issueHistoryDownloadScreen.clickBtnDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await issueHistoryDownloadScreen.alert, '発送日TOを正しく入力してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('発送日to（年月のみ）の入力ミスの場合エラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const issueHistoryDownloadScreen = new IssueHistoryDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuIssueHistoryDownload();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await issueHistoryDownloadScreen.inputFrom('2020/07/01');
+      await issueHistoryDownloadScreen.inputTo('2020/07');
+      await issueHistoryDownloadScreen.clickBtnDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await issueHistoryDownloadScreen.alert, '発送日TOを正しく入力してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('発送日の入力ミスの場合（from, to逆）エラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const issueHistoryDownloadScreen = new IssueHistoryDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuIssueHistoryDownload();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await issueHistoryDownloadScreen.inputFrom('2020/07/31');
+      await issueHistoryDownloadScreen.inputTo('2020/07/01');
+      await issueHistoryDownloadScreen.clickBtnDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await issueHistoryDownloadScreen.alert, '発送日はFrom <= Toで入力してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('抽出対象データがない場合エラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const issueHistoryDownloadScreen = new IssueHistoryDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuIssueHistoryDownload();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await issueHistoryDownloadScreen.clickBtnLastMonth();
+      await issueHistoryDownloadScreen.clickBtnDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await issueHistoryDownloadScreen.alert, '対象データはありません。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+// TODO: ダウンロードが上手くいかないためスキップ
+//    it('アカウント証発送履歴抽出され、ファイルがダウンロードされていることを確認', async () => {
+//      // ****************************
+//      // ** 準備
+//      // ****************************
+//
+//      // ****************************
+//      // ** 実行
+//      // ****************************
+//
+//      // ****************************
+//      // ** 検証
+//      // ****************************
+
+//      // ****************************
+//      // ** 後始末
+//      // ****************************
+//    });
+  });
+
+  describe('データ抽出・ID/PW抽出（顧客CD指定）のテスト', () => {
+    it('データ抽出画面のメニューからID/PW抽出（顧客CD指定）を押下しID/PW抽出（顧客CD指定）画面が表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const idPwDownloadScreen = new IdPwDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await extractionScreen.clickExtractionMenuIdPwDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await driver.getCurrentUrl(), url + 'extraction/id_pw_download/');
+      assert.deepEqual(await idPwDownloadScreen.title, 'ID/PW抽出（顧客CD指定）');
+      assert.deepEqual(await idPwDownloadScreen.serviceCd, '100'); // valueを取得（テキストの取得調査中）
+      assert.deepEqual(await idPwDownloadScreen.alert, '');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('サービスのプルダウンで「OTORAKU」が選択されていること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const idPwDownloadScreen = new IdPwDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuIdPwDownload();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await idPwDownloadScreen.selectServiceCd('120');
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await idPwDownloadScreen.serviceCd, '120');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('サービスのプルダウンで「スタシフ」が選択されていること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const idPwDownloadScreen = new IdPwDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuIdPwDownload();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await idPwDownloadScreen.selectServiceCd('130');
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await idPwDownloadScreen.serviceCd, '130');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('サービスのプルダウンで「REACH STOCK（飲食店）」が選択されていること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const idPwDownloadScreen = new IdPwDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuIdPwDownload();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await idPwDownloadScreen.selectServiceCd('140');
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await idPwDownloadScreen.serviceCd, '140');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('サービスのプルダウンで「REACH STOCK（生産者）」が選択されていること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const idPwDownloadScreen = new IdPwDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuIdPwDownload();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await idPwDownloadScreen.selectServiceCd('150');
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await idPwDownloadScreen.serviceCd, '150');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('サービスのプルダウンで「USPOT」が選択されていること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const idPwDownloadScreen = new IdPwDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuIdPwDownload();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await idPwDownloadScreen.selectServiceCd('160');
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await idPwDownloadScreen.serviceCd, '160');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('サービスのプルダウンで「デンタル・コンシェルジュ」が選択されていること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const idPwDownloadScreen = new IdPwDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuIdPwDownload();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await idPwDownloadScreen.selectServiceCd('170');
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await idPwDownloadScreen.serviceCd, '170');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('CSVファイル未選択の状態でダウンロードボタンを押下したらエラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const idPwDownloadScreen = new IdPwDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuIdPwDownload();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await idPwDownloadScreen.clickBtnDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await idPwDownloadScreen.alert, 'CSVファイルを選択してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('TXTファイル選択の状態でダウンロードボタンを押下したらエラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const idPwDownloadScreen = new IdPwDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuIdPwDownload();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await idPwDownloadScreen.clickBtnFile('/extraction/id_pw_download_test_1.txt');
+      await idPwDownloadScreen.clickBtnDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await idPwDownloadScreen.alert, 'CSVファイルを選択してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+// TODO: ダウンロードが上手くいかないためスキップ
+//    it('ファイルがダウンロードされていることを確認', async () => {
+//      // ****************************
+//      // ** 準備
+//      // ****************************
+//
+//      // ****************************
+//      // ** 実行
+//      // ****************************
+//
+//      // ****************************
+//      // ** 検証
+//      // ****************************
+
+//      // ****************************
+//      // ** 後始末
+//      // ****************************
+//    });
+  });
+
+  describe('データ抽出・メールアドレス初回登録・仮ID/PW抽出画面のテスト', () => {
+    it('データ抽出画面のメニューからメールアドレス初回登録・仮ID/PW抽出を押下しメールアドレス初回登録・仮ID/PW抽出画面が表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const mailAddressInitImportScreen = new MailAddressInitImportScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await extractionScreen.clickExtractionMenuMailAddressInitImport();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await driver.getCurrentUrl(), url + 'extraction/mail_address_init_import/');
+      assert.deepEqual(await mailAddressInitImportScreen.title, 'メールアドレス初回登録・仮ID/PW抽出画面');
+      assert.deepEqual(await mailAddressInitImportScreen.enableBtnDownload, false);
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('CSVファイル未選択の状態でダウンロードボタンを押下したらエラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const mailAddressInitImportScreen = new MailAddressInitImportScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuMailAddressInitImport();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await mailAddressInitImportScreen.clickBtnUpload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await mailAddressInitImportScreen.alert, 'CSVファイルを選択してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('TXTファイル選択の状態でダウンロードボタンを押下したらエラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const mailAddressInitImportScreen = new MailAddressInitImportScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuMailAddressInitImport();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await mailAddressInitImportScreen.clickBtnFile('/extraction/mail_address_init_import_test_1.txt');
+      await mailAddressInitImportScreen.clickBtnUpload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await mailAddressInitImportScreen.alert, 'CSVファイルを選択してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+// TODO: ダウンロードが上手くいかないためスキップ
+//    it('アカウント証発送履歴抽出され、ファイルがダウンロードされていることを確認', async () => {
+//      // ****************************
+//      // ** 準備
+//      // ****************************
+//
+//      // ****************************
+//      // ** 実行
+//      // ****************************
+//
+//      // ****************************
+//      // ** 検証
+//      // ****************************
+
+//      // ****************************
+//      // ** 後始末
+//      // ****************************
+//    });
+  });
+
+  describe('データ抽出・USEN CART利用申込済顧客用メールアドレス登録・ID/PW抽出画面画面のテスト', () => {
+    it('データ抽出画面のメニューからメールアドレス初回登録・仮ID/PW抽出を押下しUSEN CART利用申込済顧客用メールアドレス登録・ID/PW抽出画面が表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const chainStoreBulkRegistScreen = new ChainStoreBulkRegistScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await extractionScreen.clickExtractionMenuChainStoreBulkRegist();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await driver.getCurrentUrl(), url + 'extraction/chain_store_bulk_regist/');
+      assert.deepEqual(await chainStoreBulkRegistScreen.title, 'USEN CART利用申込済顧客用メールアドレス登録・ID/PW抽出画面');
+      assert.deepEqual(await chainStoreBulkRegistScreen.radioBranch, true);
+      assert.deepEqual(await chainStoreBulkRegistScreen.radioClient, false);
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('顧客CD毎に出力が選択されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const chainStoreBulkRegistScreen = new ChainStoreBulkRegistScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuChainStoreBulkRegist();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await chainStoreBulkRegistScreen.clickRadioClient();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await chainStoreBulkRegistScreen.radioBranch, false);
+      assert.deepEqual(await chainStoreBulkRegistScreen.radioClient, true);
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('CSVファイル未選択の状態でダウンロードボタンを押下したらエラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const chainStoreBulkRegistScreen = new ChainStoreBulkRegistScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuMailAddressInitImport();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await chainStoreBulkRegistScreen.clickBtnUpload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await chainStoreBulkRegistScreen.alert, 'CSVファイルを選択してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('TXTファイル選択の状態でダウンロードボタンを押下したらエラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const chainStoreBulkRegistScreen = new ChainStoreBulkRegistScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuMailAddressInitImport();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await chainStoreBulkRegistScreen.clickBtnFile('/extraction/chain_store_bulk_regist_test_1.txt');
+      await chainStoreBulkRegistScreen.clickBtnUpload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await chainStoreBulkRegistScreen.alert, 'CSVファイルを選択してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+// TODO: ダウンロードが上手くいかないためスキップ
+//    it('アカウント証発送履歴抽出され、ファイルがダウンロードされていることを確認', async () => {
+//      // ****************************
+//      // ** 準備
+//      // ****************************
+//
+//      // ****************************
+//      // ** 実行
+//      // ****************************
+//
+//      // ****************************
+//      // ** 検証
+//      // ****************************
+
+//      // ****************************
+//      // ** 後始末
+//      // ****************************
+//    });
+  });
+
   describe('アカウント一覧画面のテスト', () => {
     it(' 画面に表示されている内容が正しいこと', async () => {
       // ****************************
@@ -745,6 +1611,7 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+
     it('一覧へ戻るボタンを押下すると、アカウント検索画面に遷移すること', async () => {
       // ****************************
       // ** 準備
@@ -776,6 +1643,7 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+
     it('詳細ボタンを押下すると、アカウント詳細画面に遷移すること', async () => {
       // ****************************
       // ** 準備
@@ -806,6 +1674,7 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+
     it('未発送のID通知書データが削除されること', async () => {
       // ****************************
       // ** 準備
@@ -837,6 +1706,7 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+
     it('再送登録をすると、未発送のID通知書データが作られること', async () => {
       // ****************************
       // ** 準備
@@ -874,6 +1744,7 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+
     it('ダイレクト出力すると、PDFがダウンロードできてダイレクト出力履歴データが作られること', async () => {
       // ****************************
       // ** 準備
@@ -1055,6 +1926,7 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+
     it('戻るボタンを押下すると、アカウント一覧画面に遷移すること', async () => {
       // ****************************
       // ** 準備
@@ -1087,6 +1959,7 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+
     it('メールアドレス変更すると、メールアドレスが更新されること', async () => {
       // ****************************
       // ** 準備
@@ -1124,6 +1997,7 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+
     it('サービス詳細ボタンを押下すると、サービス詳細画面に遷移すること', async () => {
       // ****************************
       // ** 準備
@@ -1167,6 +2041,9 @@ describe('USEN MEMBERS管理機能のSeleniumテスト', () => {
       .usingServer(usingServer)
       .withCapabilities(capabilities)
       .build();
+
+    driver.setFileDetector(new remote.FileDetector()); // ファイル検知モジュール
+
     process.on('unhandledRejection', console.dir);
   });
 
