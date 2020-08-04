@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  selenium-hub:
+    image: selenium/hub:4.0.0-alpha-6-20200730
+    container_name: selenium-hub
+    ports:
+      - "4444:4444"
+
+  chrome:
+    build: ./chrome
+    container_name: selenium-chrome
+    volumes:
+      - /dev/shm:/dev/shm
+      - test_data:/tmp/test_data:rw
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+    ports:
+      - "15900:5900"
+
+  # firefox:
+  #   image: selenium/node-firefox:4.0.0-alpha-6-20200730
+  #   volumes:
+  #     - /dev/shm:/dev/shm
+  #   depends_on:
+  #     - selenium-hub
+  #   environment:
+  #     - HUB_HOST=selenium-hub
+
+  # opera:
+  #   image: selenium/node-opera:4.0.0-alpha-6-20200730
+  #   volumes:
+  #     - /dev/shm:/dev/shm
+  #   depends_on:
+  #     - selenium-hub
+  #   environment:
+  #     - HUB_HOST=selenium-hub
+
+networks:
+  default:
+    external:
+      name: ums-admin_default
+
+volumes:
+  test_data:
