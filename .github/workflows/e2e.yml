@@ -62,6 +62,7 @@ jobs:
         with:
           node-version: 12
       - run: chmod 777 app/log
+      - run: mkdir /tmp/test_data && chmod 777 /tmp/test_data
       - run: cd app/config && ln -s config_local.php config.php && ls -la
       - run: docker-compose up -d --build
       - run: yarn install
