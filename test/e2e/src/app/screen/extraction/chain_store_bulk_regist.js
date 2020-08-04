@@ -32,9 +32,8 @@ module.exports = class ChainStoreBulkRegistScreen extends AuthedScreen {
         await this.driver.findElement(By.xpath('//*[@id="fr_upload"]/table/tbody/tr[1]/td[2]/input[2]')).click();
     }
 
-    async clickBtnFile() {
-        //await this.driver.findElement(By.name('file')).sendKeys('files' + file);
-        //await this.driver.findElement(By.xpath('//*[@id="fr_upload"]/table/tbody/tr[2]/td[2]/input[1]')).sendKeys('files' + file);
+    async clickBtnFile(file) {
+        await this.driver.findElement(By.name('file')).sendKeys(`${__dirname}/../../files` + file);
     }
 
     async clickBtnUpload() {

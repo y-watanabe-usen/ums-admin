@@ -1,7 +1,7 @@
 const { Builder, By, Key, Capabilities, until } = require('selenium-webdriver');
+const remote = require('selenium-webdriver/remote');
 const assert = require('assert');
 const moment = require('moment');
-//const fs = require('fs');
 
 const SCREEN_DIR = `${__dirname}/screen`;
 const LoginScreen = require(`${SCREEN_DIR}/login_screen`);
@@ -229,7 +229,6 @@ let testMain = async () => {
     });
   });
 
-
   describe('データ抽出・初回認証済顧客抽出のテスト', () => {
     it('データ抽出タブ押下で初回認証済顧客抽出画面が表示されること', async () => {
       // ****************************
@@ -260,7 +259,6 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
-
 
     it('先月ボタン押下でテキストボックスに先月の日時が入力されること', async () => {
       // ****************************
@@ -720,7 +718,6 @@ let testMain = async () => {
       // ****************************
     });
 
-
     it('先月ボタン押下でテキストボックスに先月の日時が入力されること', async () => {
       // ****************************
       // ** 準備
@@ -999,7 +996,6 @@ let testMain = async () => {
 //    });
   });
 
-
   describe('データ抽出・ID/PW抽出（顧客CD指定）のテスト', () => {
     it('データ抽出画面のメニューからID/PW抽出（顧客CD指定）を押下しID/PW抽出（顧客CD指定）画面が表示されること', async () => {
       // ****************************
@@ -1243,37 +1239,36 @@ let testMain = async () => {
       // ****************************
     });
 
-// TODO: ファイルアップロードが上手くいかないためスキップ
-//    it('TXTファイル選択の状態でダウンロードボタンを押下したらエラーメッセージが表示されること', async () => {
-//      // ****************************
-//      // ** 準備
-//      // ****************************
-//      const loginScreen = new LoginScreen(driver);
-//      const extractionScreen = new ExtractionScreen(driver);
-//      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
-//      const idPwDownloadScreen = new IdPwDownloadScreen(driver);
-//      await driver.get(url);
-//      await loginScreen.inputCode('admin');
-//      await loginScreen.inputPassword('!QAZ2wsx');
-//      await loginScreen.clickBtnLogin();
-//      await initedCustCdDownloadScreen.clickTabExtraction();
-//      await extractionScreen.clickExtractionMenuIdPwDownload();
-//
-//      // ****************************
-//      // ** 実行
-//      // ****************************
-//      await idPwDownloadScreen.clickBtnFile(`/extraction/extraction_id_pw_download_test_1.txt`);
-//      await idPwDownloadScreen.clickBtnDownload();
-//
-//      // ****************************
-//      // ** 検証
-//      // ****************************
-//      assert.deepEqual(await idPwDownloadScreen.errMessage, 'CSVファイルを選択してください。');
-//
-//      // ****************************
-//      // ** 後始末
-//      // ****************************
-//    });
+    it('TXTファイル選択の状態でダウンロードボタンを押下したらエラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const idPwDownloadScreen = new IdPwDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuIdPwDownload();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await idPwDownloadScreen.clickBtnFile('/extraction/id_pw_download_test_1.txt');
+      await idPwDownloadScreen.clickBtnDownload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await idPwDownloadScreen.alert, 'CSVファイルを選択してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
 
 // TODO: ダウンロードが上手くいかないためスキップ
 //    it('ファイルがダウンロードされていることを確認', async () => {
@@ -1357,24 +1352,36 @@ let testMain = async () => {
       // ****************************
     });
 
-// TODO: アップロードが上手くいかないためスキップ
-//    it('アカウント証発送履歴抽出され、ファイルがダウンロードされていることを確認', async () => {
-//      // ****************************
-//      // ** 準備
-//      // ****************************
-//
-//      // ****************************
-//      // ** 実行
-//      // ****************************
-//
-//      // ****************************
-//      // ** 検証
-//      // ****************************
+    it('TXTファイル選択の状態でダウンロードボタンを押下したらエラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const mailAddressInitImportScreen = new MailAddressInitImportScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuMailAddressInitImport();
 
-//      // ****************************
-//      // ** 後始末
-//      // ****************************
-//    });
+      // ****************************
+      // ** 実行
+      // ****************************
+      await mailAddressInitImportScreen.clickBtnFile('/extraction/mail_address_init_import_test_1.txt');
+      await mailAddressInitImportScreen.clickBtnUpload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await mailAddressInitImportScreen.alert, 'CSVファイルを選択してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
 
 // TODO: ダウンロードが上手くいかないためスキップ
 //    it('アカウント証発送履歴抽出され、ファイルがダウンロードされていることを確認', async () => {
@@ -1490,24 +1497,36 @@ let testMain = async () => {
       // ****************************
     });
 
-// TODO: アップロードが上手くいかないためスキップ
-//    it('アカウント証発送履歴抽出され、ファイルがダウンロードされていることを確認', async () => {
-//      // ****************************
-//      // ** 準備
-//      // ****************************
-//
-//      // ****************************
-//      // ** 実行
-//      // ****************************
-//
-//      // ****************************
-//      // ** 検証
-//      // ****************************
+    it('TXTファイル選択の状態でダウンロードボタンを押下したらエラーメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const chainStoreBulkRegistScreen = new ChainStoreBulkRegistScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuMailAddressInitImport();
 
-//      // ****************************
-//      // ** 後始末
-//      // ****************************
-//    });
+      // ****************************
+      // ** 実行
+      // ****************************
+      await chainStoreBulkRegistScreen.clickBtnFile('/extraction/chain_store_bulk_regist_test_1.txt');
+      await chainStoreBulkRegistScreen.clickBtnUpload();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await chainStoreBulkRegistScreen.alert, 'CSVファイルを選択してください。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
 
 // TODO: ダウンロードが上手くいかないためスキップ
 //    it('アカウント証発送履歴抽出され、ファイルがダウンロードされていることを確認', async () => {
@@ -1592,6 +1611,7 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+
     it('一覧へ戻るボタンを押下すると、アカウント検索画面に遷移すること', async () => {
       // ****************************
       // ** 準備
@@ -1623,6 +1643,7 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+
     it('詳細ボタンを押下すると、アカウント詳細画面に遷移すること', async () => {
       // ****************************
       // ** 準備
@@ -1653,6 +1674,7 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+
     it('未発送のID通知書データが削除されること', async () => {
       // ****************************
       // ** 準備
@@ -1684,6 +1706,7 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+
     it('再送登録をすると、未発送のID通知書データが作られること', async () => {
       // ****************************
       // ** 準備
@@ -1721,6 +1744,7 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+
     it('ダイレクト出力すると、PDFがダウンロードできてダイレクト出力履歴データが作られること', async () => {
       // ****************************
       // ** 準備
@@ -1902,6 +1926,7 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+
     it('戻るボタンを押下すると、アカウント一覧画面に遷移すること', async () => {
       // ****************************
       // ** 準備
@@ -1934,6 +1959,7 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+
     it('メールアドレス変更すると、メールアドレスが更新されること', async () => {
       // ****************************
       // ** 準備
@@ -1971,6 +1997,7 @@ let testMain = async () => {
       // ** 後始末
       // ****************************
     });
+
     it('サービス詳細ボタンを押下すると、サービス詳細画面に遷移すること', async () => {
       // ****************************
       // ** 準備
@@ -2014,6 +2041,9 @@ describe('USEN MEMBERS管理機能のSeleniumテスト', () => {
       .usingServer(usingServer)
       .withCapabilities(capabilities)
       .build();
+
+    driver.setFileDetector(new remote.FileDetector()); // ファイル検知モジュール
+
     process.on('unhandledRejection', console.dir);
   });
 

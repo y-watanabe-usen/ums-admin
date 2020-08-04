@@ -16,9 +16,8 @@ module.exports = class MailAddressInitImportScreen extends AuthedScreen {
         return this.driver.findElement(By.id('bt_download')).isEnabled();
     }
 
-    async clickBtnFile() {
-        //await this.driver.findElement(By.name('file')).sendKeys('files' + file);
-        //await this.driver.findElement(By.xpath('//*[@id="fr_upload"]/table/tbody/tr[2]/td[2]/input[1]')).sendKeys('files' + file);
+    async clickBtnFile(file) {
+        await this.driver.findElement(By.name('file')).sendKeys(`${__dirname}/../../files` + file);
     }
 
     async clickBtnUpload() {
