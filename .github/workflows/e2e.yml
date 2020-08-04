@@ -55,6 +55,7 @@ jobs:
           - 4444:4444
         volumes:
           - /dev/shm:/dev/shm
+          - /tmp/test_data:/tmp/test_data
         options: "--name selenium"
     steps:
       - uses: actions/checkout@v1
@@ -62,7 +63,7 @@ jobs:
         with:
           node-version: 12
       - run: chmod 777 app/log
-      - run: mkdir /tmp/test_data && chmod 777 /tmp/test_data
+      - run: sudo chmod 777 /tmp/test_data && ls -la /tmp
       - run: cd app/config && ln -s config_local.php config.php && ls -la
       - run: docker-compose up -d --build
       - run: yarn install
