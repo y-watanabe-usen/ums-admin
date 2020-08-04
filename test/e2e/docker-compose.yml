@@ -3,12 +3,18 @@ version: "3"
 services:
   e2e:
     build: ./src
+    container_name: e2e
     command: '/node_modules/mocha/bin/mocha /app/index.js --timeout 3600000'
     working_dir: '/app'
     volumes:
       - ./src/app/:/app/
+      - selenium_test_data:/tmp/test_data
 
 networks:
   default:
     external:
       name: ums-admin_default
+
+volumes:
+  selenium_test_data:
+    external: true

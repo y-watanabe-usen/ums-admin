@@ -2,8 +2,12 @@ const { Builder, By, Key, Capabilities, until } = require('selenium-webdriver');
 const remote = require('selenium-webdriver/remote');
 const assert = require('assert');
 const moment = require('moment');
+const { execSync } = require('child_process');
+const fs = require('fs');
+var sleep  = require('sleep');
 
 const SCREEN_DIR = `${__dirname}/screen`;
+const FILES_DIR = `${__dirname}/files`;
 const LoginScreen = require(`${SCREEN_DIR}/login_screen`);
 const AccountSearchScreen = require(`${SCREEN_DIR}/account_search_screen`);
 const AccountListScreen = require(`${SCREEN_DIR}/account_list_screen`);
@@ -16,7 +20,7 @@ const MailAddressInitImportScreen = require(`${SCREEN_DIR}/extraction/mail_addre
 const ChainStoreBulkRegistScreen = require(`${SCREEN_DIR}/extraction/chain_store_bulk_regist`);
 
 const url = 'http://ums-admin/';
-//const downloadPath = '/home/seluser/Downloads';
+const downloadPath = '/tmp/test_data';
 
 let driver;
 
@@ -656,33 +660,41 @@ let testMain = async () => {
       // ****************************
     });
 
-// TODO: ダウンロード確認テストが上手くいかないためスキップ
-//    it('初回認証済顧客抽出され、ファイルがダウンロードされていることを確認', async () => {
-//      // ****************************
-//      // ** 準備
-//      // ****************************
-//      const loginScreen = new LoginScreen(driver);
-//      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
-//      await driver.get(url);
-//      await loginScreen.inputCode('admin');
-//      await loginScreen.inputPassword('!QAZ2wsx');
-//      await loginScreen.clickBtnLogin();
-//      await initedCustCdDownloadScreen.clickTabExtraction();
-//
-//      // ****************************
-//      // ** 実行
-//      // ****************************
-//      await initedCustCdDownloadScreen.clickBtnDownload();
-//
-//      // ****************************
-//      // ** 検証
-//      // ****************************
-//      await assert.deepEqual(fs.existsSync(downloadPath + '/100_inited_cust_cd_*.csv'), Boolean('true'));
-//
-//      // ****************************
-//      // ** 後始末
-//      // ****************************
-//    });
+    it('初回認証済顧客抽出され、ファイルがダウンロードされていることを確認', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await initedCustCdDownloadScreen.clickBtnDownload();
+      sleep.sleep(1);
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      // ファイル名取得
+      const stdout = execSync(`ls ${downloadPath}`);
+      const csvFilename = stdout.toString().replace("\n", "");
+      // ファイル読み込み
+      const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
+      const expected = fs.readFileSync(`${FILES_DIR}/exrtraction/expected.csv`).toString();
+
+      // ファイル内容の比較
+      await assert.deepEqual(actual, expected);
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
   });
 
   describe('データ抽出・アカウント証発送履歴抽出のテスト', () => {
@@ -1948,7 +1960,7 @@ let testMain = async () => {
       // ****************************
       // ** 実行
       // ****************************
-      await accountDetailScreen.clickBtnReturnAccountList();      
+      await accountDetailScreen.clickBtnReturnAccountList();
 
       // ****************************
       // ** 検証
@@ -2049,6 +2061,7 @@ describe('USEN MEMBERS管理機能のSeleniumテスト', () => {
 
   beforeEach(async () => {
     await driver.manage().deleteAllCookies();
+    execSync(`rm -rf ${downloadPath}/*`);
   });
 
   after(() => {
@@ -2058,7 +2071,7 @@ describe('USEN MEMBERS管理機能のSeleniumテスト', () => {
   testMain();
 });
 
-let buildUsingServer = () => `http://${process.env.CI ? 'localhost' : 'zalenium'}:4444/wd/hub`;
+let buildUsingServer = () => `http://${process.env.CI ? 'localhost' : 'selenium-hub'}:4444/wd/hub`;
 
 let buildCapabilities = () => {
   switch (process.env.BROWSER) {
@@ -2084,15 +2097,14 @@ let buildCapabilities = () => {
       console.log("start testing in chrome");
       const capabilities = Capabilities.chrome();
       capabilities.set('chromeOptions', {
-        args: []
-        //args: [],
-        //prefs: {
-        //  'download': {
-        //    'default_directory': downloadPath,
-        //    'prompt_for_download': false,
-        //    'directory_upgrade': true
-        //  }
-        //}
+        args: [],
+        prefs: {
+          'download': {
+            'default_directory': downloadPath,
+            'prompt_for_download': false,
+            'directory_upgrade': true
+          }
+        }
       });
       return capabilities;
     }
