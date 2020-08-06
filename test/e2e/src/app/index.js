@@ -1176,7 +1176,7 @@ let testMain = async () => {
         const csvFilename = stdout.toString().replace("\n", "");
         // ファイル読み込み
         const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
-        const expected = fs.readFileSync(`${FILES_DIR}/exrtraction/expected.csv`).toString();
+        const expected = fs.readFileSync(`${FILES_DIR}/extraction/inited_cust_cd_download_test_1_expected.csv`).toString();
 
         // ファイル内容の比較
         await assert.deepEqual(actual, expected);
@@ -1477,24 +1477,44 @@ let testMain = async () => {
         // ****************************
       });
 
-      // TODO: ダウンロードが上手くいかないためスキップ
-      //    it('アカウント証発送履歴抽出され、ファイルがダウンロードされていることを確認', async () => {
-      //      // ****************************
-      //      // ** 準備
-      //      // ****************************
-      //
-      //      // ****************************
-      //      // ** 実行
-      //      // ****************************
-      //
-      //      // ****************************
-      //      // ** 検証
-      //      // ****************************
+     it('アカウント証発送履歴抽出され、ファイルがダウンロードされていることを確認', async () => {
+       // ****************************
+       // ** 準備
+       // ****************************
+        const loginScreen = new LoginScreen(driver);
+        const extractionScreen = new ExtractionScreen(driver);
+        const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+        const issueHistoryDownloadScreen = new IssueHistoryDownloadScreen(driver);
+        await driver.get(url);
+        await loginScreen.inputCode('admin');
+        await loginScreen.inputPassword('!QAZ2wsx');
+        await loginScreen.clickBtnLogin();
+        await initedCustCdDownloadScreen.clickTabExtraction();
+        await extractionScreen.clickExtractionMenuIssueHistoryDownload();
+     
+       // ****************************
+       // ** 実行
+       // ****************************
+       await issueHistoryDownloadScreen.clickBtnDownload();
+       sleep.sleep(1);
+ 
+       // ****************************
+       // ** 検証
+       // ****************************
+        // ファイル名取得
+        const stdout = execSync(`ls ${downloadPath}`);
+        const csvFilename = stdout.toString().replace("\n", "");
+        // ファイル読み込み
+        const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
+        const expected = fs.readFileSync(`${FILES_DIR}/extraction/issue_history_download_test_1_expected.csv`).toString();
 
-      //      // ****************************
-      //      // ** 後始末
-      //      // ****************************
-      //    });
+        // ファイル内容の比較
+        await assert.deepEqual(actual, expected);
+
+       // ****************************
+       // ** 後始末
+       // ****************************
+     });
     });
 
     describe('ID/PW抽出（顧客CD指定）のテスト', () => {
