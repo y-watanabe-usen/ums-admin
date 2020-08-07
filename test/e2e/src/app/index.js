@@ -2065,9 +2065,8 @@ let testMain = async () => {
         await trialAccountSearchScreen.clickBtnTrial();
         // ****************************
         // ** 実行
-        await trialAccountSearchScreen.clickBtnTrialAccountSearch();
         // ****************************
-
+        await trialAccountSearchScreen.clickBtnTrialAccountSearch();
         // ****************************
         // ** 検証
         // ****************************
@@ -2076,8 +2075,8 @@ let testMain = async () => {
         // ****************************
         // ** 後始末
         // ****************************
-  });
-            it('ログインIDを検索条件に指定して検索が出来ること', async () => {
+      });
+      it('ログインIDを検索条件に指定して検索が出来ること', async () => {
         // ****************************
         // ** 準備
         // ****************************
