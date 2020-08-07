@@ -2102,6 +2102,31 @@ let testMain = async () => {
         // ** 後始末
         // ****************************
       });
+      it('検索結果の詳細ボタンを押下すると、お試しアカウント詳細画面に遷移すること', async () => {
+        // ****************************
+        // ** 準備
+        // ****************************
+        const loginScreen = new LoginScreen(driver);
+        const accountSearchScreen = new AccountSearchScreen(driver);
+        const trialAccountSearchScreen = new TrialAccountSearchScreen(driver);
+        await driver.get(url);
+        await loginScreen.inputCode('admin');
+        await loginScreen.inputPassword('!QAZ2wsx');
+        await loginScreen.clickBtnLogin();
+        await trialAccountSearchScreen.clickBtnTrial();
+        await trialAccountSearchScreen.clickBtnTrialAccountSearch();
+        // ****************************
+        // ** 実行
+        // ****************************
+        await trialAccountSearchScreen.clickBtnDetail();
+        // ****************************
+        // ** 検証
+        // ****************************
+        assert.deepEqual(await driver.getCurrentUrl(), url + 'dedicated/trial_detail');
+        // ****************************
+        // ** 後始末
+        // ****************************
+      });
     });
   });
 
