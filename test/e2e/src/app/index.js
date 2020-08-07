@@ -12,6 +12,7 @@ const LoginScreen = require(`${SCREEN_DIR}/login_screen`);
 const AccountSearchScreen = require(`${SCREEN_DIR}/account_search_screen`);
 const AccountListScreen = require(`${SCREEN_DIR}/account_list_screen`);
 const AccountDetailScreen = require(`${SCREEN_DIR}/account_detail_screen`);
+const TrialAccountSearchScreen = require(`${SCREEN_DIR}/trial_account_search_screen`);
 const ExtractionScreen = require(`${SCREEN_DIR}/extraction/extraction`);
 const InitedCustCdDownloadScreen = require(`${SCREEN_DIR}/extraction/inited_cust_cd_download`);
 const IssueHistoryDownloadScreen = require(`${SCREEN_DIR}/extraction/issue_history_download`);
@@ -2047,8 +2048,63 @@ let testMain = async () => {
       //    });
     });
   });
+
   describe('お試し/デモ管理', () => {
+    describe('お試しアカウント検索画面のテスト', () => {
+      it('検索条件無しで検索が出来ること', async () => {
+        // ****************************
+        // ** 準備
+        // ****************************
+        const loginScreen = new LoginScreen(driver);
+        const accountSearchScreen = new AccountSearchScreen(driver);
+        const trialAccountSearchScreen = new TrialAccountSearchScreen(driver);
+        await driver.get(url);
+        await loginScreen.inputCode('admin');
+        await loginScreen.inputPassword('!QAZ2wsx');
+        await loginScreen.clickBtnLogin();
+        await trialAccountSearchScreen.clickBtnTrial();
+        // ****************************
+        // ** 実行
+        // ****************************
+        await trialAccountSearchScreen.clickBtnTrialAccountSearch();
+        // ****************************
+        // ** 検証
+        // ****************************
+        assert.deepEqual(await driver.getCurrentUrl(), url + 'dedicated/trial_search/');
+        assert.deepEqual(await trialAccountSearchScreen.firstAccountId, '11');
+        // ****************************
+        // ** 後始末
+        // ****************************
+      });
+      it('ログインIDを検索条件に指定して検索が出来ること', async () => {
+        // ****************************
+        // ** 準備
+        // ****************************
+        const loginScreen = new LoginScreen(driver);
+        const accountSearchScreen = new AccountSearchScreen(driver);
+        const trialAccountSearchScreen = new TrialAccountSearchScreen(driver);
+        await driver.get(url);
+        await loginScreen.inputCode('admin');
+        await loginScreen.inputPassword('!QAZ2wsx');
+        await loginScreen.clickBtnLogin();
+        await trialAccountSearchScreen.clickBtnTrial();
+        // ****************************
+        // ** 実行
+        // ****************************
+        await trialAccountSearchScreen.inputAccountId('12');
+        await trialAccountSearchScreen.clickBtnTrialAccountSearch();
+        // ****************************
+        // ** 検証
+        // ****************************
+        assert.deepEqual(await driver.getCurrentUrl(), url + 'dedicated/trial_search/');
+        assert.deepEqual(await trialAccountSearchScreen.firstAccountId, '12');
+        // ****************************
+        // ** 後始末
+        // ****************************
+      });
+    });
   });
+
   describe('支店別顧客管理', () => {
   });
   describe('一括処理', () => {
