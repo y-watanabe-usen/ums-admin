@@ -13,6 +13,7 @@ const AccountSearchScreen = require(`${SCREEN_DIR}/account_search_screen`);
 const AccountListScreen = require(`${SCREEN_DIR}/account_list_screen`);
 const AccountDetailScreen = require(`${SCREEN_DIR}/account_detail_screen`);
 const TrialAccountSearchScreen = require(`${SCREEN_DIR}/trial_account_search_screen`);
+const TrialAccountDetailScreen = require(`${SCREEN_DIR}/trial_account_detail_screen`);
 const ExtractionScreen = require(`${SCREEN_DIR}/extraction/extraction`);
 const InitedCustCdDownloadScreen = require(`${SCREEN_DIR}/extraction/inited_cust_cd_download`);
 const IssueHistoryDownloadScreen = require(`${SCREEN_DIR}/extraction/issue_history_download`);
@@ -2123,6 +2124,68 @@ let testMain = async () => {
         // ** 検証
         // ****************************
         assert.deepEqual(await driver.getCurrentUrl(), url + 'dedicated/trial_detail');
+        // ****************************
+        // ** 後始末
+        // ****************************
+      });
+    });
+    describe('お試しアカウント詳細画面のテスト', () => {
+      it('画面に表示されている内容が正しいこと', async () => {
+        // ****************************
+        // ** 準備
+        // ****************************
+        const loginScreen = new LoginScreen(driver);
+        const accountSearchScreen = new AccountSearchScreen(driver);
+        const trialAccountSearchScreen = new TrialAccountSearchScreen(driver);
+        const trialAccountDetailScreen = new TrialAccountDetailScreen(driver);
+        await driver.get(url);
+        await loginScreen.inputCode('admin');
+        await loginScreen.inputPassword('!QAZ2wsx');
+        await loginScreen.clickBtnLogin();
+        await trialAccountSearchScreen.clickBtnTrial();
+        await trialAccountSearchScreen.clickBtnTrialAccountSearch();
+        // ****************************
+        // ** 実行
+        // ****************************
+        await trialAccountSearchScreen.clickBtnDetail();
+        // ****************************
+        // ** 検証
+        // ****************************
+        assert.deepEqual(await driver.getCurrentUrl(), url + 'dedicated/trial_detail');
+        assert.deepEqual(await trialAccountDetailScreen.accountId, '11');
+        assert.deepEqual(await trialAccountDetailScreen.loginId, 'W7Pr56');
+        assert.deepEqual(await trialAccountDetailScreen.password, 'CPhKCagj');
+        assert.deepEqual(await trialAccountDetailScreen.salesChannel, 'USEN');
+        assert.deepEqual(await trialAccountDetailScreen.issueDate, '2020-08-05');
+        assert.deepEqual(await trialAccountDetailScreen.firstAuthenticationDatetimes, '');
+        assert.deepEqual(await trialAccountDetailScreen.expireDate, '');
+        // ****************************
+        // ** 後始末
+        // ****************************
+      });
+      it('一覧へ戻るボタンを押下すると、お試しアカウント検索画面に遷移すること', async () => {
+        // ****************************
+        // ** 準備
+        // ****************************
+        const loginScreen = new LoginScreen(driver);
+        const accountSearchScreen = new AccountSearchScreen(driver);
+        const trialAccountSearchScreen = new TrialAccountSearchScreen(driver);
+        const trialAccountDetailScreen = new TrialAccountDetailScreen(driver);
+        await driver.get(url);
+        await loginScreen.inputCode('admin');
+        await loginScreen.inputPassword('!QAZ2wsx');
+        await loginScreen.clickBtnLogin();
+        await trialAccountSearchScreen.clickBtnTrial();
+        await trialAccountSearchScreen.clickBtnTrialAccountSearch();
+        await trialAccountSearchScreen.clickBtnDetail();
+        // ****************************
+        // ** 実行
+        // ****************************
+        await trialAccountDetailScreen.clickBtnReturnSearchList();
+        // ****************************
+        // ** 検証
+        // ****************************
+        assert.deepEqual(await driver.getCurrentUrl(), url + 'dedicated/trial_search');
         // ****************************
         // ** 後始末
         // ****************************
