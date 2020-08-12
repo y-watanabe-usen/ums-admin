@@ -5,4 +5,5 @@ RUN yarn install && \
     mocha \
     moment \
     selenium-webdriver \
-    sleep
+    sleep \
+    mysql
