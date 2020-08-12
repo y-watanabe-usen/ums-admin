@@ -40,6 +40,10 @@ module.exports = class TrialAccountSearchScreen extends AuthedScreen {
         await this.driver.findElement(By.xpath('//*[@id="search_table"]/tbody/tr[1]/td[8]/button')).click();
     }
 
+    async clickBtnDownload() {
+        await this.driver.findElement(By.id('bt_download')).click();
+    }
+
     async inputAccountId(accountId) {
         await this.driver.findElement(By.id('account_id')).sendKeys(accountId);
     }
