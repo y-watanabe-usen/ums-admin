@@ -2103,6 +2103,41 @@ let testMain = async () => {
         // ** 後始末
         // ****************************
       });
+      it('検索結果がダウンロードできること', async () => {
+        // ****************************
+        // ** 準備
+        // ****************************
+        const loginScreen = new LoginScreen(driver);
+        const accountSearchScreen = new AccountSearchScreen(driver);
+        const trialAccountSearchScreen = new TrialAccountSearchScreen(driver);
+        await driver.get(url);
+        await loginScreen.inputCode('admin');
+        await loginScreen.inputPassword('!QAZ2wsx');
+        await loginScreen.clickBtnLogin();
+        await trialAccountSearchScreen.clickBtnTrial();
+        await trialAccountSearchScreen.clickBtnTrialAccountSearch();
+        // ****************************
+        // ** 実行
+        // ****************************
+        await trialAccountSearchScreen.clickBtnDownload();
+        sleep.sleep(1);
+        // ****************************
+        // ** 検証
+        // ****************************
+        // ファイル名取得
+        const stdout = execSync(`ls ${downloadPath}`);
+        const csvFilename = stdout.toString().replace("\n", "");
+        // ファイル読み込み
+        const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
+        const expected = fs.readFileSync(`${FILES_DIR}/dedicated/expected.csv`).toString();
+
+        // ファイル内容の比較
+        await assert.deepEqual(actual, expected);
+        //process.exit(0);
+        // ****************************
+        // ** 後始末
+        // ****************************
+      });
       it('検索結果の詳細ボタンを押下すると、お試しアカウント詳細画面に遷移すること', async () => {
         // ****************************
         // ** 準備
