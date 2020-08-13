@@ -15,6 +15,7 @@ const AccountDetailScreen = require(`${SCREEN_DIR}/account_detail_screen`);
 const TrialAccountSearchScreen = require(`${SCREEN_DIR}/trial_account_search_screen`);
 const TrialAccountDetailScreen = require(`${SCREEN_DIR}/trial_account_detail_screen`);
 const TrialAccountCreateScreen = require(`${SCREEN_DIR}/trial_account_create_screen`);
+const TrialAccountDownloadScreen = require(`${SCREEN_DIR}/trial_account_download_screen`);
 const ExtractionScreen = require(`${SCREEN_DIR}/extraction/extraction`);
 const InitedCustCdDownloadScreen = require(`${SCREEN_DIR}/extraction/inited_cust_cd_download`);
 const IssueHistoryDownloadScreen = require(`${SCREEN_DIR}/extraction/issue_history_download`);
@@ -2246,6 +2247,41 @@ let testMain = async () => {
         // ****************************
         await trialAccountCreateScreen.inputCount('1');
         await trialAccountCreateScreen.clickBtnTrialAccountCreate();
+        sleep.sleep(1);
+        // ****************************
+        // ** 検証
+        // ****************************
+        // ファイル名取得
+        const stdout = execSync(`ls ${downloadPath}`);
+        const csvFilename = stdout.toString().replace("\n", "");
+        // ファイル読み込み
+        const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
+        // ファイル内容の比較
+        await assert.match(actual, /(.*),(.*),(.*),(.*),(.*)\r\n[A-z0-9]{6},[A-z0-9]{8},USEN,[0-9]+,[0-9]+/);
+        // ****************************
+        // ** 後始末
+        // ****************************
+      });
+    });
+    describe('お試しアカウントダウンロード画面のテスト', () => {
+      it('CSVファイルがダウンロードできること', async () => {
+        // ****************************
+        // ** 準備
+        // ****************************
+        const loginScreen = new LoginScreen(driver);
+        const accountSearchScreen = new AccountSearchScreen(driver);
+        const trialAccountSearchScreen = new TrialAccountSearchScreen(driver);
+        const trialAccountDownloadScreen = new TrialAccountDownloadScreen(driver);
+        await driver.get(url);
+        await loginScreen.inputCode('admin');
+        await loginScreen.inputPassword('!QAZ2wsx');
+        await loginScreen.clickBtnLogin();
+        await trialAccountSearchScreen.clickBtnTrial();
+        await trialAccountDownloadScreen.clickTrialMenuTrialAccountDownload();
+        // ****************************
+        // ** 実行
+        // ****************************
+        await trialAccountDownloadScreen.clickBtnTrialAccountDownload();
         sleep.sleep(1);
         // ****************************
         // ** 検証
