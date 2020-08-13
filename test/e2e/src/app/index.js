@@ -2301,7 +2301,7 @@ let testMain = async () => {
         // ファイル読み込み
         const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
         // ファイル内容の比較
-        await assert.match(actual, /.*/);
+        await assert.match(actual, /(.*),(.*),(.*),(.*),(.*)\r\n[A-z0-9]{6},[A-z0-9]{8},USEN,[0-9]+,[0-9]+/);
         // ****************************
         // ** 後始末
         // ****************************
