@@ -15,6 +15,7 @@ const AccountListScreen = require(`${SCREEN_DIR}/account_list_screen`);
 const AccountDetailScreen = require(`${SCREEN_DIR}/account_detail_screen`);
 const TrialAccountSearchScreen = require(`${SCREEN_DIR}/trial_account_search_screen`);
 const TrialAccountDetailScreen = require(`${SCREEN_DIR}/trial_account_detail_screen`);
+const TrialAccountCreateScreen = require(`${SCREEN_DIR}/trial_account_create_screen`);
 const ExtractionScreen = require(`${SCREEN_DIR}/extraction/extraction`);
 const InitedCustCdDownloadScreen = require(`${SCREEN_DIR}/extraction/inited_cust_cd_download`);
 const IssueHistoryDownloadScreen = require(`${SCREEN_DIR}/extraction/issue_history_download`);
@@ -2160,6 +2161,7 @@ let testMain = async () => {
         await loginScreen.inputPassword('!QAZ2wsx');
         await loginScreen.clickBtnLogin();
         await trialAccountSearchScreen.clickBtnTrial();
+        await trialAccountSearchScreen.inputAccountId('11');
         await trialAccountSearchScreen.clickBtnTrialAccountSearch();
         // ****************************
         // ** 実行
@@ -2175,10 +2177,8 @@ let testMain = async () => {
         // ファイル読み込み
         const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
         const expected = fs.readFileSync(`${FILES_DIR}/dedicated/expected.csv`).toString();
-
         // ファイル内容の比較
         await assert.deepEqual(actual, expected);
-        //process.exit(0);
         // ****************************
         // ** 後始末
         // ****************************
@@ -2266,6 +2266,42 @@ let testMain = async () => {
         // ** 検証
         // ****************************
         assert.deepEqual(await driver.getCurrentUrl(), url + 'dedicated/trial_search');
+        // ****************************
+        // ** 後始末
+        // ****************************
+      });
+    });
+    describe('お試しアカウント発行画面のテスト', () => {
+      it(' お試しアカウントが発行できること', async () => {
+        // ****************************
+        // ** 準備
+        // ****************************
+        const loginScreen = new LoginScreen(driver);
+        const accountSearchScreen = new AccountSearchScreen(driver);
+        const trialAccountSearchScreen = new TrialAccountSearchScreen(driver);
+        const trialAccountCreateScreen = new TrialAccountCreateScreen(driver);
+        await driver.get(url);
+        await loginScreen.inputCode('admin');
+        await loginScreen.inputPassword('!QAZ2wsx');
+        await loginScreen.clickBtnLogin();
+        await trialAccountSearchScreen.clickBtnTrial();
+        await trialAccountCreateScreen.clickTrialMenuTrialAccountCreate();
+        // ****************************
+        // ** 実行
+        // ****************************
+        await trialAccountCreateScreen.inputCount('1');
+        await trialAccountCreateScreen.clickBtnTrialAccountCreate();
+        sleep.sleep(1);
+        // ****************************
+        // ** 検証
+        // ****************************
+        // ファイル名取得
+        const stdout = execSync(`ls ${downloadPath}`);
+        const csvFilename = stdout.toString().replace("\n", "");
+        // ファイル読み込み
+        const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
+        // ファイル内容の比較
+        await assert.match(actual, /.*/);
         // ****************************
         // ** 後始末
         // ****************************
