@@ -1,5 +1,6 @@
-const { Builder, By, Key, Capabilitiesi, until} = require('selenium-webdriver');
-const AuthedScreen = require(`${__dirname}/../common/authed_screen`);
+const { Builder, By, Key, Capabilitiesi, until } = require('selenium-webdriver');
+const Dir = require('dir');
+const AuthedScreen = require(`${Dir.screenCommon}/authed_screen`);
 
 // データ抽出画面関連操作
 module.exports = class ExtractionScreen extends AuthedScreen {

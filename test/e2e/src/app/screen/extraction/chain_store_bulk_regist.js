@@ -1,5 +1,6 @@
-const { Builder, By, Key, Capabilitiesi, until} = require('selenium-webdriver');
-const AuthedScreen = require(`${__dirname}/../common/authed_screen`);
+const { Builder, By, Key, Capabilitiesi, until } = require('selenium-webdriver');
+const Dir = require('dir');
+const AuthedScreen = require(`${Dir.screenCommon}/authed_screen`);
 
 // データ抽出・USEN CART利用申込済顧客用メールアドレス登録・ID/PW抽出画面
 module.exports = class ChainStoreBulkRegistScreen extends AuthedScreen {

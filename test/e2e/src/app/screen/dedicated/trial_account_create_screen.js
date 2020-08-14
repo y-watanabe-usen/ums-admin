@@ -1,6 +1,6 @@
 const { Builder, By, Key, Capabilities, until } = require('selenium-webdriver');
-
-const AuthedScreen = require(`${__dirname}/common/authed_screen`);
+const Dir = require('dir');
+const AuthedScreen = require(`${Dir.screenCommon}/authed_screen`);
 
 module.exports = class TrialAccountDetailScreen extends AuthedScreen {
 

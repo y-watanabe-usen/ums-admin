@@ -1,5 +1,6 @@
 const { Builder, By, Key, Capabilities } = require('selenium-webdriver');
-const NotAuthedScreen = require(`${__dirname}/common/not_authed_screen`);
+const Dir = require('dir');
+const NotAuthedScreen = require(`${Dir.screenCommon}/not_authed_screen`);
 
 module.exports = class LoginScreen extends NotAuthedScreen {
     get code() {
