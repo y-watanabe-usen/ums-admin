@@ -1548,7 +1548,7 @@ let testMain = async () => {
         const csvFilename = stdout.toString().replace("\n", "");
         // ファイル読み込み
         const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
-        const expected = fs.readFileSync(`${Dir.files}/extraction/inited_cust_cd_download_test_1_expected.csv`).toString();
+        const expected = fs.readFileSync(`${Dir.filesExtraction}/inited_cust_cd_download_test_1_expected.csv`).toString();
 
         // ファイル内容の比較
         await assert.deepEqual(actual, expected);
@@ -1878,7 +1878,7 @@ let testMain = async () => {
         const csvFilename = stdout.toString().replace("\n", "");
         // ファイル読み込み
         const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
-        const expected = fs.readFileSync(`${Dir.files}/extraction/issue_history_download_test_1_expected.csv`).toString();
+        const expected = fs.readFileSync(`${Dir.filesExtraction}/issue_history_download_test_1_expected.csv`).toString();
 
         // ファイル内容の比較
         await assert.deepEqual(actual, expected);
@@ -2193,7 +2193,7 @@ let testMain = async () => {
       //  const csvFilename = stdout.toString().replace("\n", "");
       //  // ファイル読み込み
       //  const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
-      //  const expected = fs.readFileSync(`${Dir.files}/extraction/id_pw_download_test_1_expected.csv`).toString(); // todo: 期待結果CSV作成
+      //  const expected = fs.readFileSync(`${Dir.filesExtraction}/id_pw_download_test_1_expected.csv`).toString(); // todo: 期待結果CSV作成
 
       //  // ファイル内容の比較
       //  await assert.deepEqual(actual, expected);
@@ -2543,7 +2543,7 @@ let testMain = async () => {
         const csvFilename = stdout.toString().replace("\n", "");
         // ファイル読み込み
         const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
-        const expected = fs.readFileSync(`${Dir.files}/dedicated/expected.csv`).toString();
+        const expected = fs.readFileSync(`${Dir.filesDedicated}/expected.csv`).toString();
         // ファイル内容の比較
         await assert.deepEqual(actual, expected);
         // ****************************

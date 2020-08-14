@@ -28,4 +28,10 @@ module.exports = class Dir {
     static get screenDedicated() {
         return `${this.screen}/dedicated`;
     }
+    static get filesExtraction() {
+        return `${this.files}/extraction`;
+    }
+    static get filesDedicated() {
+        return `${this.files}/dedicated`;
+    }
 }
