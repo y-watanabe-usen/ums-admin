@@ -1,5 +1,6 @@
 const { Builder, By, Key, Capabilities, until } = require('selenium-webdriver');
-const AuthedScreen = require(`${__dirname}/common/authed_screen`);
+const Dir = require('dir');
+const AuthedScreen = require(`${Dir.screenCommon}/authed_screen`);
 
 module.exports = class AccountDetailScreen extends AuthedScreen {
 
@@ -270,7 +271,7 @@ module.exports = class AccountDetailScreen extends AuthedScreen {
     get uspotServiceStatus() {
         return this.driver.findElement(By.xpath('//*[@id="grid2"]/tbody/tr[7]/td[10]')).getText();
     }
-    
+
     get conciergeServiceName() {
         return this.driver.findElement(By.xpath('//*[@id="grid2"]/tbody/tr[8]/td[1]')).getText();
     }
@@ -304,7 +305,7 @@ module.exports = class AccountDetailScreen extends AuthedScreen {
     get title() {
         return this.driver.findElement(By.className('main-title')).getText();
     }
-    
+
     async clickBtnAccountDetail() {
         await this.driver.findElement(By.xpath('//*[@id="account_table"]/tbody/tr[2]/td[10]')).click();
     }

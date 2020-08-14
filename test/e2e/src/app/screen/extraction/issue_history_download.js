@@ -1,5 +1,6 @@
-const { Builder, By, Key, Capabilitiesi, until} = require('selenium-webdriver');
-const AuthedScreen = require(`${__dirname}/../common/authed_screen`);
+const { Builder, By, Key, Capabilitiesi, until } = require('selenium-webdriver');
+const Dir = require('dir');
+const AuthedScreen = require(`${Dir.screenCommon}/authed_screen`);
 
 // データ抽出・アカウント証発送履歴抽出
 module.exports = class IssueHistoryDownloadScreen extends AuthedScreen {
@@ -9,7 +10,7 @@ module.exports = class IssueHistoryDownloadScreen extends AuthedScreen {
     }
 
     get from() {
-         return this.driver.findElement(By.name('from')).getAttribute("value");
+        return this.driver.findElement(By.name('from')).getAttribute("value");
     }
 
     get to() {

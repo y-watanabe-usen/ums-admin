@@ -6,26 +6,28 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 var sleep = require('sleep');
 
-const SCREEN_DIR = `${__dirname}/screen`;
-const FILES_DIR = `${__dirname}/files`;
-const CONFIG_DIR = `${__dirname}/config`;
-const LoginScreen = require(`${SCREEN_DIR}/login_screen`);
-const AccountSearchScreen = require(`${SCREEN_DIR}/account_search_screen`);
-const AccountListScreen = require(`${SCREEN_DIR}/account_list_screen`);
-const AccountDetailScreen = require(`${SCREEN_DIR}/account_detail_screen`);
-const TrialAccountSearchScreen = require(`${SCREEN_DIR}/trial_account_search_screen`);
-const TrialAccountDetailScreen = require(`${SCREEN_DIR}/trial_account_detail_screen`);
-const TrialAccountCreateScreen = require(`${SCREEN_DIR}/trial_account_create_screen`);
-const TrialAccountDownloadScreen = require(`${SCREEN_DIR}/trial_account_download_screen`);
-const ExtractionScreen = require(`${SCREEN_DIR}/extraction/extraction`);
-const InitedCustCdDownloadScreen = require(`${SCREEN_DIR}/extraction/inited_cust_cd_download`);
-const IssueHistoryDownloadScreen = require(`${SCREEN_DIR}/extraction/issue_history_download`);
-const IdPwDownloadScreen = require(`${SCREEN_DIR}/extraction/id_pw_download`);
-const MailAddressInitImportScreen = require(`${SCREEN_DIR}/extraction/mail_address_init_import`);
-const ChainStoreBulkRegistScreen = require(`${SCREEN_DIR}/extraction/chain_store_bulk_regist`);
-const AccountServiceDetailScreen = require(`${SCREEN_DIR}/account_service_detail_screen`);
+const Dir = require('dir');
 
-var config = require(`${CONFIG_DIR}/${process.env.CI ? 'ciConfig' : 'localConfig'}`);
+const LoginScreen = require(`${Dir.screenLogin}/login_screen`);
+
+const AccountSearchScreen = require(`${Dir.screenAccount}/account_search_screen`);
+const AccountListScreen = require(`${Dir.screenAccount}/account_list_screen`);
+const AccountDetailScreen = require(`${Dir.screenAccount}/account_detail_screen`);
+const AccountServiceDetailScreen = require(`${Dir.screenAccount}/account_service_detail_screen`);
+
+const ExtractionScreen = require(`${Dir.screenExtraction}/extraction`);
+const InitedCustCdDownloadScreen = require(`${Dir.screenExtraction}/inited_cust_cd_download`);
+const IssueHistoryDownloadScreen = require(`${Dir.screenExtraction}/issue_history_download`);
+const IdPwDownloadScreen = require(`${Dir.screenExtraction}/id_pw_download`);
+const MailAddressInitImportScreen = require(`${Dir.screenExtraction}/mail_address_init_import`);
+const ChainStoreBulkRegistScreen = require(`${Dir.screenExtraction}/chain_store_bulk_regist`);
+
+const TrialAccountSearchScreen = require(`${Dir.screenDedicated}/trial_account_search_screen`);
+const TrialAccountDetailScreen = require(`${Dir.screenDedicated}/trial_account_detail_screen`);
+const TrialAccountCreateScreen = require(`${Dir.screenDedicated}/trial_account_create_screen`);
+const TrialAccountDownloadScreen = require(`${Dir.screenDedicated}/trial_account_download_screen`);
+
+var config = require(`${Dir.config}/${process.env.CI ? 'ciConfig' : 'localConfig'}`);
 
 const url = 'http://ums-admin/';
 const downloadPath = '/tmp/test_data';
@@ -255,12 +257,12 @@ let testMain = async () => {
         await driver.get(url + 'account/search');
         await accountSearchScreen.inputCustCd('admin0001');
         await accountSearchScreen.clickBtnSearch();
-  
+
         // ****************************
         // ** 実行
         // ****************************
         await accountSearchScreen.clickBtnDetail();
-  
+
         // ****************************
         // ** 検証
         // ****************************
@@ -298,12 +300,12 @@ let testMain = async () => {
         assert.deepEqual(await accountListScreen.outputName, '');
         assert.deepEqual(await accountListScreen.outputAddress, '');
         assert.deepEqual(await accountListScreen.outputPerson, '');
-  
+
         // ****************************
         // ** 後始末
         // ****************************
       });
-  
+
       it('一覧へ戻るボタンを押下すると、アカウント検索画面に遷移すること', async () => {
         // ****************************
         // ** 準備
@@ -319,23 +321,23 @@ let testMain = async () => {
         await accountSearchScreen.inputCustCd('admin0002');
         await accountSearchScreen.clickBtnSearch();
         await accountSearchScreen.clickBtnDetail();
-  
+
         // ****************************
         // ** 実行
         // ****************************
         await accountListScreen.clickBtnReturnList();
-  
+
         // ****************************
         // ** 検証
         // ****************************
         assert.deepEqual(await driver.getCurrentUrl(), url + 'account/search');
         assert.deepEqual(await accountSearchScreen.title, 'アカウント検索');
-  
+
         // ****************************
         // ** 後始末
         // ****************************
       });
-  
+
       it('詳細ボタンを押下すると、アカウント詳細画面に遷移すること', async () => {
         // ****************************
         // ** 準備
@@ -351,22 +353,22 @@ let testMain = async () => {
         await accountSearchScreen.inputCustCd('admin0002');
         await accountSearchScreen.clickBtnSearch();
         await accountSearchScreen.clickBtnDetail();
-  
+
         // ****************************
         // ** 実行
         // ****************************
         await accountListScreen.clickBtnDetail();
-  
+
         // ****************************
         // ** 検証
         // ****************************
         assert.deepEqual(await driver.getCurrentUrl(), url + 'account/detail');
-  
+
         // ****************************
         // ** 後始末
         // ****************************
       });
-  
+
       it('未発送のID通知書データが削除されること', async () => {
         // ****************************
         // ** 準備
@@ -382,23 +384,23 @@ let testMain = async () => {
         await accountSearchScreen.inputCustCd('admin0002');
         await accountSearchScreen.clickBtnSearch();
         await accountSearchScreen.clickBtnDetail();
-  
+
         // ****************************
         // ** 実行
         // ****************************
         await accountListScreen.clickBtnShippingDelete();
         await accountListScreen.clickBtnShippingDeleteClose();
-  
+
         // ****************************
         // ** 検証
         // ****************************
         assert.deepEqual(await accountListScreen.deleteTableShippingDate, '');
-  
+
         // ****************************
         // ** 後始末
         // ****************************
       });
-  
+
       it('再送登録をすると、未発送のID通知書データが作られること', async () => {
         // ****************************
         // ** 準備
@@ -415,13 +417,13 @@ let testMain = async () => {
         await accountSearchScreen.clickBtnSearch();
         await accountSearchScreen.clickBtnDetail();
         await accountListScreen.clickBtnReRegist();
-  
+
         // ****************************
         // ** 実行
         // ****************************
         await accountListScreen.clickBtnReRegistSave();
         await accountListScreen.clickBtnReRegistClose();
-  
+
         // ****************************
         // ** 検証
         // ****************************
@@ -431,12 +433,12 @@ let testMain = async () => {
         assert.deepEqual(await accountListScreen.shippingAddress, '〒150-0045 渋谷区神泉町９－８ビル２Ｆ');
         assert.deepEqual(await accountListScreen.destination, '顧客直送');
         assert.deepEqual(await accountListScreen.shippingStatus, '未発送');
-  
+
         // ****************************
         // ** 後始末
         // ****************************
       });
-  
+
       it('ダイレクト出力すると、PDFがダウンロードできてダイレクト出力履歴データが作られること', async () => {
         // ****************************
         // ** 準備
@@ -453,16 +455,16 @@ let testMain = async () => {
         await accountSearchScreen.clickBtnSearch();
         await accountSearchScreen.clickBtnDetail();
         await accountListScreen.clickBtnDirectOutput();
-  
+
         // ****************************
         // ** 実行
         // ****************************
         await accountListScreen.clickBtnDirectOutputSave();
         await accountListScreen.clickBtnDirectOutputClose();
         await driver.navigate().refresh();
-  
+
         var thisMonthFormatted = moment().format('YYYY-MM-DD');
-  
+
         // ****************************
         // ** 検証
         // ****************************
@@ -470,13 +472,13 @@ let testMain = async () => {
         assert.deepEqual(await accountListScreen.addTableDirectOutputName, 'テストデータ0002');
         assert.deepEqual(await accountListScreen.addTableDirectOutputAddress, '〒150-0045 渋谷区神泉町９－８ビル２Ｆ');
         assert.deepEqual(await accountListScreen.addTableDirectOutputPerson, 'システム 管理者(admin)');
-  
+
         // ****************************
         // ** 後始末
         // ****************************
       });
     });
-  
+
     describe('アカウント詳細画面', () => {
       it('画面に表示されている内容が正しいこと', async () => {
         // ****************************
@@ -494,12 +496,12 @@ let testMain = async () => {
         await accountSearchScreen.inputCustCd('admin0001');
         await accountSearchScreen.clickBtnSearch();
         await accountSearchScreen.clickBtnDetail();
-  
+
         // ****************************
         // ** 実行
         // ****************************
         await accountDetailScreen.clickBtnAccountDetail();
-  
+
         // ****************************
         // ** 検証
         // ****************************
@@ -613,12 +615,12 @@ let testMain = async () => {
         assert.deepEqual(await accountDetailScreen.conciergeServiceFirstTimeDate, '');
         assert.deepEqual(await accountDetailScreen.conciergeServiceEndDate, '');
         assert.deepEqual(await accountDetailScreen.conciergeServiceStatus, '');
-  
+
         // ****************************
         // ** 後始末
         // ****************************
       });
-  
+
       it('戻るボタンを押下すると、アカウント一覧画面に遷移すること', async () => {
         // ****************************
         // ** 準備
@@ -636,22 +638,22 @@ let testMain = async () => {
         await accountSearchScreen.clickBtnSearch();
         await accountSearchScreen.clickBtnDetail();
         await accountDetailScreen.clickBtnAccountDetail();
-  
+
         // ****************************
         // ** 実行
         // ****************************
         await accountDetailScreen.clickBtnReturnAccountList();
-  
+
         // ****************************
         // ** 検証
         // ****************************
         assert.deepEqual(await driver.getCurrentUrl(), url + 'account/account_list');
-  
+
         // ****************************
         // ** 後始末
         // ****************************
       });
-  
+
       it('メールアドレス変更すると、メールアドレスが更新されること', async () => {
         // ****************************
         // ** 準備
@@ -669,7 +671,7 @@ let testMain = async () => {
         await accountSearchScreen.clickBtnSearch();
         await accountSearchScreen.clickBtnDetail();
         await accountDetailScreen.clickBtnAccountDetail();
-  
+
         // ****************************
         // ** 実行
         // ****************************
@@ -679,17 +681,17 @@ let testMain = async () => {
         await accountDetailScreen.clickBtnMailAddressChangeSave();
         await accountDetailScreen.clickBtnMailAddressAlertAccept();
         await driver.navigate().refresh();
-  
+
         // ****************************
         // ** 検証
         // ****************************
         assert.deepEqual(await accountDetailScreen.mailAddress, 'test@usen.co.jp');
-  
+
         // ****************************
         // ** 後始末
         // ****************************
       });
-  
+
       it('サービス詳細ボタンを押下すると、サービス詳細画面に遷移すること', async () => {
         // ****************************
         // ** 準備
@@ -707,20 +709,384 @@ let testMain = async () => {
         await accountSearchScreen.clickBtnSearch();
         await accountSearchScreen.clickBtnDetail();
         await accountDetailScreen.clickBtnAccountDetail();
-  
+
         // ****************************
         // ** 実行
         // ****************************
         await accountDetailScreen.clickBtnServiceDetail();
-  
+
         // ****************************
         // ** 検証
         // ****************************
         assert.deepEqual(await driver.getCurrentUrl(), url + 'account/detail_account_stop');
-  
+
         // ****************************
         // ** 後始末
         // ****************************
+      });
+    });
+    describe('サービス詳細画面', () => {
+      it('画面に表示されている内容が正しいこと', async () => {
+        // ****************************
+        // ** 準備
+        // ****************************
+        const loginScreen = new LoginScreen(driver);
+        const accountSearchScreen = new AccountSearchScreen(driver);
+        const accountListScreen = new AccountListScreen(driver);
+        const accountDetailScreen = new AccountDetailScreen(driver);
+        const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
+        await driver.get(url);
+        await loginScreen.inputCode('admin');
+        await loginScreen.inputPassword('!QAZ2wsx');
+        await loginScreen.clickBtnLogin();
+        await driver.get(url + 'account/search');
+        await accountSearchScreen.inputCustCd('admin0001');
+        await accountSearchScreen.clickBtnSearch();
+        await accountSearchScreen.clickBtnDetail();
+        await accountDetailScreen.clickBtnAccountDetail();
+
+        // ****************************
+        // ** 実行
+        // ****************************
+        await accountServiceDetailScreen.clickBtnServiceDetail();
+
+        // ****************************
+        // ** 検証
+        // ****************************
+        // UNIS情報
+        assert.deepEqual(await accountServiceDetailScreen.firstCustCd, 'admin0001');
+        assert.deepEqual(await accountServiceDetailScreen.name, 'テストデータ0001(ﾃｽﾄﾃﾞｰﾀ0001)');
+        assert.deepEqual(await accountServiceDetailScreen.clientStatus, '確定');
+        assert.deepEqual(await accountServiceDetailScreen.address, '〒150-0045 渋谷区神泉町９－８ビル１Ｆ');
+        assert.deepEqual(await accountServiceDetailScreen.tel, '0120-117-448');
+        assert.deepEqual(await accountServiceDetailScreen.branch, '東京統括支店青山(0204140700)');
+        assert.deepEqual(await accountServiceDetailScreen.regularStore, '');
+        assert.deepEqual(await accountServiceDetailScreen.industry, 'その他　会社関連(001699)');
+        assert.deepEqual(await accountServiceDetailScreen.launch, '2014-10-01');
+        assert.deepEqual(await accountServiceDetailScreen.close, '');
+        assert.deepEqual(await accountServiceDetailScreen.cancell, '');
+        assert.deepEqual(await accountServiceDetailScreen.lastUpdate, '2014-11-20 15:21:24');
+        // サービス情報
+        assert.deepEqual(await accountServiceDetailScreen.serviceName, 'USEN CART');
+        assert.deepEqual(await accountServiceDetailScreen.contractNo, '');
+        assert.deepEqual(await accountServiceDetailScreen.StatementNo, '');
+        assert.deepEqual(await accountServiceDetailScreen.contractStatus, '');
+        assert.deepEqual(await accountServiceDetailScreen.billingStartDate, '');
+        assert.deepEqual(await accountServiceDetailScreen.endMonth, '');
+        assert.deepEqual(await accountServiceDetailScreen.contractItem, '');
+        assert.deepEqual(await accountServiceDetailScreen.FixedDate, '');
+        assert.deepEqual(await accountServiceDetailScreen.firstTimeDate, '2014-10-01');
+        assert.deepEqual(await accountServiceDetailScreen.firstAuthDate, '2015-06-02 11:47:59');
+        assert.deepEqual(await accountServiceDetailScreen.endDate, '');
+
+        // ****************************
+        // ** 後始末
+        // ****************************
+      });
+      it('戻るボタンを押下すると、アカウント詳細画面に遷移すること', async () => {
+        // ****************************
+        // ** 準備
+        // ****************************
+        const loginScreen = new LoginScreen(driver);
+        const accountSearchScreen = new AccountSearchScreen(driver);
+        const accountListScreen = new AccountListScreen(driver);
+        const accountDetailScreen = new AccountDetailScreen(driver);
+        const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
+        await driver.get(url);
+        await loginScreen.inputCode('admin');
+        await loginScreen.inputPassword('!QAZ2wsx');
+        await loginScreen.clickBtnLogin();
+        await driver.get(url + 'account/search');
+        await accountSearchScreen.inputCustCd('admin0001');
+        await accountSearchScreen.clickBtnSearch();
+        await accountSearchScreen.clickBtnDetail();
+        await accountDetailScreen.clickBtnAccountDetail();
+        await accountServiceDetailScreen.clickBtnServiceDetail();
+
+        // ****************************
+        // ** 実行
+        // ****************************
+        await accountServiceDetailScreen.clickBtnReturnDetail();
+
+        // ****************************
+        // ** 検証
+        // ****************************
+        assert.deepEqual(await driver.getCurrentUrl(), url + 'account/detail');
+
+        // ****************************
+        // ** 後始末
+        // ****************************
+      });
+      it('強制開錠すると、サービスが利用不可から利用可能に更新されること', async () => {
+        // ****************************
+        // ** 準備
+        // ****************************
+        const loginScreen = new LoginScreen(driver);
+        const accountSearchScreen = new AccountSearchScreen(driver);
+        const accountListScreen = new AccountListScreen(driver);
+        const accountDetailScreen = new AccountDetailScreen(driver);
+        const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
+        await driver.get(url);
+        await loginScreen.inputCode('admin');
+        await loginScreen.inputPassword('!QAZ2wsx');
+        await loginScreen.clickBtnLogin();
+        await driver.get(url + 'account/search');
+        await accountSearchScreen.inputCustCd('admin0009');
+        await accountSearchScreen.clickBtnSearch();
+        await accountSearchScreen.clickBtnDetail();
+        await accountDetailScreen.clickBtnAccountDetail();
+        await accountServiceDetailScreen.clickBtnServiceDetail();
+
+        // ****************************
+        // ** 実行
+        // ****************************
+        await accountServiceDetailScreen.clickBtnForcedUnlock();
+        await accountServiceDetailScreen.clickBtnForcedUnlockSave();
+        await accountServiceDetailScreen.clickBtnForcedUnlockClose();
+
+        // ****************************
+        // ** 検証
+        // ****************************
+        assert.deepEqual(await accountServiceDetailScreen.serviceEnable, false);
+
+        // ****************************
+        // ** 後始末
+        // ****************************
+        const mysql = require('mysql');
+        const connection = mysql.createConnection(config.serverConf);
+
+        connection.connect();
+
+        // DB接続出来なければエラー表示
+        connection.on('error', function (err) {
+          console.log('DB CONNECT ERROR', err);
+        });
+
+        // status_flagを1に戻す
+        connection.query('UPDATE t_unis_service SET status_flag="1" WHERE id="9"', function (err, result) {
+          if (err) {
+            // UPDATEに失敗したら戻す
+            connection.rollback(function () {
+              throw err;
+            });
+          }
+        });
+
+        connection.end();
+      });
+      it('休店登録できること', async () => {
+        // ****************************
+        // ** 準備
+        // ****************************
+        const loginScreen = new LoginScreen(driver);
+        const accountSearchScreen = new AccountSearchScreen(driver);
+        const accountListScreen = new AccountListScreen(driver);
+        const accountDetailScreen = new AccountDetailScreen(driver);
+        const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
+        await driver.get(url);
+        await loginScreen.inputCode('admin');
+        await loginScreen.inputPassword('!QAZ2wsx');
+        await loginScreen.clickBtnLogin();
+        await driver.get(url + 'account/search');
+        await accountSearchScreen.inputCustCd('admin0001');
+        await accountSearchScreen.clickBtnSearch();
+        await accountSearchScreen.clickBtnDetail();
+        await accountDetailScreen.clickBtnAccountDetail();
+        await accountServiceDetailScreen.clickBtnServiceDetail();
+        await accountServiceDetailScreen.clickBtnAddClosedRegist();
+
+        // ****************************
+        // ** 実行
+        // ****************************
+        var thisMonthFormatted = moment().format("YYYY/MM/DD");
+        await accountServiceDetailScreen.inputStopTo(thisMonthFormatted);
+        await accountServiceDetailScreen.clickBtnAddClosedRegistSave();
+        await accountServiceDetailScreen.clickBtnAddClosedRegistClose();
+
+        // ****************************
+        // ** 検証
+        // ****************************
+        assert.deepEqual(await accountServiceDetailScreen.closedStore, '休店');
+
+        // ****************************
+        // ** 後始末
+        // ****************************
+        // TODO: 「休店解除できること」のテストを復活したらこの後始末は削除
+        const mysql = require('mysql');
+        const connection = mysql.createConnection(config.serverConf);
+
+        connection.connect();
+
+        // DB接続出来なければエラー表示
+        connection.on('error', function (err) {
+          console.log('DB CONNECT ERROR', err);
+        });
+
+        // t_service_stop_historyのレコードを削除
+        connection.query('DELETE FROM  t_service_stop_history LIMIT 1', function (err, result) {
+          if (err) {
+            // DELETEに失敗したら戻す
+            connection.rollback(function () {
+              throw err;
+            });
+          }
+        });
+
+        connection.end();
+      });
+      it.skip('休店解除できること', async () => {
+        // ****************************
+        // ** 準備
+        // ****************************
+        const loginScreen = new LoginScreen(driver);
+        const accountSearchScreen = new AccountSearchScreen(driver);
+        const accountListScreen = new AccountListScreen(driver);
+        const accountDetailScreen = new AccountDetailScreen(driver);
+        const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
+        await driver.get(url);
+        await loginScreen.inputCode('admin');
+        await loginScreen.inputPassword('!QAZ2wsx');
+        await loginScreen.clickBtnLogin();
+        await driver.get(url + 'account/search');
+        await accountSearchScreen.inputCustCd('admin0001');
+        await accountSearchScreen.clickBtnSearch();
+        await accountSearchScreen.clickBtnDetail();
+        await accountDetailScreen.clickBtnAccountDetail();
+        await accountServiceDetailScreen.clickBtnServiceDetail();
+
+        // ****************************
+        // ** 実行
+        // ****************************
+        await accountServiceDetailScreen.clickBtnAddForcedUnlock();
+        await accountServiceDetailScreen.clickBtnUnlockSave();
+        await accountServiceDetailScreen.clickBtnUnlockClose();
+
+        // ****************************
+        // ** 検証
+        // ****************************
+        assert.deepEqual(await accountServiceDetailScreen.forcedUnlockDisable, '');
+
+        // ****************************
+        // ** 後始末
+        // ****************************
+        const mysql = require('mysql');
+        const connection = mysql.createConnection(config.serverConf);
+
+        connection.connect();
+
+        // DB接続出来なければエラー表示
+        connection.on('error', function (err) {
+          console.log('DB CONNECT ERROR', err);
+        });
+
+        // t_service_stop_historyのレコードを削除
+        connection.query('DELETE FROM  t_service_stop_history LIMIT 1', function (err, result) {
+          if (err) {
+            // DELETEに失敗したら戻す
+            connection.rollback(function () {
+              throw err;
+            });
+          }
+        });
+
+        connection.end();
+      });
+      it.skip('強制施錠登録できること', async () => {
+        // ****************************
+        // ** 準備
+        // ****************************
+        const loginScreen = new LoginScreen(driver);
+        const accountSearchScreen = new AccountSearchScreen(driver);
+        const accountListScreen = new AccountListScreen(driver);
+        const accountDetailScreen = new AccountDetailScreen(driver);
+        const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
+        await driver.get(url);
+        await loginScreen.inputCode('admin');
+        await loginScreen.inputPassword('!QAZ2wsx');
+        await loginScreen.clickBtnLogin();
+        await driver.get(url + 'account/search');
+        await accountSearchScreen.inputCustCd('admin0001');
+        await accountSearchScreen.clickBtnSearch();
+        await accountSearchScreen.clickBtnDetail();
+        await accountDetailScreen.clickBtnAccountDetail();
+        await accountServiceDetailScreen.clickBtnServiceDetail();
+        await accountServiceDetailScreen.clickBtnAddClosedRegist();
+
+        // ****************************
+        // ** 実行
+        // ****************************
+        await accountServiceDetailScreen.stopDivision();
+        var thisMonthFormatted = moment().format("YYYY/MM/DD");
+        await accountServiceDetailScreen.inputStopTo(thisMonthFormatted);
+        await accountServiceDetailScreen.clickBtnTable();
+        await accountServiceDetailScreen.clickBtnAddClosedRegistSave();
+        await accountServiceDetailScreen.clickBtnAddClosedRegistClose();
+
+        // ****************************
+        // ** 検証
+        // ****************************
+        assert.deepEqual(await accountServiceDetailScreen.closedStore, '強制施錠');
+
+        // ****************************
+        // ** 後始末
+        // ****************************
+      });
+      it.skip('強制施錠解除できること', async () => {
+        // ****************************
+        // ** 準備
+        // ****************************
+        const loginScreen = new LoginScreen(driver);
+        const accountSearchScreen = new AccountSearchScreen(driver);
+        const accountListScreen = new AccountListScreen(driver);
+        const accountDetailScreen = new AccountDetailScreen(driver);
+        const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
+        await driver.get(url);
+        await loginScreen.inputCode('admin');
+        await loginScreen.inputPassword('!QAZ2wsx');
+        await loginScreen.clickBtnLogin();
+        await driver.get(url + 'account/search');
+        await accountSearchScreen.inputCustCd('admin0001');
+        await accountSearchScreen.clickBtnSearch();
+        await accountSearchScreen.clickBtnDetail();
+        await accountDetailScreen.clickBtnAccountDetail();
+        await accountServiceDetailScreen.clickBtnServiceDetail();
+
+        // ****************************
+        // ** 実行
+        // ****************************
+        await accountServiceDetailScreen.clickBtnAddForcedUnlock();
+        await accountServiceDetailScreen.clickBtnUnlockSave();
+        await accountServiceDetailScreen.clickBtnUnlockClose();
+
+        // ****************************
+        // ** 検証
+        // ****************************
+        assert.deepEqual(await accountServiceDetailScreen.forcedUnlockDisable, '');
+
+        // ****************************
+        // ** 後始末
+        // ****************************
+        const mysql = require('mysql');
+        const connection = mysql.createConnection(config.serverConf);
+
+        connection.connect();
+
+        // DB接続出来なければエラー表示
+        connection.on('error', function (err) {
+          console.log('DB CONNECT ERROR', err);
+        });
+
+        // t_service_stop_historyのレコードを削除
+        connection.query('DELETE FROM  t_service_stop_history LIMIT 1', function (err, result) {
+          if (err) {
+            // DELETEに失敗したら戻す
+            connection.rollback(function () {
+              throw err;
+            });
+          }
+        });
+
+        connection.end();
       });
     });
   });
@@ -1182,7 +1548,7 @@ let testMain = async () => {
         const csvFilename = stdout.toString().replace("\n", "");
         // ファイル読み込み
         const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
-        const expected = fs.readFileSync(`${FILES_DIR}/extraction/inited_cust_cd_download_test_1_expected.csv`).toString();
+        const expected = fs.readFileSync(`${Dir.filesExtraction}/inited_cust_cd_download_test_1_expected.csv`).toString();
 
         // ファイル内容の比較
         await assert.deepEqual(actual, expected);
@@ -1483,10 +1849,10 @@ let testMain = async () => {
         // ****************************
       });
 
-     it('アカウント証発送履歴データが抽出され、ファイルがダウンロードされていることを確認', async () => {
-       // ****************************
-       // ** 準備
-       // ****************************
+      it('アカウント証発送履歴データが抽出され、ファイルがダウンロードされていることを確認', async () => {
+        // ****************************
+        // ** 準備
+        // ****************************
         const loginScreen = new LoginScreen(driver);
         const extractionScreen = new ExtractionScreen(driver);
         const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
@@ -1497,30 +1863,30 @@ let testMain = async () => {
         await loginScreen.clickBtnLogin();
         await initedCustCdDownloadScreen.clickTabExtraction();
         await extractionScreen.clickExtractionMenuIssueHistoryDownload();
-     
-       // ****************************
-       // ** 実行
-       // ****************************
-       await issueHistoryDownloadScreen.clickBtnDownload();
-       sleep.sleep(1);
- 
-       // ****************************
-       // ** 検証
-       // ****************************
+
+        // ****************************
+        // ** 実行
+        // ****************************
+        await issueHistoryDownloadScreen.clickBtnDownload();
+        sleep.sleep(1);
+
+        // ****************************
+        // ** 検証
+        // ****************************
         // ファイル名取得
         const stdout = execSync(`ls ${downloadPath}`);
         const csvFilename = stdout.toString().replace("\n", "");
         // ファイル読み込み
         const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
-        const expected = fs.readFileSync(`${FILES_DIR}/extraction/issue_history_download_test_1_expected.csv`).toString();
+        const expected = fs.readFileSync(`${Dir.filesExtraction}/issue_history_download_test_1_expected.csv`).toString();
 
         // ファイル内容の比較
         await assert.deepEqual(actual, expected);
 
-       // ****************************
-       // ** 後始末
-       // ****************************
-     });
+        // ****************************
+        // ** 後始末
+        // ****************************
+      });
     });
 
     describe('ID/PW抽出（顧客CD指定）のテスト', () => {
@@ -1827,7 +2193,7 @@ let testMain = async () => {
       //  const csvFilename = stdout.toString().replace("\n", "");
       //  // ファイル読み込み
       //  const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
-      //  const expected = fs.readFileSync(`${FILES_DIR}/extraction/id_pw_download_test_1_expected.csv`).toString(); // todo: 期待結果CSV作成
+      //  const expected = fs.readFileSync(`${Dir.filesExtraction}/id_pw_download_test_1_expected.csv`).toString(); // todo: 期待結果CSV作成
 
       //  // ファイル内容の比較
       //  await assert.deepEqual(actual, expected);
@@ -1951,7 +2317,7 @@ let testMain = async () => {
       //    });
     });
 
-    describe('USEN CART利用申込済顧客用メールアドレス登録・ID/PW抽出画面画面のテスト', () => {
+    describe('USEN CART利用申込済顧客用メールアドレス登録・ID/PW抽出画面のテスト', () => {
       it('データ抽出画面のメニューからメールアドレス初回登録・仮ID/PW抽出を押下しUSEN CART利用申込済顧客用メールアドレス登録・ID/PW抽出画面が表示されること', async () => {
         // ****************************
         // ** 準備
@@ -2177,7 +2543,7 @@ let testMain = async () => {
         const csvFilename = stdout.toString().replace("\n", "");
         // ファイル読み込み
         const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
-        const expected = fs.readFileSync(`${FILES_DIR}/dedicated/expected.csv`).toString();
+        const expected = fs.readFileSync(`${Dir.filesDedicated}/expected.csv`).toString();
         // ファイル内容の比較
         await assert.deepEqual(actual, expected);
         // ****************************
@@ -2345,348 +2711,6 @@ let testMain = async () => {
     });
   });
 
-  describe('サービス詳細画面', () => {
-    it('画面に表示されている内容が正しいこと', async () => {
-      // ****************************
-      // ** 準備
-      // ****************************
-      const loginScreen = new LoginScreen(driver);
-      const accountSearchScreen = new AccountSearchScreen(driver);
-      const accountListScreen = new AccountListScreen(driver);
-      const accountDetailScreen = new AccountDetailScreen(driver);
-      const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
-      await driver.get(url);
-      await loginScreen.inputCode('admin');
-      await loginScreen.inputPassword('!QAZ2wsx');
-      await loginScreen.clickBtnLogin();
-      await driver.get(url + 'account/search');
-      await accountSearchScreen.inputCustCd('admin0001');
-      await accountSearchScreen.clickBtnSearch();
-      await accountSearchScreen.clickBtnDetail();
-      await accountDetailScreen.clickBtnAccountDetail();
-
-      // ****************************
-      // ** 実行
-      // ****************************
-      await accountServiceDetailScreen.clickBtnServiceDetail();
-
-      // ****************************
-      // ** 検証
-      // ****************************
-      // UNIS情報
-      assert.deepEqual(await accountServiceDetailScreen.firstCustCd, 'admin0001');
-      assert.deepEqual(await accountServiceDetailScreen.name, 'テストデータ0001(ﾃｽﾄﾃﾞｰﾀ0001)');
-      assert.deepEqual(await accountServiceDetailScreen.clientStatus, '確定');
-      assert.deepEqual(await accountServiceDetailScreen.address, '〒150-0045 渋谷区神泉町９－８ビル１Ｆ');
-      assert.deepEqual(await accountServiceDetailScreen.tel, '0120-117-448');
-      assert.deepEqual(await accountServiceDetailScreen.branch, '東京統括支店青山(0204140700)');
-      assert.deepEqual(await accountServiceDetailScreen.regularStore, '');
-      assert.deepEqual(await accountServiceDetailScreen.industry, 'その他　会社関連(001699)');
-      assert.deepEqual(await accountServiceDetailScreen.launch, '2014-10-01');
-      assert.deepEqual(await accountServiceDetailScreen.close, '');
-      assert.deepEqual(await accountServiceDetailScreen.cancell, '');
-      assert.deepEqual(await accountServiceDetailScreen.lastUpdate, '2014-11-20 15:21:24');
-      // サービス情報
-      assert.deepEqual(await accountServiceDetailScreen.serviceName, 'USEN CART');
-      assert.deepEqual(await accountServiceDetailScreen.contractNo, '');
-      assert.deepEqual(await accountServiceDetailScreen.StatementNo, '');
-      assert.deepEqual(await accountServiceDetailScreen.contractStatus, '');
-      assert.deepEqual(await accountServiceDetailScreen.billingStartDate, '');
-      assert.deepEqual(await accountServiceDetailScreen.endMonth, '');
-      assert.deepEqual(await accountServiceDetailScreen.contractItem, '');
-      assert.deepEqual(await accountServiceDetailScreen.FixedDate, '');
-      assert.deepEqual(await accountServiceDetailScreen.firstTimeDate, '2014-10-01');
-      assert.deepEqual(await accountServiceDetailScreen.firstAuthDate, '2015-06-02 11:47:59');
-      assert.deepEqual(await accountServiceDetailScreen.endDate, '');
-
-      // ****************************
-      // ** 後始末
-      // ****************************
-    });
-    it('戻るボタンを押下すると、アカウント詳細画面に遷移すること', async () => {
-      // ****************************
-      // ** 準備
-      // ****************************
-      const loginScreen = new LoginScreen(driver);
-      const accountSearchScreen = new AccountSearchScreen(driver);
-      const accountListScreen = new AccountListScreen(driver);
-      const accountDetailScreen = new AccountDetailScreen(driver);
-      const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
-      await driver.get(url);
-      await loginScreen.inputCode('admin');
-      await loginScreen.inputPassword('!QAZ2wsx');
-      await loginScreen.clickBtnLogin();
-      await driver.get(url + 'account/search');
-      await accountSearchScreen.inputCustCd('admin0001');
-      await accountSearchScreen.clickBtnSearch();
-      await accountSearchScreen.clickBtnDetail();
-      await accountDetailScreen.clickBtnAccountDetail();
-      await accountServiceDetailScreen.clickBtnServiceDetail();
-
-      // ****************************
-      // ** 実行
-      // ****************************
-      await accountServiceDetailScreen.clickBtnReturnDetail();
-
-      // ****************************
-      // ** 検証
-      // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), url + 'account/detail');
-
-      // ****************************
-      // ** 後始末
-      // ****************************
-    });
-    it('強制開錠すると、サービスが利用不可から利用可能に更新されること', async () => {
-      // ****************************
-      // ** 準備
-      // ****************************
-      const loginScreen = new LoginScreen(driver);
-      const accountSearchScreen = new AccountSearchScreen(driver);
-      const accountListScreen = new AccountListScreen(driver);
-      const accountDetailScreen = new AccountDetailScreen(driver);
-      const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
-      await driver.get(url);
-      await loginScreen.inputCode('admin');
-      await loginScreen.inputPassword('!QAZ2wsx');
-      await loginScreen.clickBtnLogin();
-      await driver.get(url + 'account/search');
-      await accountSearchScreen.inputCustCd('admin0009');
-      await accountSearchScreen.clickBtnSearch();
-      await accountSearchScreen.clickBtnDetail();
-      await accountDetailScreen.clickBtnAccountDetail();
-      await accountServiceDetailScreen.clickBtnServiceDetail();
-
-      // ****************************
-      // ** 実行
-      // ****************************
-      await accountServiceDetailScreen.clickBtnForcedUnlock();
-      await accountServiceDetailScreen.clickBtnForcedUnlockSave();
-      await accountServiceDetailScreen.clickBtnForcedUnlockClose();
-
-      // ****************************
-      // ** 検証
-      // ****************************
-      assert.deepEqual(await accountServiceDetailScreen.serviceEnable, false);
-
-      // ****************************
-      // ** 後始末
-      // ****************************
-      const mysql = require('mysql');
-      const connection = mysql.createConnection(config.serverConf);
-      
-      connection.connect();
-
-      // DB接続出来なければエラー表示
-      connection.on('error', function(err) {
-        console.log('DB CONNECT ERROR', err);
-      });
-
-      // status_flagを1に戻す
-      connection.query('UPDATE t_unis_service SET status_flag="1" WHERE id="9"', function(err, result) {
-        if (err) {
-          // UPDATEに失敗したら戻す
-          connection.rollback(function() {
-            throw err;
-          });
-        }
-      });
-
-      connection.end();
-    });
-    it('休店登録できること', async () => {
-      // ****************************
-      // ** 準備
-      // ****************************
-      const loginScreen = new LoginScreen(driver);
-      const accountSearchScreen = new AccountSearchScreen(driver);
-      const accountListScreen = new AccountListScreen(driver);
-      const accountDetailScreen = new AccountDetailScreen(driver);
-      const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
-      await driver.get(url);
-      await loginScreen.inputCode('admin');
-      await loginScreen.inputPassword('!QAZ2wsx');
-      await loginScreen.clickBtnLogin();
-      await driver.get(url + 'account/search');
-      await accountSearchScreen.inputCustCd('admin0001');
-      await accountSearchScreen.clickBtnSearch();
-      await accountSearchScreen.clickBtnDetail();
-      await accountDetailScreen.clickBtnAccountDetail();
-      await accountServiceDetailScreen.clickBtnServiceDetail();
-      await accountServiceDetailScreen.clickBtnAddClosedRegist();
-
-      // ****************************
-      // ** 実行
-      // ****************************
-      var thisMonthFormatted = moment().format("YYYY/MM/DD");
-      await accountServiceDetailScreen.inputStopTo(thisMonthFormatted);
-      await accountServiceDetailScreen.clickBtnAddClosedRegistSave();
-      await accountServiceDetailScreen.clickBtnAddClosedRegistClose();
-
-      // ****************************
-      // ** 検証
-      // ****************************
-      assert.deepEqual(await accountServiceDetailScreen.closedStore, '休店');
-
-      // ****************************
-      // ** 後始末
-      // ****************************
-    });
-    it.skip('休店解除できること', async () => {
-      // ****************************
-      // ** 準備
-      // ****************************
-      const loginScreen = new LoginScreen(driver);
-      const accountSearchScreen = new AccountSearchScreen(driver);
-      const accountListScreen = new AccountListScreen(driver);
-      const accountDetailScreen = new AccountDetailScreen(driver);
-      const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
-      await driver.get(url);
-      await loginScreen.inputCode('admin');
-      await loginScreen.inputPassword('!QAZ2wsx');
-      await loginScreen.clickBtnLogin();
-      await driver.get(url + 'account/search');
-      await accountSearchScreen.inputCustCd('admin0001');
-      await accountSearchScreen.clickBtnSearch();
-      await accountSearchScreen.clickBtnDetail();
-      await accountDetailScreen.clickBtnAccountDetail();
-      await accountServiceDetailScreen.clickBtnServiceDetail();
-
-      // ****************************
-      // ** 実行
-      // ****************************
-      await accountServiceDetailScreen.clickBtnAddForcedUnlock();
-      await accountServiceDetailScreen.clickBtnUnlockSave();
-      await accountServiceDetailScreen.clickBtnUnlockClose();
-
-      // ****************************
-      // ** 検証
-      // ****************************
-      assert.deepEqual(await accountServiceDetailScreen.forcedUnlockDisable, '');
-
-      // ****************************
-      // ** 後始末
-      // ****************************
-      const mysql = require('mysql');
-      const connection = mysql.createConnection(config.serverConf);
-      
-      connection.connect();
-
-      // DB接続出来なければエラー表示
-      connection.on('error', function(err) {
-        console.log('DB CONNECT ERROR', err);
-      });
-
-      // t_service_stop_historyのレコードを削除
-      connection.query('DELETE FROM  t_service_stop_history LIMIT 1', function(err, result) {
-        if (err) {
-          // DELETEに失敗したら戻す
-          connection.rollback(function() {
-            throw err;
-          });
-        }
-      });
-
-      connection.end();
-    });
-    it.skip('強制施錠登録できること', async () => {
-      // ****************************
-      // ** 準備
-      // ****************************
-      const loginScreen = new LoginScreen(driver);
-      const accountSearchScreen = new AccountSearchScreen(driver);
-      const accountListScreen = new AccountListScreen(driver);
-      const accountDetailScreen = new AccountDetailScreen(driver);
-      const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
-      await driver.get(url);
-      await loginScreen.inputCode('admin');
-      await loginScreen.inputPassword('!QAZ2wsx');
-      await loginScreen.clickBtnLogin();
-      await driver.get(url + 'account/search');
-      await accountSearchScreen.inputCustCd('admin0001');
-      await accountSearchScreen.clickBtnSearch();
-      await accountSearchScreen.clickBtnDetail();
-      await accountDetailScreen.clickBtnAccountDetail();
-      await accountServiceDetailScreen.clickBtnServiceDetail();
-      await accountServiceDetailScreen.clickBtnAddClosedRegist();
-
-      // ****************************
-      // ** 実行
-      // ****************************
-      await accountServiceDetailScreen.stopDivision();
-      var thisMonthFormatted = moment().format("YYYY/MM/DD");
-      await accountServiceDetailScreen.inputStopTo(thisMonthFormatted);
-      await accountServiceDetailScreen.clickBtnTable();
-      await accountServiceDetailScreen.clickBtnAddClosedRegistSave();
-      await accountServiceDetailScreen.clickBtnAddClosedRegistClose();
-
-      // ****************************
-      // ** 検証
-      // ****************************
-      assert.deepEqual(await accountServiceDetailScreen.closedStore, '強制施錠');
-
-      // ****************************
-      // ** 後始末
-      // ****************************
-    });
-    it.skip('強制施錠解除できること', async () => {
-      // ****************************
-      // ** 準備
-      // ****************************
-      const loginScreen = new LoginScreen(driver);
-      const accountSearchScreen = new AccountSearchScreen(driver);
-      const accountListScreen = new AccountListScreen(driver);
-      const accountDetailScreen = new AccountDetailScreen(driver);
-      const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
-      await driver.get(url);
-      await loginScreen.inputCode('admin');
-      await loginScreen.inputPassword('!QAZ2wsx');
-      await loginScreen.clickBtnLogin();
-      await driver.get(url + 'account/search');
-      await accountSearchScreen.inputCustCd('admin0001');
-      await accountSearchScreen.clickBtnSearch();
-      await accountSearchScreen.clickBtnDetail();
-      await accountDetailScreen.clickBtnAccountDetail();
-      await accountServiceDetailScreen.clickBtnServiceDetail();
-
-      // ****************************
-      // ** 実行
-      // ****************************
-      await accountServiceDetailScreen.clickBtnAddForcedUnlock();
-      await accountServiceDetailScreen.clickBtnUnlockSave();
-      await accountServiceDetailScreen.clickBtnUnlockClose();
-
-      // ****************************
-      // ** 検証
-      // ****************************
-      assert.deepEqual(await accountServiceDetailScreen.forcedUnlockDisable, '');
-
-      // ****************************
-      // ** 後始末
-      // ****************************
-      const mysql = require('mysql');
-      const connection = mysql.createConnection(config.serverConf);
-      
-      connection.connect();
-
-      // DB接続出来なければエラー表示
-      connection.on('error', function(err) {
-        console.log('DB CONNECT ERROR', err);
-      });
-
-      // t_service_stop_historyのレコードを削除
-      connection.query('DELETE FROM  t_service_stop_history LIMIT 1', function(err, result) {
-        if (err) {
-          // DELETEに失敗したら戻す
-          connection.rollback(function() {
-            throw err;
-          });
-        }
-      });
-
-      connection.end();
-    });
-  });
 
   describe('支店別顧客管理', () => {
   });
