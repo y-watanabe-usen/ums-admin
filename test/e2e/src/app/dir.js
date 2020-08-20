@@ -13,6 +13,9 @@ module.exports = class Dir {
     static get config() {
         return `${this.home}/config`;
     }
+    static get tests() {
+        return `${this.home}/tests`;
+    }
     static get screenCommon() {
         return `${this.screen}/common`;
     }

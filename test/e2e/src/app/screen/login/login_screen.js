@@ -1,4 +1,4 @@
-const { Builder, By, Key, Capabilities } = require('selenium-webdriver');
+const { Builder, By, Key, Capabilities, until} = require('selenium-webdriver');
 const Dir = require('dir');
 const NotAuthedScreen = require(`${Dir.screenCommon}/not_authed_screen`);
 
