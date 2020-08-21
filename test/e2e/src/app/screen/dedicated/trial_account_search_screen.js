@@ -15,6 +15,10 @@ module.exports = class TrialAccountSearchScreen extends AuthedScreen {
         return this.driver.findElement(By.xpath('//*[@id="p1"]/table/tbody/tr[6]/td')).getText();
     }
 
+    get firstLoginId() {
+        return this.driver.findElement(By.xpath('//*[@id="search_table"]/tbody/tr/td[2]')).getText();
+    }
+
     get firstAccountId() {
         return this.driver.findElement(By.xpath('//*[@id="search_table"]/tbody/tr[1]/td[1]')).getText();
     }
@@ -42,6 +46,10 @@ module.exports = class TrialAccountSearchScreen extends AuthedScreen {
 
     async clickBtnDownload() {
         await this.driver.findElement(By.id('bt_download')).click();
+    }
+
+    async inputLoginId(loginId) {
+        await this.driver.findElement(By.id('login_id')).sendKeys(loginId);
     }
 
     async inputAccountId(accountId) {

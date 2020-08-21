@@ -3,6 +3,7 @@ const remote = require('selenium-webdriver/remote');
 const assert = require('assert');
 const { execSync } = require('child_process');
 const fs = require('fs');
+const moment = require('moment');
 var sleep = require('sleep');
 
 const Dir = require('dir');
@@ -12,6 +13,11 @@ const TrialAccountSearchScreen = require(`${Dir.screenDedicated}/trial_account_s
 const TrialAccountDetailScreen = require(`${Dir.screenDedicated}/trial_account_detail_screen`);
 const TrialAccountCreateScreen = require(`${Dir.screenDedicated}/trial_account_create_screen`);
 const TrialAccountDownloadScreen = require(`${Dir.screenDedicated}/trial_account_download_screen`);
+const DemoAccountSearchScreen = require(`${Dir.screenDedicated}/demo_account_search_screen`);
+const DemoAccountCreateScreen = require(`${Dir.screenDedicated}/demo_account_create_screen`);
+const DemoAccountDownloadScreen = require(`${Dir.screenDedicated}/demo_account_download_screen`);
+
+var config = require(`${Dir.config}/${process.env.CI ? 'ciConfig' : 'localConfig'}`);
 
 const url = 'http://ums-admin/';
 const downloadPath = '/tmp/test_data';
@@ -49,6 +55,32 @@ exports.trialAccountSearch = function() {
           // ****************************
         });
         it('ログインIDを検索条件に指定して検索が出来ること', async () => {
+          // ****************************
+          // ** 準備
+          // ****************************
+          const loginScreen = new LoginScreen(driver);
+          const accountSearchScreen = new AccountSearchScreen(driver);
+          const trialAccountSearchScreen = new TrialAccountSearchScreen(driver);
+          await driver.get(url);
+          await loginScreen.inputCode('admin');
+          await loginScreen.inputPassword('!QAZ2wsx');
+          await loginScreen.clickBtnLogin();
+          await trialAccountSearchScreen.clickBtnTrial();
+          // ****************************
+          // ** 実行
+          // ****************************
+          await trialAccountSearchScreen.inputLoginId('LJnaK2');
+          await trialAccountSearchScreen.clickBtnTrialAccountSearch();
+          // ****************************
+          // ** 検証
+          // ****************************
+          assert.deepEqual(await driver.getCurrentUrl(), url + 'dedicated/trial_search/');
+          assert.deepEqual(await trialAccountSearchScreen.firstLoginId, 'LJnaK2');
+          // ****************************
+          // ** 後始末
+          // ****************************
+        });
+        it('アカウントIDを検索条件に指定して検索が出来ること', async () => {
           // ****************************
           // ** 準備
           // ****************************
@@ -262,6 +294,192 @@ exports.trialAccountSearch = function() {
           const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
           // ファイル内容の比較
           await assert.match(actual, /(.*),(.*),(.*),(.*),(.*)\r\n[A-z0-9]{6},[A-z0-9]{8},USEN,[0-9]+,[0-9]+/);
+          // ****************************
+          // ** 後始末
+          // ****************************
+        });
+      });
+      describe('デモアカウント検索画面のテスト', () => {
+        it('検索条件無しで検索が出来ること', async () => {
+          // ****************************
+          // ** 準備
+          // ****************************
+          const loginScreen = new LoginScreen(driver);
+          const accountSearchScreen = new AccountSearchScreen(driver);
+          const trialAccountSearchScreen = new TrialAccountSearchScreen(driver);
+          const demoAccountSearchScreen = new DemoAccountSearchScreen(driver);
+          await driver.get(url);
+          await loginScreen.inputCode('admin');
+          await loginScreen.inputPassword('!QAZ2wsx');
+          await loginScreen.clickBtnLogin();
+          await trialAccountSearchScreen.clickBtnTrial();
+          await demoAccountSearchScreen.clickTrialMenuDemoAccountSearch();
+          // ****************************
+          // ** 実行
+          // ****************************
+          await demoAccountSearchScreen.clickBtnDemoAccountSearch();
+          // ****************************
+          // ** 検証
+          // ****************************
+          assert.deepEqual(await driver.getCurrentUrl(), url + 'dedicated/demo_search/');
+          assert.deepEqual(await demoAccountSearchScreen.firstLoginId, 'NGXAL5');
+          // ****************************
+          // ** 後始末
+          // ****************************
+        });
+        it('ログインIDを検索条件に指定して検索が出来ること', async () => {
+          // ****************************
+          // ** 準備
+          // ****************************
+          const loginScreen = new LoginScreen(driver);
+          const accountSearchScreen = new AccountSearchScreen(driver);
+          const trialAccountSearchScreen = new TrialAccountSearchScreen(driver);
+          const demoAccountSearchScreen = new DemoAccountSearchScreen(driver);
+          await driver.get(url);
+          await loginScreen.inputCode('admin');
+          await loginScreen.inputPassword('!QAZ2wsx');
+          await loginScreen.clickBtnLogin();
+          await trialAccountSearchScreen.clickBtnTrial();
+          await demoAccountSearchScreen.clickTrialMenuDemoAccountSearch();
+          // ****************************
+          // ** 実行
+          // ****************************
+          await demoAccountSearchScreen.inputLoginId('kCFjZB');
+          await demoAccountSearchScreen.clickBtnDemoAccountSearch();
+          // ****************************
+          // ** 検証
+          // ****************************
+          assert.deepEqual(await driver.getCurrentUrl(), url + 'dedicated/demo_search/');
+          assert.deepEqual(await demoAccountSearchScreen.firstLoginId, 'kCFjZB');
+          // ****************************
+          // ** 後始末
+          // ****************************
+        });
+        it('停止ボタンを押下すると、アカウント停止が出来ること', async () => {
+          // ****************************
+          // ** 準備
+          // ****************************
+          const loginScreen = new LoginScreen(driver);
+          const accountSearchScreen = new AccountSearchScreen(driver);
+          const trialAccountSearchScreen = new TrialAccountSearchScreen(driver);
+          const demoAccountSearchScreen = new DemoAccountSearchScreen(driver);
+          await driver.get(url);
+          await loginScreen.inputCode('admin');
+          await loginScreen.inputPassword('!QAZ2wsx');
+          await loginScreen.clickBtnLogin();
+          await trialAccountSearchScreen.clickBtnTrial();
+          await demoAccountSearchScreen.clickTrialMenuDemoAccountSearch();
+          await demoAccountSearchScreen.clickBtnDemoAccountSearch();
+          // ****************************
+          // ** 実行
+          // ****************************
+          await demoAccountSearchScreen.clickBtnDemoAccountStop();
+          await demoAccountSearchScreen.clickBtnDemoAccountStopSave();
+          // ****************************
+          // ** 検証
+          // ****************************
+          var thisMonthFormatted = moment().format('YYYY-MM-DD');
+          assert.deepEqual(await demoAccountSearchScreen.stoppedDate, thisMonthFormatted);
+          // ****************************
+          // ** 後始末
+          // ****************************
+          const mysql = require('mysql');
+          const connection = mysql.createConnection(config.serverConf);
+
+          connection.connect();
+
+          // DB接続出来なければエラー表示
+          connection.on('error', function (err) {
+            console.log('DB CONNECT ERROR', err);
+          });
+
+          // status_flagを1に戻す
+          connection.query('UPDATE m_account SET status_flag = "0", pause_date = NULL WHERE id = "21"', function (err, result) {
+            if (err) {
+              // UPDATEに失敗したら戻す
+              connection.rollback(function () {
+                throw err;
+              });
+            }
+          });
+          connection.query('UPDATE t_unis_service SET status_flag = "0", end_date = NULL WHERE m_account_id = "21"', function (err, result) {
+            if (err) {
+              // UPDATEに失敗したら戻す
+              connection.rollback(function () {
+                throw err;
+              });
+            }
+          });
+
+          connection.end();
+         });
+      });
+      describe('デモアカウント発行画面のテスト', () => {
+        it('デモアカウントが発行できること', async () => {
+          // ****************************
+          // ** 準備
+          // ****************************
+          const loginScreen = new LoginScreen(driver);
+          const accountSearchScreen = new AccountSearchScreen(driver);
+          const trialAccountSearchScreen = new TrialAccountSearchScreen(driver);
+          const demoAccountCreateScreen = new DemoAccountCreateScreen(driver);
+          await driver.get(url);
+          await loginScreen.inputCode('admin');
+          await loginScreen.inputPassword('!QAZ2wsx');
+          await loginScreen.clickBtnLogin();
+          await trialAccountSearchScreen.clickBtnTrial();
+          await demoAccountCreateScreen.clickTrialMenuDemoAccountCreate();
+          // ****************************
+          // ** 実行
+          // ****************************
+          await demoAccountCreateScreen.inputCount('1');
+          await demoAccountCreateScreen.clickBtnDemoAccountCreate();
+          sleep.sleep(1);
+          // ****************************
+          // ** 検証
+          // ****************************
+          // ファイル名取得
+          const stdout = execSync(`ls ${downloadPath}`);
+          const csvFilename = stdout.toString().replace("\n", "");
+          // ファイル読み込み
+          const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
+          // ファイル内容の比較
+          await assert.match(actual, /(.*),(.*),(.*),(.*)\r\n[A-z0-9]{6},[A-z0-9]{8},USEN,[0-9]+/);
+          // ****************************
+          // ** 後始末
+          // ****************************
+        });
+      });
+      describe('デモアカウントダウンロード画面のテスト', () => {
+        it('CSVファイルがダウンロードできること', async () => {
+          // ****************************
+          // ** 準備
+          // ****************************
+          const loginScreen = new LoginScreen(driver);
+          const accountSearchScreen = new AccountSearchScreen(driver);
+          const trialAccountSearchScreen = new TrialAccountSearchScreen(driver);
+          const demoAccountDownloadScreen = new DemoAccountDownloadScreen(driver);
+          await driver.get(url);
+          await loginScreen.inputCode('admin');
+          await loginScreen.inputPassword('!QAZ2wsx');
+          await loginScreen.clickBtnLogin();
+          await trialAccountSearchScreen.clickBtnTrial();
+          await demoAccountDownloadScreen.clickTrialMenuDemoAccountDownload();
+          // ****************************
+          // ** 実行
+          // ****************************
+          await demoAccountDownloadScreen.clickBtnDemoAccountDownload();
+          sleep.sleep(1);
+          // ****************************
+          // ** 検証
+          // ****************************
+          // ファイル名取得
+          const stdout = execSync(`ls ${downloadPath}`);
+          const csvFilename = stdout.toString().replace("\n", "");
+          // ファイル読み込み
+          const actual = fs.readFileSync(`${downloadPath}/${csvFilename}`).toString();
+          // ファイル内容の比較
+          await assert.match(actual, /(.*),(.*),(.*),(.*)\r\n[A-z0-9]{6},[A-z0-9]{8},USEN,[0-9]+/);
           // ****************************
           // ** 後始末
           // ****************************
