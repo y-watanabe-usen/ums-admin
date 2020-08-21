@@ -4,6 +4,10 @@ const Dir = require('dir');
 const loginTests = require(`${Dir.tests}/login_tests`);
 loginTests.login();
 
+// ログアウトのテスト
+const logoutTests = require(`${Dir.tests}/logout_tests`);
+logoutTests.logout();
+
 // アカウント管理のテスト
 const accountSearchTests = require(`${Dir.tests}/account_search`);
 accountSearchTests.accountSearch();

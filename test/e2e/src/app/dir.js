@@ -22,6 +22,9 @@ module.exports = class Dir {
     static get screenLogin() {
         return `${this.screen}/login`;
     }
+    static get screenLogout() {
+        return `${this.screen}/logout`;
+    }
     static get screenAccount() {
         return `${this.screen}/account`;
     }
