@@ -34,6 +34,9 @@ module.exports = class Dir {
     static get screenDedicated() {
         return `${this.screen}/dedicated`;
     }
+    static get screenRole() {
+        return `${this.screen}/role`;
+    }
     static get screenIssue() {
         return `${this.screen}/issue`;
     }

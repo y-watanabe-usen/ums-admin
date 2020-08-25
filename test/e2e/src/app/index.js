@@ -23,3 +23,7 @@ trialAccountSearchTests.trialAccountSearch();
 // 発送管理のテスト
 const shippingManagementTests = require(`${Dir.tests}/shipping_management`);
 shippingManagementTests.shippingManagement();
+
+//権限管理のテスト
+const roleSearchTests = require(`${Dir.tests}/role_search`);
+roleSearchTests.roleSearch();
