@@ -12,129 +12,9 @@ const downloadPath = '/tmp/test_data';
 
 let driver;
 
-exports.login = function() {
+exports.login = function () {
 
-  let testMain = async () => {
-    describe('ログインのテスト', () => {
-      it('サイトトップにアクセスしてログイン画面が表示されること', async () => {
-        // ****************************
-        // ** 準備
-        // ****************************
-        const loginScreen = new LoginScreen(driver);
-
-        // ****************************
-        // ** 実行
-        // ****************************
-        await driver.get(url);
-
-        // ****************************
-        // ** 検証
-        // ****************************
-        assert.deepEqual(await driver.getCurrentUrl(), url);
-        assert.deepEqual(await loginScreen.code, '');
-        assert.deepEqual(await loginScreen.password, '');
-
-        // ****************************
-        // ** 後始末
-        // ****************************
-      });
-      it('社員番号が間違っている場合はログイン出来ないこと', async () => {
-        // ****************************
-        // ** 準備
-        // ****************************
-        const loginScreen = new LoginScreen(driver);
-
-        // ****************************
-        // ** 実行
-        // ****************************
-        await driver.get(url);
-        await loginScreen.inputCode('adminaaa');
-        await loginScreen.inputPassword('!QAZ2wsx');
-        await loginScreen.clickBtnLogin();
-
-        // ****************************
-        // ** 検証
-        // ****************************
-        assert.deepEqual(await driver.getCurrentUrl(), url + 'login');
-        assert.deepEqual(await loginScreen.alert, 'ログインID、またはパスワードに誤りがあります。');
-
-        // ****************************
-        // ** 後始末
-        // ****************************
-      });
-      it('パスワードが間違っている場合はログイン出来ないこと', async () => {
-        // ****************************
-        // ** 準備
-        // ****************************
-        const loginScreen = new LoginScreen(driver);
-
-        // ****************************
-        // ** 実行
-        // ****************************
-        await driver.get(url);
-        await loginScreen.inputCode('admin');
-        await loginScreen.inputPassword('!QAZ2wsxa');
-        await loginScreen.clickBtnLogin();
-
-        // ****************************
-        // ** 検証
-        // ****************************
-        assert.deepEqual(await driver.getCurrentUrl(), url + 'login');
-        assert.deepEqual(await loginScreen.alert, 'ログインID、またはパスワードに誤りがあります。');
-
-        // ****************************
-        // ** 後始末
-        // ****************************
-      });
-      it('未ログイン状態でアクセスした場合、ログイン画面にリダイレクトされること', async () => {
-        // ****************************
-        // ** 準備
-        // ****************************
-        const loginScreen = new LoginScreen(driver);
-
-        // ****************************
-        // ** 実行
-        // ****************************
-        await driver.get(url + 'account/search');
-
-        // ****************************
-        // ** 検証
-        // ****************************
-        assert.deepEqual(await driver.getCurrentUrl(), url + 'login/');
-
-        // ****************************
-        // ** 後始末
-        // ****************************
-      });
-      it('社員番号とパスワードが合っている場合はログイン出来ること', async () => {
-        // ****************************
-        // ** 準備
-        // ****************************
-        const loginScreen = new LoginScreen(driver);
-        const accountSearchScreen = new AccountSearchScreen(driver);
-
-        // ****************************
-        // ** 実行
-        // ****************************
-        await driver.get(url);
-        await loginScreen.inputCode('admin');
-        await loginScreen.inputPassword('!QAZ2wsx');
-        await loginScreen.clickBtnLogin();
-
-        // ****************************
-        // ** 検証
-        // ****************************
-        assert.deepEqual(await driver.getCurrentUrl(), url + 'account/search');
-        assert.deepEqual(await accountSearchScreen.title, 'アカウント検索');
-
-        // ****************************
-        // ** 後始末
-        // ****************************
-      });
-    });
-  }
-
-  describe('USEN MEMBERS管理機能のSeleniumテスト', () => {
+  describe('ログインのテスト', () => {
     before(async () => {
       let usingServer = await buildUsingServer();
       let capabilities = await buildCapabilities();
@@ -142,26 +22,140 @@ exports.login = function() {
         .usingServer(usingServer)
         .withCapabilities(capabilities)
         .build();
-  
+
       driver.setFileDetector(new remote.FileDetector()); // ファイル検知モジュール
-  
+
       process.on('unhandledRejection', console.dir);
     });
-  
+
     beforeEach(async () => {
       await driver.manage().deleteAllCookies();
       execSync(`rm -rf ${downloadPath}/*`);
     });
-  
+
     after(() => {
       return driver.quit();
     });
-  
-    testMain();
+
+    it('サイトトップにアクセスしてログイン画面が表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await driver.get(url);
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await driver.getCurrentUrl(), url);
+      assert.deepEqual(await loginScreen.code, '');
+      assert.deepEqual(await loginScreen.password, '');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+    it('社員番号が間違っている場合はログイン出来ないこと', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await driver.get(url);
+      await loginScreen.inputCode('adminaaa');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await driver.getCurrentUrl(), url + 'login');
+      assert.deepEqual(await loginScreen.alert, 'ログインID、またはパスワードに誤りがあります。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+    it('パスワードが間違っている場合はログイン出来ないこと', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsxa');
+      await loginScreen.clickBtnLogin();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await driver.getCurrentUrl(), url + 'login');
+      assert.deepEqual(await loginScreen.alert, 'ログインID、またはパスワードに誤りがあります。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+    it('未ログイン状態でアクセスした場合、ログイン画面にリダイレクトされること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await driver.get(url + 'account/search');
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await driver.getCurrentUrl(), url + 'login/');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+    it('社員番号とパスワードが合っている場合はログイン出来ること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const accountSearchScreen = new AccountSearchScreen(driver);
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await driver.getCurrentUrl(), url + 'account/search');
+      assert.deepEqual(await accountSearchScreen.title, 'アカウント検索');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
   });
-  
+
   let buildUsingServer = () => `http://${process.env.CI ? 'localhost' : 'selenium-hub'}:4444/wd/hub`;
-  
+
   let buildCapabilities = () => {
     switch (process.env.BROWSER) {
       // case "ie": {

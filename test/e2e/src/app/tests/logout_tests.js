@@ -12,37 +12,9 @@ const downloadPath = '/tmp/test_data';
 
 let driver;
 
-exports.logout = function() {
+exports.logout = function () {
 
-  let testMain = async () => {
-    describe('ログアウトのテスト', () => {
-        it('ログアウトできること', async () => {
-          // ****************************
-          // ** 準備
-          // ****************************
-          const loginScreen = new LoginScreen(driver);
-          const logoutScreen = new LogoutScreen(driver);
-          await driver.get(url);
-          await loginScreen.inputCode('admin');
-          await loginScreen.inputPassword('!QAZ2wsx');
-          await loginScreen.clickBtnLogin();
-          // ****************************
-          // ** 実行
-          // ****************************
-          await logoutScreen.clickBtnLogout();
-          await logoutScreen.logoutclick();
-          // ****************************
-          // ** 検証
-          // ****************************
-          assert.deepEqual(await driver.getCurrentUrl(), url + 'login');
-          // ****************************
-          // ** 後始末
-          // ****************************
-        });
-      });
-    }
-
-  describe('USEN MEMBERS管理機能のSeleniumテスト', () => {
+  describe('ログアウトのテスト', () => {
     before(async () => {
       let usingServer = await buildUsingServer();
       let capabilities = await buildCapabilities();
@@ -65,7 +37,29 @@ exports.logout = function() {
       return driver.quit();
     });
 
-    testMain();
+    it('ログアウトできること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const logoutScreen = new LogoutScreen(driver);
+      await driver.get(url);
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      // ****************************
+      // ** 実行
+      // ****************************
+      await logoutScreen.clickBtnLogout();
+      await logoutScreen.logoutclick();
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepEqual(await driver.getCurrentUrl(), url + 'login');
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
   });
 
   let buildUsingServer = () => `http://${process.env.CI ? 'localhost' : 'selenium-hub'}:4444/wd/hub`;

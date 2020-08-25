@@ -20,7 +20,29 @@ let driver;
 
 exports.accountSearch = function() {
 
-  let testMain = async () => {
+  describe('アカウント管理のテスト', () => {
+    before(async () => {
+      let usingServer = await buildUsingServer();
+      let capabilities = await buildCapabilities();
+      driver = await new Builder()
+        .usingServer(usingServer)
+        .withCapabilities(capabilities)
+        .build();
+  
+      driver.setFileDetector(new remote.FileDetector()); // ファイル検知モジュール
+  
+      process.on('unhandledRejection', console.dir);
+    });
+  
+    beforeEach(async () => {
+      await driver.manage().deleteAllCookies();
+      execSync(`rm -rf ${downloadPath}/*`);
+    });
+  
+    after(() => {
+      return driver.quit();
+    });
+  
     describe('アカウント管理', () => {
       describe('アカウント検索のテスト', () => {
         it('検索が出来ること', async () => {
@@ -955,32 +977,6 @@ exports.accountSearch = function() {
         });
       });
     });
-  }
-
-  describe('USEN MEMBERS管理機能のSeleniumテスト', () => {
-    before(async () => {
-      let usingServer = await buildUsingServer();
-      let capabilities = await buildCapabilities();
-      driver = await new Builder()
-        .usingServer(usingServer)
-        .withCapabilities(capabilities)
-        .build();
-  
-      driver.setFileDetector(new remote.FileDetector()); // ファイル検知モジュール
-  
-      process.on('unhandledRejection', console.dir);
-    });
-  
-    beforeEach(async () => {
-      await driver.manage().deleteAllCookies();
-      execSync(`rm -rf ${downloadPath}/*`);
-    });
-  
-    after(() => {
-      return driver.quit();
-    });
-  
-    testMain();
   });
   
   let buildUsingServer = () => `http://${process.env.CI ? 'localhost' : 'selenium-hub'}:4444/wd/hub`;
