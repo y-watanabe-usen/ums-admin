@@ -127,6 +127,7 @@ exports.shippingManagement = function() {
           const loginScreen = new LoginScreen(driver);
           const publishDownloadScreen = new PublishDownloadScreen(driver);
           const notArrivedUploadScreen = new NotArrivedUploadScreen(driver);
+
           await driver.get(url);
           await loginScreen.inputCode('admin');
           await loginScreen.inputPassword('!QAZ2wsx');
