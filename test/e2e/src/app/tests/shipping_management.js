@@ -117,6 +117,38 @@ exports.shippingManagement = function() {
           // ****************************
         });
       });
+      describe('未着データアップロードのテスト', () => {
+        it('未着データCSVのアップロードができること', async () => {
+          // ****************************
+          // ** 準備
+          // ****************************
+          const loginScreen = new LoginScreen(driver);
+          const publishDownloadScreen = new PublishDownloadScreen(driver);
+          await driver.get(url);
+          await loginScreen.inputCode('admin');
+          await loginScreen.inputPassword('!QAZ2wsx');
+          await loginScreen.clickBtnLogin();
+          await publishDownloadScreen.clickBtnShippingManagement();
+          await publishDownloadScreen.clickNotArrivedUpload();
+          await publishDownloadScreen.clickBtnFile('/issue/not_arrived_upload_test.csv');
+          await publishDownloadScreen.clickBtnUpload();
+
+          // ****************************
+          // ** 実行
+          // ****************************
+          await publishDownloadScreen.clickBtnUpdate();
+  
+          // ****************************
+          // ** 検証
+          // ****************************
+          assert.deepEqual(await publishDownloadScreen.firstCustCd, '000000002');
+          assert.deepEqual(await publishDownloadScreen.UploadMessage, 'アップロードしました。');
+  
+          // ****************************
+          // ** 後始末
+          // ****************************
+        });
+      });
     });
   }
 
