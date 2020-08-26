@@ -9,6 +9,8 @@ var sleep = require('sleep');
 const Dir = require('dir');
 const LoginScreen = require(`${Dir.screenLogin}/login_screen`);
 const PublishDownloadScreen = require(`${Dir.screenIssue}/publish_download_screen`);
+const NotArrivedUploadScreen = require(`${Dir.screenIssue}/not_arrived_upload_screen`);
+const PublishUploadScreen = require(`${Dir.screenIssue}/publish_upload_screen`);
 
 const url = 'http://ums-admin/';
 const downloadPath = '/tmp/test_data';
@@ -111,6 +113,73 @@ exports.shippingManagement = function() {
           // ****************************;
           assert.deepEqual(await publishDownloadScreen.shippingMessage, '発送データの作成が完了しました。');
           assert.deepEqual(result, expected);
+  
+          // ****************************
+          // ** 後始末
+          // ****************************
+        });
+      });
+      describe('未着データアップロードのテスト', () => {
+        it('未着データCSVのアップロードができること', async () => {
+          // ****************************
+          // ** 準備
+          // ****************************
+          const loginScreen = new LoginScreen(driver);
+          const publishDownloadScreen = new PublishDownloadScreen(driver);
+          const notArrivedUploadScreen = new NotArrivedUploadScreen(driver);
+          await driver.get(url);
+          await loginScreen.inputCode('admin');
+          await loginScreen.inputPassword('!QAZ2wsx');
+          await loginScreen.clickBtnLogin();
+          await publishDownloadScreen.clickBtnShippingManagement();
+          await notArrivedUploadScreen.clickNotArrivedUpload();
+          await notArrivedUploadScreen.clickBtnFile('/issue/not_arrived_upload_test.csv');
+          await notArrivedUploadScreen.clickBtnUpload();
+
+          // ****************************
+          // ** 実行
+          // ****************************
+          await notArrivedUploadScreen.clickBtnUpdate();
+  
+          // ****************************
+          // ** 検証
+          // ****************************
+          assert.deepEqual(await notArrivedUploadScreen.firstCustCd, '000000002');
+          assert.deepEqual(await notArrivedUploadScreen.UploadMessage, 'アップロードしました。');
+  
+          // ****************************
+          // ** 後始末
+          // ****************************
+        });
+      });
+      describe('発送データアップロード画面', () => {
+        it('発送データCSVのアップロードができること（一括出力、次回の発送データダウンロードに含める）', async () => {
+          // ****************************
+          // ** 準備
+          // ****************************
+          const loginScreen = new LoginScreen(driver);
+          const publishDownloadScreen = new PublishDownloadScreen(driver);
+          const publishUploadScreen = new PublishUploadScreen(driver);
+          await driver.get(url);
+          await loginScreen.inputCode('admin');
+          await loginScreen.inputPassword('!QAZ2wsx');
+          await loginScreen.clickBtnLogin();
+          await publishDownloadScreen.clickBtnShippingManagement();
+          await publishUploadScreen.clickPublishUpload();
+          await publishUploadScreen.clickBtnFile('/issue/publish_upload_test.csv');
+          await publishUploadScreen.clickIssueDivDownload();
+          await publishUploadScreen.clickBtnUpload();
+
+          // ****************************
+          // ** 実行
+          // ****************************
+          await publishUploadScreen.clickBtnUpdate();
+  
+          // ****************************
+          // ** 検証
+          // ****************************
+          assert.deepEqual(await publishUploadScreen.firstCustCd, '000000012');
+          assert.deepEqual(await publishUploadScreen.UploadMessage, 'アップロードしました。');
   
           // ****************************
           // ** 後始末

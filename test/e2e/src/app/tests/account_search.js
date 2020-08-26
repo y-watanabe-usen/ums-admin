@@ -65,14 +65,14 @@ exports.accountSearch = function() {
           // ****************************
           // ** 実行
           // ****************************
-          await accountSearchScreen.inputCustCd('admin0002');
+          await accountSearchScreen.inputCustCd('000000002');
           await accountSearchScreen.clickBtnSearch();
   
           // ****************************
           // ** 検証
           // ****************************
           assert.deepEqual(await driver.getCurrentUrl(), url + 'account/search');
-          assert.deepEqual(await accountSearchScreen.firstCustCd, 'admin0002');
+          assert.deepEqual(await accountSearchScreen.firstCustCd, '000000002');
   
           // ****************************
           // ** 後始末
@@ -89,7 +89,7 @@ exports.accountSearch = function() {
           await loginScreen.inputPassword('!QAZ2wsx');
           await loginScreen.clickBtnLogin();
           await driver.get(url + 'account/search');
-          await accountSearchScreen.inputCustCd('admin0002');
+          await accountSearchScreen.inputCustCd('000000002');
           await accountSearchScreen.clickBtnSearch();
   
           // ****************************
@@ -183,7 +183,7 @@ exports.accountSearch = function() {
           await loginScreen.inputPassword('!QAZ2wsx');
           await loginScreen.clickBtnLogin();
           await driver.get(url + 'account/search');
-          await accountSearchScreen.inputCustCd('admin0002');
+          await accountSearchScreen.inputCustCd('000000002');
           await accountSearchScreen.clickBtnSearch();
           await accountSearchScreen.clickBtnDetail();
   
@@ -215,7 +215,7 @@ exports.accountSearch = function() {
           await loginScreen.inputPassword('!QAZ2wsx');
           await loginScreen.clickBtnLogin();
           await driver.get(url + 'account/search');
-          await accountSearchScreen.inputCustCd('admin0002');
+          await accountSearchScreen.inputCustCd('000000002');
           await accountSearchScreen.clickBtnSearch();
           await accountSearchScreen.clickBtnDetail();
   
@@ -246,7 +246,7 @@ exports.accountSearch = function() {
           await loginScreen.inputPassword('!QAZ2wsx');
           await loginScreen.clickBtnLogin();
           await driver.get(url + 'account/search');
-          await accountSearchScreen.inputCustCd('admin0002');
+          await accountSearchScreen.inputCustCd('000000002');
           await accountSearchScreen.clickBtnSearch();
           await accountSearchScreen.clickBtnDetail();
   
@@ -278,7 +278,7 @@ exports.accountSearch = function() {
           await loginScreen.inputPassword('!QAZ2wsx');
           await loginScreen.clickBtnLogin();
           await driver.get(url + 'account/search');
-          await accountSearchScreen.inputCustCd('admin0002');
+          await accountSearchScreen.inputCustCd('000000002');
           await accountSearchScreen.clickBtnSearch();
           await accountSearchScreen.clickBtnDetail();
           await accountListScreen.clickBtnReRegist();
@@ -316,7 +316,7 @@ exports.accountSearch = function() {
           await loginScreen.inputPassword('!QAZ2wsx');
           await loginScreen.clickBtnLogin();
           await driver.get(url + 'account/search');
-          await accountSearchScreen.inputCustCd('admin0002');
+          await accountSearchScreen.inputCustCd('000000002');
           await accountSearchScreen.clickBtnSearch();
           await accountSearchScreen.clickBtnDetail();
           await accountListScreen.clickBtnDirectOutput();
@@ -532,7 +532,7 @@ exports.accountSearch = function() {
           await loginScreen.inputPassword('!QAZ2wsx');
           await loginScreen.clickBtnLogin();
           await driver.get(url + 'account/search');
-          await accountSearchScreen.inputCustCd('admin0002');
+          await accountSearchScreen.inputCustCd('000000002');
           await accountSearchScreen.clickBtnSearch();
           await accountSearchScreen.clickBtnDetail();
           await accountDetailScreen.clickBtnAccountDetail();
@@ -570,7 +570,7 @@ exports.accountSearch = function() {
           await loginScreen.inputPassword('!QAZ2wsx');
           await loginScreen.clickBtnLogin();
           await driver.get(url + 'account/search');
-          await accountSearchScreen.inputCustCd('admin0002');
+          await accountSearchScreen.inputCustCd('000000002');
           await accountSearchScreen.clickBtnSearch();
           await accountSearchScreen.clickBtnDetail();
           await accountDetailScreen.clickBtnAccountDetail();
