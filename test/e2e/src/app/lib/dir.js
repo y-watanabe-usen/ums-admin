@@ -1,8 +1,6 @@
-const path = require('path');
-
 module.exports = class Dir {
     static get home() {
-        return `${__dirname}`;
+        return `${__dirname}/..`;
     }
     static get screen() {
         return `${this.home}/screen`;

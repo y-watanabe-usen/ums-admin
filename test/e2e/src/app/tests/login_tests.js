@@ -3,21 +3,17 @@ const remote = require('selenium-webdriver/remote');
 const assert = require('assert');
 const { execSync } = require('child_process');
 
-const Dir = require('dir');
-const LoginScreen = require(`${Dir.screenLogin}/login_screen`);
-const AccountSearchScreen = require(`${Dir.screenAccount}/account_search_screen`);
-
-const url = 'http://ums-admin/';
-const downloadPath = '/tmp/test_data';
+const { Dir, Const, Utils } = require('lib');
+const { LoginScreen, AccountSearchScreen } = require('screen');
 
 let driver;
 
-exports.login = function () {
+exports.testMain = () => {
 
   describe('ログインのテスト', () => {
     before(async () => {
-      let usingServer = await buildUsingServer();
-      let capabilities = await buildCapabilities();
+      let usingServer = await Utils.buildUsingServer(process.env.CI);
+      let capabilities = await Utils.buildCapabilities(process.env.BROWSER);
       driver = await new Builder()
         .usingServer(usingServer)
         .withCapabilities(capabilities)
@@ -30,7 +26,7 @@ exports.login = function () {
 
     beforeEach(async () => {
       await driver.manage().deleteAllCookies();
-      execSync(`rm -rf ${downloadPath}/*`);
+      execSync(`rm -rf ${Const.DOWNLOAD_PATH}/*`);
     });
 
     after(() => {
@@ -46,12 +42,12 @@ exports.login = function () {
       // ****************************
       // ** 実行
       // ****************************
-      await driver.get(url);
+      await driver.get(Const.ADMIN_URL);
 
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), url);
+      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL);
       assert.deepEqual(await loginScreen.code, '');
       assert.deepEqual(await loginScreen.password, '');
 
@@ -68,7 +64,7 @@ exports.login = function () {
       // ****************************
       // ** 実行
       // ****************************
-      await driver.get(url);
+      await driver.get(Const.ADMIN_URL);
       await loginScreen.inputCode('adminaaa');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
@@ -76,7 +72,7 @@ exports.login = function () {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), url + 'login');
+      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'login');
       assert.deepEqual(await loginScreen.alert, 'ログインID、またはパスワードに誤りがあります。');
 
       // ****************************
@@ -92,7 +88,7 @@ exports.login = function () {
       // ****************************
       // ** 実行
       // ****************************
-      await driver.get(url);
+      await driver.get(Const.ADMIN_URL);
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsxa');
       await loginScreen.clickBtnLogin();
@@ -100,7 +96,7 @@ exports.login = function () {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), url + 'login');
+      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'login');
       assert.deepEqual(await loginScreen.alert, 'ログインID、またはパスワードに誤りがあります。');
 
       // ****************************
@@ -116,12 +112,12 @@ exports.login = function () {
       // ****************************
       // ** 実行
       // ****************************
-      await driver.get(url + 'account/search');
+      await driver.get(Const.ADMIN_URL + 'account/search');
 
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), url + 'login/');
+      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'login/');
 
       // ****************************
       // ** 後始末
@@ -137,7 +133,7 @@ exports.login = function () {
       // ****************************
       // ** 実行
       // ****************************
-      await driver.get(url);
+      await driver.get(Const.ADMIN_URL);
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
@@ -145,7 +141,7 @@ exports.login = function () {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), url + 'account/search');
+      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'account/search');
       assert.deepEqual(await accountSearchScreen.title, 'アカウント検索');
 
       // ****************************
@@ -153,47 +149,4 @@ exports.login = function () {
       // ****************************
     });
   });
-
-  let buildUsingServer = () => `http://${process.env.CI ? 'localhost' : 'selenium-hub'}:4444/wd/hub`;
-
-  let buildCapabilities = () => {
-    switch (process.env.BROWSER) {
-      // case "ie": {
-      //   process.env.PATH = `${process.env.PATH};${__dirname}/Selenium.WebDriver.IEDriver.3.150.0/driver/;`;
-      //   const capabilities = webdriver.Capabilities.ie();
-      //   capabilities.set("ignoreProtectedModeSettings", true);
-      //   capabilities.set("ignoreZoomSetting", true);
-      //   return capabilities;
-      // }
-      case "firefox": {
-        console.log("start testing in firefox");
-        const capabilities = Capabilities.firefox();
-        capabilities.set('firefoxOptions', {
-          args: [
-            '-headless',
-          ]
-        });
-        return capabilities;
-      }
-      case "chrome":
-      default: {
-        console.log("start testing in chrome");
-        const capabilities = Capabilities.chrome();
-        capabilities.set('chromeOptions', {
-          args: [],
-          prefs: {
-            'download': {
-              'default_directory': downloadPath,
-              'prompt_for_download': false,
-              'directory_upgrade': true
-            }
-          }
-        });
-        return capabilities;
-      }
-      // case "safari": {
-      //     return webdriver.Capabilities.safari();
-      // }
-    }
-  }
 }

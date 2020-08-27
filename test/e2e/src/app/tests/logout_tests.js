@@ -3,21 +3,17 @@ const remote = require('selenium-webdriver/remote');
 const assert = require('assert');
 const { execSync } = require('child_process');
 
-const Dir = require('dir');
-const LoginScreen = require(`${Dir.screenLogin}/login_screen`);
-const LogoutScreen = require(`${Dir.screenLogout}/logout_screen`);
-
-const url = 'http://ums-admin/';
-const downloadPath = '/tmp/test_data';
+const { Dir, Const, Utils } = require('lib');
+const { LoginScreen, LogoutScreen } = require('screen');
 
 let driver;
 
-exports.logout = function () {
+exports.testMain = () => {
 
   describe('ログアウトのテスト', () => {
     before(async () => {
-      let usingServer = await buildUsingServer();
-      let capabilities = await buildCapabilities();
+      let usingServer = await Utils.buildUsingServer(process.env.CI);
+      let capabilities = await Utils.buildCapabilities(process.env.BROWSER);
       driver = await new Builder()
         .usingServer(usingServer)
         .withCapabilities(capabilities)
@@ -30,7 +26,7 @@ exports.logout = function () {
 
     beforeEach(async () => {
       await driver.manage().deleteAllCookies();
-      execSync(`rm -rf ${downloadPath}/*`);
+      execSync(`rm -rf ${Const.DOWNLOAD_PATH}/*`);
     });
 
     after(() => {
@@ -43,7 +39,7 @@ exports.logout = function () {
       // ****************************
       const loginScreen = new LoginScreen(driver);
       const logoutScreen = new LogoutScreen(driver);
-      await driver.get(url);
+      await driver.get(Const.ADMIN_URL);
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
@@ -51,57 +47,14 @@ exports.logout = function () {
       // ** 実行
       // ****************************
       await logoutScreen.clickBtnLogout();
-      await logoutScreen.logoutclick();
+      await logoutScreen.logoutClick();
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), url + 'login');
+      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'login');
       // ****************************
       // ** 後始末
       // ****************************
     });
   });
-
-  let buildUsingServer = () => `http://${process.env.CI ? 'localhost' : 'selenium-hub'}:4444/wd/hub`;
-
-  let buildCapabilities = () => {
-    switch (process.env.BROWSER) {
-      // case "ie": {
-      //   process.env.PATH = `${process.env.PATH};${__dirname}/Selenium.WebDriver.IEDriver.3.150.0/driver/;`;
-      //   const capabilities = webdriver.Capabilities.ie();
-      //   capabilities.set("ignoreProtectedModeSettings", true);
-      //   capabilities.set("ignoreZoomSetting", true);
-      //   return capabilities;
-      // }
-      case "firefox": {
-        console.log("start testing in firefox");
-        const capabilities = Capabilities.firefox();
-        capabilities.set('firefoxOptions', {
-          args: [
-            '-headless',
-          ]
-        });
-        return capabilities;
-      }
-      case "chrome":
-      default: {
-        console.log("start testing in chrome");
-        const capabilities = Capabilities.chrome();
-        capabilities.set('chromeOptions', {
-          args: [],
-          prefs: {
-            'download': {
-              'default_directory': downloadPath,
-              'prompt_for_download': false,
-              'directory_upgrade': true
-            }
-          }
-        });
-        return capabilities;
-      }
-      // case "safari": {
-      //     return webdriver.Capabilities.safari();
-      // }
-    }
-  }
 }
