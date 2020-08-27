@@ -1,8 +1,9 @@
 const { Builder, By, Key, Capabilities, until } = require('selenium-webdriver');
-const Dir = require('dir');
+const { Dir, Const, Utils } = require('lib');
+
 const AuthedScreen = require(`${Dir.screenCommon}/authed_screen`);
 
-module.exports = class DemoAccountSearchScreen extends AuthedScreen {
+module.exports = class DemoSearchScreen extends AuthedScreen {
 
     get firstLoginId() {
         return this.driver.findElement(By.xpath('//*[@id="search_table"]/tbody/tr[1]/td[2]')).getText();

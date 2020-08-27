@@ -1,8 +1,9 @@
 const { Builder, By, Key, Capabilities, until } = require('selenium-webdriver');
-const Dir = require('dir');
+const { Dir, Const, Utils } = require('lib');
+
 const AuthedScreen = require(`${Dir.screenCommon}/authed_screen`);
 
-module.exports = class TrialAccountSearchScreen extends AuthedScreen {
+module.exports = class TrialSearchScreen extends AuthedScreen {
     get code() {
         return this.driver.findElement(By.name('code')).getText();
     }

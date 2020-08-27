@@ -1,8 +1,9 @@
 const { Builder, By, Key, Capabilities, until } = require('selenium-webdriver');
-const Dir = require('dir');
+const { Dir, Const, Utils } = require('lib');
+
 const AuthedScreen = require(`${Dir.screenCommon}/authed_screen`);
 
-module.exports = class TrialAccountDownloadScreen extends AuthedScreen {
+module.exports = class TrialDownloadScreen extends AuthedScreen {
 
     async clickTrialMenuTrialAccountDownload() {
         await this.driver.findElement(By.xpath('/html/body/div[2]/div/div[1]/div/div/ul/li[3]/a')).click();
