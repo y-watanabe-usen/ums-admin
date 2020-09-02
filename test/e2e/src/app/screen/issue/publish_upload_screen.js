@@ -26,4 +26,16 @@ module.exports = class PublishDownloadScreen extends AuthedScreen {
     async clickBtnUpdate() {
         await this.driver.findElement(By.id('bt_save')).click();
     }
+    async clickIssueBranchCd() {
+        await this.driver.findElement(By.id('issue_type2')).click();
+    }
+    async clickIssueCustCd() {
+        await this.driver.findElement(By.id('issue_type3')).click();
+    }
+    async clickExceptInitCust() {
+        await this.driver.findElement(By.xpath('//*[@id="fr_upload"]/table/tbody/tr[2]/td[2]/span[5]/input')).click();
+    }
+    async clickBtnOutput() {
+        await this.driver.findElement(By.id('bt_output')).click();
+    }
 }
