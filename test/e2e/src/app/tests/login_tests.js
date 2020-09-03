@@ -42,7 +42,7 @@ exports.testMain = () => {
       // ****************************
       // ** 実行
       // ****************************
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
 
       // ****************************
       // ** 検証
@@ -64,7 +64,7 @@ exports.testMain = () => {
       // ****************************
       // ** 実行
       // ****************************
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('adminaaa');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
@@ -88,7 +88,7 @@ exports.testMain = () => {
       // ****************************
       // ** 実行
       // ****************************
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsxa');
       await loginScreen.clickBtnLogin();
@@ -133,7 +133,7 @@ exports.testMain = () => {
       // ****************************
       // ** 実行
       // ****************************
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();

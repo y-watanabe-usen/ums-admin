@@ -43,7 +43,7 @@ exports.testMain = () => {
       const extractionScreen = new ExtractionScreen(driver);
       const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
       const chainStoreBulkRegistScreen = new ChainStoreBulkRegistScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
@@ -75,7 +75,7 @@ exports.testMain = () => {
       const extractionScreen = new ExtractionScreen(driver);
       const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
       const chainStoreBulkRegistScreen = new ChainStoreBulkRegistScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
@@ -106,7 +106,7 @@ exports.testMain = () => {
       const extractionScreen = new ExtractionScreen(driver);
       const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
       const chainStoreBulkRegistScreen = new ChainStoreBulkRegistScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
@@ -136,7 +136,7 @@ exports.testMain = () => {
       const extractionScreen = new ExtractionScreen(driver);
       const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
       const chainStoreBulkRegistScreen = new ChainStoreBulkRegistScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();

@@ -43,7 +43,7 @@ exports.testMain = () => {
       const publishDownloadScreen = new PublishDownloadScreen(driver);
       const notArrivedUploadScreen = new NotArrivedUploadScreen(driver);
 
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();

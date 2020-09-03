@@ -40,7 +40,7 @@ exports.testMain = () => {
       // ****************************
       const loginScreen = new LoginScreen(driver);
       const roleSearchScreen = new RoleSearchScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
@@ -66,7 +66,7 @@ exports.testMain = () => {
       // ****************************
       const loginScreen = new LoginScreen(driver);
       const roleSearchScreen = new RoleSearchScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();

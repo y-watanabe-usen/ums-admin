@@ -41,7 +41,7 @@ exports.testMain = () => {
       // ****************************
       const loginScreen = new LoginScreen(driver);
       const accountSearchScreen = new AccountSearchScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
@@ -68,11 +68,10 @@ exports.testMain = () => {
       // ****************************
       const loginScreen = new LoginScreen(driver);
       const accountSearchScreen = new AccountSearchScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
-      await driver.get(Const.ADMIN_URL + 'account/search');
 
       // ****************************
       // ** 実行
@@ -96,11 +95,10 @@ exports.testMain = () => {
       // ****************************
       const loginScreen = new LoginScreen(driver);
       const accountSearchScreen = new AccountSearchScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
-      await driver.get(Const.ADMIN_URL + 'account/search');
       await accountSearchScreen.inputCustCd('000000002');
       await accountSearchScreen.clickBtnSearch();
 
@@ -120,4 +118,3 @@ exports.testMain = () => {
     });
   });
 }
-
