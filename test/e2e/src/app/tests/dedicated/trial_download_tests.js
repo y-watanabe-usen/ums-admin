@@ -41,7 +41,7 @@ exports.testMain = () => {
       const loginScreen = new LoginScreen(driver);
       const trialSearchScreen = new TrialSearchScreen(driver);
       const trialDownloadScreen = new TrialDownloadScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();

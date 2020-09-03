@@ -6,10 +6,8 @@ const fs = require('fs');
 const moment = require('moment');
 var sleep = require('sleep');
 
-const { Dir, Const, Utils } = require('lib');
+const { Dir, Const, Utils, Database } = require('lib');
 const { LoginScreen, TrialSearchScreen, DemoSearchScreen } = require('screen');
-
-var config = require(`${Dir.config}/${process.env.CI ? 'ciConfig' : 'localConfig'}`);
 
 let driver;
 
@@ -44,7 +42,7 @@ exports.testMain = () => {
       const loginScreen = new LoginScreen(driver);
       const trialSearchScreen = new TrialSearchScreen(driver);
       const demoAccountSearchScreen = new DemoSearchScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
@@ -70,7 +68,7 @@ exports.testMain = () => {
       const loginScreen = new LoginScreen(driver);
       const trialSearchScreen = new TrialSearchScreen(driver);
       const demoAccountSearchScreen = new DemoSearchScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
@@ -97,7 +95,7 @@ exports.testMain = () => {
       const loginScreen = new LoginScreen(driver);
       const trialSearchScreen = new TrialSearchScreen(driver);
       const demoAccountSearchScreen = new DemoSearchScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
@@ -117,35 +115,8 @@ exports.testMain = () => {
       // ****************************
       // ** 後始末
       // ****************************
-      const mysql = require('mysql');
-      const connection = mysql.createConnection(config.serverConf);
-
-      connection.connect();
-
-      // DB接続出来なければエラー表示
-      connection.on('error', function (err) {
-        console.log('DB CONNECT ERROR', err);
-      });
-
-      // status_flagを1に戻す
-      connection.query('UPDATE m_account SET status_flag = "0", pause_date = NULL WHERE id = "21"', function (err, result) {
-        if (err) {
-          // UPDATEに失敗したら戻す
-          connection.rollback(function () {
-            throw err;
-          });
-        }
-      });
-      connection.query('UPDATE t_unis_service SET status_flag = "0", end_date = NULL WHERE m_account_id = "21"', function (err, result) {
-        if (err) {
-          // UPDATEに失敗したら戻す
-          connection.rollback(function () {
-            throw err;
-          });
-        }
-      });
-
-      connection.end();
+      Database.executeQuery('UPDATE m_account SET status_flag = "0", pause_date = NULL WHERE id = ?', [21]);
+      Database.executeQuery('UPDATE t_unis_service SET status_flag = "0", end_date = NULL WHERE m_account_id = ?', [21]);
     });
   });
 }

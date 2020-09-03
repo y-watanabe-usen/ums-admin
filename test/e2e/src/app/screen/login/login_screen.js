@@ -16,6 +16,9 @@ module.exports = class LoginScreen extends NotAuthedScreen {
         return this.driver.findElement(By.xpath('//*[@id="p1"]/table/tbody/tr[6]/td')).getText();
     }
 
+    async access() {
+        await this.driver.get(Const.ADMIN_URL);
+    }
     async inputCode(code) {
         await this.driver.findElement(By.name('code')).sendKeys(code);
     }

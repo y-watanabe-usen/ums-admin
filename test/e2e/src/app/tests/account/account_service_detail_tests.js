@@ -6,10 +6,8 @@ const fs = require('fs');
 var sleep = require('sleep');
 const moment = require('moment');
 
-const { Dir, Const, Utils } = require('lib');
+const { Dir, Const, Utils, Database } = require('lib');
 const { LoginScreen, AccountSearchScreen, AccountListScreen, AccountDetailScreen, AccountServiceDetailScreen } = require('screen');
-
-var config = require(`${Dir.config}/${process.env.CI ? 'ciConfig' : 'localConfig'}`);
 
 let driver;
 
@@ -43,14 +41,12 @@ exports.testMain = () => {
       // ****************************
       const loginScreen = new LoginScreen(driver);
       const accountSearchScreen = new AccountSearchScreen(driver);
-      const accountListScreen = new AccountListScreen(driver);
       const accountDetailScreen = new AccountDetailScreen(driver);
       const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
-      await driver.get(Const.ADMIN_URL + 'account/search');
       await accountSearchScreen.inputCustCd('admin0001');
       await accountSearchScreen.clickBtnSearch();
       await accountSearchScreen.clickBtnDetail();
@@ -100,14 +96,12 @@ exports.testMain = () => {
       // ****************************
       const loginScreen = new LoginScreen(driver);
       const accountSearchScreen = new AccountSearchScreen(driver);
-      const accountListScreen = new AccountListScreen(driver);
       const accountDetailScreen = new AccountDetailScreen(driver);
       const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
-      await driver.get(Const.ADMIN_URL + 'account/search');
       await accountSearchScreen.inputCustCd('admin0001');
       await accountSearchScreen.clickBtnSearch();
       await accountSearchScreen.clickBtnDetail();
@@ -134,14 +128,12 @@ exports.testMain = () => {
       // ****************************
       const loginScreen = new LoginScreen(driver);
       const accountSearchScreen = new AccountSearchScreen(driver);
-      const accountListScreen = new AccountListScreen(driver);
       const accountDetailScreen = new AccountDetailScreen(driver);
       const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
-      await driver.get(Const.ADMIN_URL + 'account/search');
       await accountSearchScreen.inputCustCd('admin0009');
       await accountSearchScreen.clickBtnSearch();
       await accountSearchScreen.clickBtnDetail();
@@ -163,27 +155,7 @@ exports.testMain = () => {
       // ****************************
       // ** 後始末
       // ****************************
-      const mysql = require('mysql');
-      const connection = mysql.createConnection(config.serverConf);
-
-      connection.connect();
-
-      // DB接続出来なければエラー表示
-      connection.on('error', function (err) {
-        console.log('DB CONNECT ERROR', err);
-      });
-
-      // status_flagを1に戻す
-      connection.query('UPDATE t_unis_service SET status_flag="1" WHERE id="9"', function (err, result) {
-        if (err) {
-          // UPDATEに失敗したら戻す
-          connection.rollback(function () {
-            throw err;
-          });
-        }
-      });
-
-      connection.end();
+      Database.executeQuery('UPDATE t_unis_service SET status_flag="1" WHERE id = ?', [9]);
     });
     it('休店登録できること', async () => {
       // ****************************
@@ -191,14 +163,12 @@ exports.testMain = () => {
       // ****************************
       const loginScreen = new LoginScreen(driver);
       const accountSearchScreen = new AccountSearchScreen(driver);
-      const accountListScreen = new AccountListScreen(driver);
       const accountDetailScreen = new AccountDetailScreen(driver);
       const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
-      await driver.get(Const.ADMIN_URL + 'account/search');
       await accountSearchScreen.inputCustCd('admin0001');
       await accountSearchScreen.clickBtnSearch();
       await accountSearchScreen.clickBtnDetail();
@@ -223,27 +193,7 @@ exports.testMain = () => {
       // ** 後始末
       // ****************************
       // TODO: 「休店解除できること」のテストを復活したらこの後始末は削除
-      const mysql = require('mysql');
-      const connection = mysql.createConnection(config.serverConf);
-
-      connection.connect();
-
-      // DB接続出来なければエラー表示
-      connection.on('error', function (err) {
-        console.log('DB CONNECT ERROR', err);
-      });
-
-      // t_service_stop_historyのレコードを削除
-      connection.query('DELETE FROM  t_service_stop_history LIMIT 1', function (err, result) {
-        if (err) {
-          // DELETEに失敗したら戻す
-          connection.rollback(function () {
-            throw err;
-          });
-        }
-      });
-
-      connection.end();
+      Database.executeQuery('DELETE FROM t_service_stop_history', []);
     });
     it.skip('休店解除できること', async () => {
       // ****************************
@@ -251,14 +201,12 @@ exports.testMain = () => {
       // ****************************
       const loginScreen = new LoginScreen(driver);
       const accountSearchScreen = new AccountSearchScreen(driver);
-      const accountListScreen = new AccountListScreen(driver);
       const accountDetailScreen = new AccountDetailScreen(driver);
       const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
-      await driver.get(Const.ADMIN_URL + 'account/search');
       await accountSearchScreen.inputCustCd('admin0001');
       await accountSearchScreen.clickBtnSearch();
       await accountSearchScreen.clickBtnDetail();
@@ -280,27 +228,7 @@ exports.testMain = () => {
       // ****************************
       // ** 後始末
       // ****************************
-      const mysql = require('mysql');
-      const connection = mysql.createConnection(config.serverConf);
-
-      connection.connect();
-
-      // DB接続出来なければエラー表示
-      connection.on('error', function (err) {
-        console.log('DB CONNECT ERROR', err);
-      });
-
-      // t_service_stop_historyのレコードを削除
-      connection.query('DELETE FROM  t_service_stop_history LIMIT 1', function (err, result) {
-        if (err) {
-          // DELETEに失敗したら戻す
-          connection.rollback(function () {
-            throw err;
-          });
-        }
-      });
-
-      connection.end();
+      Database.executeQuery('DELETE FROM t_service_stop_history', []);
     });
     it.skip('強制施錠登録できること', async () => {
       // ****************************
@@ -308,14 +236,12 @@ exports.testMain = () => {
       // ****************************
       const loginScreen = new LoginScreen(driver);
       const accountSearchScreen = new AccountSearchScreen(driver);
-      const accountListScreen = new AccountListScreen(driver);
       const accountDetailScreen = new AccountDetailScreen(driver);
       const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
-      await driver.get(Const.ADMIN_URL + 'account/search');
       await accountSearchScreen.inputCustCd('admin0001');
       await accountSearchScreen.clickBtnSearch();
       await accountSearchScreen.clickBtnDetail();
@@ -348,14 +274,12 @@ exports.testMain = () => {
       // ****************************
       const loginScreen = new LoginScreen(driver);
       const accountSearchScreen = new AccountSearchScreen(driver);
-      const accountListScreen = new AccountListScreen(driver);
       const accountDetailScreen = new AccountDetailScreen(driver);
       const accountServiceDetailScreen = new AccountServiceDetailScreen(driver);
-      await driver.get(Const.ADMIN_URL);
+      await loginScreen.access();
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
-      await driver.get(Const.ADMIN_URL + 'account/search');
       await accountSearchScreen.inputCustCd('admin0001');
       await accountSearchScreen.clickBtnSearch();
       await accountSearchScreen.clickBtnDetail();
@@ -377,29 +301,8 @@ exports.testMain = () => {
       // ****************************
       // ** 後始末
       // ****************************
-      const mysql = require('mysql');
-      const connection = mysql.createConnection(config.serverConf);
-
-      connection.connect();
-
-      // DB接続出来なければエラー表示
-      connection.on('error', function (err) {
-        console.log('DB CONNECT ERROR', err);
-      });
-
-      // t_service_stop_historyのレコードを削除
-      connection.query('DELETE FROM  t_service_stop_history LIMIT 1', function (err, result) {
-        if (err) {
-          // DELETEに失敗したら戻す
-          connection.rollback(function () {
-            throw err;
-          });
-        }
-      });
-
-      connection.end();
+      Database.executeQuery('DELETE FROM t_service_stop_history', []);
     });
   });
 
 }
-
