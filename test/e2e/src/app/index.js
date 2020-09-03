@@ -4,8 +4,8 @@ describe('USEN MEMBERS管理機能のSeleniumテスト', () => {
     LoginTests.testMain();
     LogoutTests.testMain();
     AccountTests.testMain();
-    IssueTests.testMain();
-    ExtractionTests.testMain();
+    // IssueTests.testMain();
+    // ExtractionTests.testMain();
     DedicatedTests.testMain();
     RoleTests.testMain();
 });

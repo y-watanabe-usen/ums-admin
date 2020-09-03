@@ -6,9 +6,8 @@ const fs = require('fs');
 var sleep = require('sleep');
 const moment = require('moment');
 
-const { Dir, Const, Utils } = require('lib');
+const { Dir, Const, Utils, Database } = require('lib');
 const { LoginScreen, PublishDownloadScreen, PublishUploadScreen } = require('screen');
-var config = require(`${Dir.config}/${process.env.CI ? 'ciConfig' : 'localConfig'}`);
 
 let driver;
 
@@ -33,6 +32,7 @@ exports.testMain = () => {
     });
 
     after(() => {
+      Database.disconnect();
       return driver.quit();
     });
 
@@ -68,27 +68,7 @@ exports.testMain = () => {
       // ****************************
       // ** 後始末
       // ****************************
-      const mysql = require('mysql');
-      const connection = mysql.createConnection(config.serverConf);
-
-      connection.connect();
-
-      // DB接続出来なければエラー表示
-      connection.on('error', function (err) {
-        console.log('DB CONNECT ERROR', err);
-      });
-
-      // インサートしたレコードを削除
-      connection.query('DELETE FROM t_issue_history WHERE id="4"', function (err, result) {
-        if (err) {
-          // UPDATEに失敗したら戻す
-          connection.rollback(function () {
-            throw err;
-          });
-        }
-      });
-
-      connection.end();
+      Database.executeQuery('DELETE FROM t_issue_history WHERE id = ?', [4]);
     });
     it('発送データCSVのアップロードができること（支店CD毎に出力、次回の発送データダウンロードに含める）', async () => {
       // ****************************
@@ -122,28 +102,8 @@ exports.testMain = () => {
       // ****************************
       // ** 後始末
       // ****************************
-      const mysql = require('mysql');
-      const connection = mysql.createConnection(config.serverConf);
-
-      connection.connect();
-
-      // DB接続出来なければエラー表示
-      connection.on('error', function (err) {
-        console.log('DB CONNECT ERROR', err);
-      });
-
-      // インサートしたレコードを削除
-      connection.query('DELETE FROM t_issue_history WHERE t_unis_cust_id="12"', function (err, result) {
-        if (err) {
-          // UPDATEに失敗したら戻す
-          connection.rollback(function () {
-            throw err;
-          });
-        }
-      });
-
-      connection.end();
-    }); 
+      Database.executeQuery('DELETE FROM t_issue_history WHERE t_unis_cust_id = ?', [12]);
+    });
     it('発送データCSVのアップロードができること（顧客CD毎に出力、次回の発送データダウンロードに含める）', async () => {
       // ****************************
       // ** 準備
@@ -209,27 +169,7 @@ exports.testMain = () => {
       // ****************************
       // ** 後始末
       // ****************************
-      const mysql = require('mysql');
-      const connection = mysql.createConnection(config.serverConf);
-
-      connection.connect();
-
-      // DB接続出来なければエラー表示
-      connection.on('error', function (err) {
-        console.log('DB CONNECT ERROR', err);
-      });
-
-      // インサートしたレコードを削除
-      connection.query('DELETE FROM t_issue_history WHERE t_unis_cust_id="13"', function (err, result) {
-        if (err) {
-          // UPDATEに失敗したら戻す
-          connection.rollback(function () {
-            throw err;
-          });
-        }
-      });
-
-      connection.end();
+      Database.executeQuery('DELETE FROM t_issue_history WHERE t_unis_cust_id = ?', [13]);
     });
   });
 }
