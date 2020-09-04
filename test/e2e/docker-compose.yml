@@ -9,6 +9,7 @@ services:
     volumes:
       - ./src/app/:/app/
       - selenium_test_data:/tmp/test_data
+      - ums-admin_data:/data
 
 networks:
   default:
@@ -17,4 +18,6 @@ networks:
 
 volumes:
   selenium_test_data:
+    external: true
+  ums-admin_data:
     external: true
