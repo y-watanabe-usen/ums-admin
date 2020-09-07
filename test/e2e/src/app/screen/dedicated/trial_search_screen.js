@@ -42,7 +42,7 @@ module.exports = class TrialSearchScreen extends AuthedScreen {
     }
 
     async clickBtnDetail() {
-        await this.driver.findElement(By.xpath('//*[@id="search_table"]/tbody/tr[1]/td[8]/button')).click();
+        await this.driver.findElement(By.xpath('//*[@id="search_table"]/tbody/tr[1]/td[9]/button')).click();
     }
 
     async clickBtnDownload() {

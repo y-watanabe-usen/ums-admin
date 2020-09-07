@@ -141,6 +141,7 @@ $download_cnt = 5000;
                                 put = "<tr>";
                                 put += "<td>" + this.id + "</td>";
                                 put += "<td>" + this.login_id + "</td>";
+                                put += "<td class='s_info_right'>" + this.init_password + "</td>";
                                 put += "<td class='s_info_right'>" + this.trial_days + "日</td>";
                                 put += "<td class='s_info_center'>" + this.market_name + "</td>";
                                 put += "<td class='s_info_center'>" + res_start_date + "</td>";
@@ -350,6 +351,7 @@ $download_cnt = 5000;
                                         <col style="width:60px;">
                                         <col style="width:70px;">
                                         <col style="width:40px;">
+                                        <col style="width:40px;">
                                         <col style="width:70px;">
                                         <col style="width:90px;">
                                         <col style="width:90px;">
@@ -359,6 +361,7 @@ $download_cnt = 5000;
                                     <tr>
                                         <th>アカウントID</th>
                                         <th>ログインID</th>
+                                        <th>パスワード</th>
                                         <th>トライアル日数</th>
                                         <th>販路</th>
                                         <th>発行日</th>
@@ -370,13 +373,14 @@ $download_cnt = 5000;
                                 <div id="search_table_div" style="height: 80%; overflow-y: scroll; overflow-x: hidden;">
                                     <table id="search_table" class="nogrid_table">
                                         <colgroup>
-                                         <col style="width:62px;">
-                                         <col style="width:72px;">
-                                         <col style="width:42px;">
-                                         <col style="width:72px;">
-                                         <col style="width:92px;">
-                                         <col style="width:92px;">
-                                         <col style="width:92px;">
+                                         <col style="width:69px;">
+                                         <col style="width:82px;">
+                                         <col style="width:46px;">
+                                         <col style="width:46px;">
+                                         <col style="width:82px;">
+                                         <col style="width:104px;">
+                                         <col style="width:103px;">
+                                         <col style="width:105px;">
                                          <col style="width:58px;">
                                         </colgroup>
                                     </table>

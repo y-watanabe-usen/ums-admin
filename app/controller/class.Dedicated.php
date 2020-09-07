@@ -98,7 +98,7 @@ class Dedicated extends Controller {
 
         if (!empty($res) && $res["search_cnt"] > 0) {
             $data = $res["search_data"];
-            $header = array('アカウントID', 'ログインID', 'トライアル日数', '販路', '発行日', '初回認証日時', '失効日');
+            $header = array('アカウントID', 'ログインID', 'パスワード', 'トライアル日数', '販路', '発行日', '初回認証日時', '失効日');
             $csvFile = "trial_list_download_" . date("YmdHis") . ".csv";
             // CSV出力
             header('Content-Type: application/force-download');
@@ -1097,7 +1097,7 @@ class Dedicated extends Controller {
         }
 
         if ($account_div == "1") {
-            $query = "SELECT ma.id, ma.login_id, ma.account_div, ma.start_date, ma.status_flag, ma.admin_status_flag, tus.init_auth_datetime, tus.end_date, mma.market_name, IFNULL(ttd.trial_days, '" . self::DEFAULT_TRIAL_DAYS . "') as trial_days {$from} ORDER BY ma.id {$limit_sql}";
+            $query = "SELECT ma.id, ma.login_id, init_password, ma.account_div, ma.start_date, ma.status_flag, ma.admin_status_flag, tus.init_auth_datetime, tus.end_date, mma.market_name, IFNULL(ttd.trial_days, '" . self::DEFAULT_TRIAL_DAYS . "') as trial_days {$from} ORDER BY ma.id {$limit_sql}";
         } else {
             //m_serviceから有効なservice_cdを取得
             $tmpRes = $this->get_m_service();
@@ -1118,6 +1118,7 @@ class Dedicated extends Controller {
         $dedicated_date = Database::getInstance()->dbExecFetchAll(Configure::read('DB_MASTER'), $query, $param);
         for ($i = 0; $i < count($dedicated_date); $i++) {
             $dedicated_date[$i]["login_id"] = Cipher::rsaDecrypt($dedicated_date[$i]["login_id"]);
+            $dedicated_date[$i]["init_password"] = Cipher::rsaDecrypt($dedicated_date[$i]["init_password"]);
             $dedicated_date[$i]["valid_account"] = "1";
             if ($dedicated_date[$i]["status_flag"] !== "0" || $dedicated_date[$i]["admin_status_flag"] !== "0" || $dedicated_date[$i]["start_date"] > $currentDateTime || (!empty($dedicated_date[$i]["end_date"]) && $dedicated_date[$i]["end_date"] < $currentDateTime)) {
                 $dedicated_date[$i]["valid_account"] = "0";
@@ -1133,6 +1134,7 @@ class Dedicated extends Controller {
         $ret = array();
         $ret[] = $row["id"];
         $ret[] = $row["login_id"];
+        $ret[] = $row["init_password"];
         $ret[] = $row["trial_days"];
         $ret[] = $row["market_name"];
         $ret[] = $row["start_date"];
