@@ -33,6 +33,7 @@ services:
         max-file: "3"
     volumes:
       - "./app:/var/ums/ums-admin:z"
+      - "data:/data"
     depends_on:
       - ums-db
     ports:
@@ -42,3 +43,4 @@ services:
 volumes:
   comauth_data:
       driver: local
+  data:

@@ -29,6 +29,7 @@ exports.testMain = () => {
     beforeEach(async () => {
       await driver.manage().deleteAllCookies();
       execSync(`rm -rf ${Const.DOWNLOAD_PATH}/*`);
+      execSync(`find /data/batch/account_publish/ -type f -mtime -1 | xargs rm -f`);
     });
 
     after(() => {
@@ -48,7 +49,7 @@ exports.testMain = () => {
       await loginScreen.clickBtnLogin();
       await publishDownloadScreen.clickBtnShippingManagement();
       await publishUploadScreen.clickPublishUpload();
-      await publishUploadScreen.clickBtnFile('/issue/publish_upload_test.csv');
+      await publishUploadScreen.clickBtnFile('/issue/publish_upload_all_test.csv');
       await publishUploadScreen.clickIssueDivDownload();
       await publishUploadScreen.clickBtnUpload();
       sleep.sleep(1);
@@ -61,13 +62,13 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await publishUploadScreen.firstCustCd, '000000012');
+      assert.deepEqual(await publishUploadScreen.firstCustCd, '000000015');
       assert.deepEqual(await publishUploadScreen.UploadMessage, 'アップロードしました。');
 
       // ****************************
       // ** 後始末
       // ****************************
-      Database.executeQuery('DELETE FROM t_issue_history WHERE id = ?', [4]);
+      Database.executeQuery('DELETE FROM t_issue_history WHERE t_unis_cust_id = ?', [15]);
     });
     it('発送データCSVのアップロードができること（支店CD毎に出力、次回の発送データダウンロードに含める）', async () => {
       // ****************************
@@ -82,7 +83,7 @@ exports.testMain = () => {
       await loginScreen.clickBtnLogin();
       await publishDownloadScreen.clickBtnShippingManagement();
       await publishUploadScreen.clickPublishUpload();
-      await publishUploadScreen.clickBtnFile('/issue/publish_upload_test.csv');
+      await publishUploadScreen.clickBtnFile('/issue/publish_upload_branch_test.csv');
       await publishUploadScreen.clickIssueBranchCd();
       await publishUploadScreen.clickIssueDivDownload();
       await publishUploadScreen.clickBtnUpload();
@@ -95,13 +96,13 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await publishUploadScreen.firstCustCd, '000000012');
+      assert.deepEqual(await publishUploadScreen.firstCustCd, '000000014');
       assert.deepEqual(await publishUploadScreen.UploadMessage, 'アップロードしました。');
 
       // ****************************
       // ** 後始末
       // ****************************
-      Database.executeQuery('DELETE FROM t_issue_history WHERE t_unis_cust_id = ?', [12]);
+      Database.executeQuery('DELETE FROM t_issue_history WHERE t_unis_cust_id = ?', [14]);
     });
     it('発送データCSVのアップロードができること（顧客CD毎に出力、次回の発送データダウンロードに含める）', async () => {
       // ****************************
@@ -135,6 +136,7 @@ exports.testMain = () => {
       // ****************************
       // ** 後始末
       // ****************************
+      Database.executeQuery('DELETE FROM t_issue_history WHERE t_unis_cust_id = ?', [12]);
 
     });
     it('発送データCSVのアップロードができること（一括出力、今すぐPDF出力する、初回登録済み顧客を除く）', async () => {
@@ -169,6 +171,7 @@ exports.testMain = () => {
       // ** 後始末
       // ****************************
       Database.executeQuery('DELETE FROM t_issue_history WHERE t_unis_cust_id = ?', [13]);
+      Database.executeQuery('UPDATE t_issue_history SET status_flag = 0 WHERE t_unis_cust_id = ?', [2]);
     });
   });
 }
