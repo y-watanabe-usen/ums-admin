@@ -171,7 +171,7 @@ exports.testMain = () => {
       // ** 後始末
       // ****************************
       Database.executeQuery('DELETE FROM t_issue_history WHERE t_unis_cust_id = ?', [13]);
-      Database.executeQuery('UPDATE t_issue_history SET status_flag = 0 WHERE t_unis_cust_id = ?', [2]);
+      Database.executeQuery('UPDATE t_issue_history SET issue_date = NULL, not_arrived_date = NULL, status_flag = 0 WHERE t_unis_cust_id = ?', [2]);
     });
   });
 }
