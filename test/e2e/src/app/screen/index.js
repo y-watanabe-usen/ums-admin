@@ -30,4 +30,6 @@ module.exports = {
 
     RoleSearchScreen: require(`${Dir.screenRole}/role_search_screen`),
     RoleUserDetailScreen: require(`${Dir.screenRole}/role_user_detail_screen`),
+    OrganizationSearchScreen: require(`${Dir.screenRole}/organization_search_screen`),
+    OrganizationDetailScreen: require(`${Dir.screenRole}/organization_detail_screen`),
 };
