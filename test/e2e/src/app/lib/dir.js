@@ -32,6 +32,9 @@ module.exports = class Dir {
     static get screenDedicated() {
         return `${this.screen}/dedicated`;
     }
+    static get screenBranch() {
+        return `${this.screen}/branch`;
+    }
     static get screenRole() {
         return `${this.screen}/role`;
     }
@@ -46,5 +49,8 @@ module.exports = class Dir {
     }
     static get filesIssue() {
         return `${this.files}/issue`;
+    }
+    static get filesBranch() {
+        return `${this.files}/branch`;
     }
 }

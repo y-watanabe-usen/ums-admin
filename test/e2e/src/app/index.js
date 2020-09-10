@@ -1,5 +1,5 @@
 const { Dir, Const, Utils, Database } = require('lib');
-const { LoginTests, LogoutTests, AccountTests, IssueTests, ExtractionTests, DedicatedTests, RoleTests } = require('tests');
+const { LoginTests, LogoutTests, AccountTests, IssueTests, ExtractionTests, DedicatedTests, BranchTests, RoleTests } = require('tests');
 
 describe('USEN MEMBERS管理機能のSeleniumテスト', () => {
     before(async () => {
@@ -16,5 +16,6 @@ describe('USEN MEMBERS管理機能のSeleniumテスト', () => {
     IssueTests.testMain();
     ExtractionTests.testMain();
     DedicatedTests.testMain();
+    BranchTests.testMain();
     RoleTests.testMain();
 });
