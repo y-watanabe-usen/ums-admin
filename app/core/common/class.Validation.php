@@ -149,6 +149,20 @@ class Validation {
     }
 
     /**
+     * 【入力チェック(NeOS同仕様)】メールアドレスチェック（メールアドレス形式）
+     */
+    public static function mailNeos($check) {
+        //フォームでのチェック
+        if (!preg_match('/^[\w+\-.]+@[\w+\-.]+\.\w{2,}$/', $check)) {
+            return false;
+        //サーバーでのチェック
+        } else if (!preg_match('/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/', $check)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * 【入力チェック】日時の妥当性チェック
      *
      * @param int $hour 時
