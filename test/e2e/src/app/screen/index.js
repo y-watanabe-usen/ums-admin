@@ -28,6 +28,8 @@ module.exports = {
     DemoCreateScreen: require(`${Dir.screenDedicated}/demo_create_screen`),
     DemoDownloadScreen: require(`${Dir.screenDedicated}/demo_download_screen`),
 
+    BranchScreen: require(`${Dir.screenBranch}/branch_list_search_screen`),
+
     RoleSearchScreen: require(`${Dir.screenRole}/role_search_screen`),
     RoleUserDetailScreen: require(`${Dir.screenRole}/role_user_detail_screen`),
     OrganizationSearchScreen: require(`${Dir.screenRole}/organization_search_screen`),
