@@ -1351,7 +1351,7 @@ class Extraction extends Controller {
                 if (empty($csv_data[1])) {
                     $data['message'] .= "メールアドレスの入力が空です。";
                     $line_error = true;
-                } else if (!Validation::mail($csv_data[1])) {
+                } else if (!Validation::mailNeos($csv_data[1])) {
                     $data['message'] .= "メールアドレスの形式が不正です。";
                     $line_error = true;
                 }
