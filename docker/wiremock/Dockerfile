@@ -20,6 +20,7 @@ WORKDIR /home/wiremock
 
 COPY ./docker-entrypoint.sh /
 COPY ./stubs /home/wiremock
+RUN chmod u+x /docker-entrypoint.sh
 
 VOLUME /home/wiremock
 
