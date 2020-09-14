@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/apiweb.otoraku.jp/secure_api/listened_time.php",
+    "bodyPatterns" : [
+      {
+        "matches" : "(.*)account_id=11(.*)"
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "listened_time.json"
+  }
+}

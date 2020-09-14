@@ -21,6 +21,15 @@ services:
       - "3306:3306"
     restart: always
 
+  wiremock:
+    container_name: wiremock
+    build: ./docker/wiremock
+    volumes:
+      - "./docker/wiremock/stubs:/home/wiremock"
+    ports:
+      - "18080:8080"
+    restart: always
+
   ums-admin:
     build:
       context: ./docker/web
@@ -36,6 +45,7 @@ services:
       - "data:/data"
     depends_on:
       - ums-db
+      - wiremock
     ports:
       - "80:80"
     restart: always
