@@ -191,7 +191,7 @@ Configure::write('EXTRACTION_DIR', '/data/admin/extraction/upload/');
 //一括処理ディレクトリ
 Configure::write('BULK_DIR', '/data/admin/bulk/upload/');
 // OTORAKU試聴時間取得APIのURL
-Configure::write('OTORAKU_LISTENED_TIME_API', 'https://d-apiweb.otoraku.jp/secure_api/listened_time.php');
+Configure::write('OTORAKU_LISTENED_TIME_API', 'http://wiremock:8080/apiweb.otoraku.jp/secure_api/listened_time.php');
 // OTORAKUアカウント証発行の除外UNIS顧客CD
 Configure::write('OTORAKU_IGNORE_UNIS_CD', array(
 ));

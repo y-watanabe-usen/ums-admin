@@ -60,8 +60,8 @@ exports.testMain = () => {
       assert.deepEqual(await trialDetailScreen.password, 'CPhKCagj');
       assert.deepEqual(await trialDetailScreen.salesChannel, 'USEN');
       assert.deepEqual(await trialDetailScreen.issueDate, '2020-08-05');
-      assert.deepEqual(await trialDetailScreen.firstAuthenticationDatetimes, '');
-      assert.deepEqual(await trialDetailScreen.expireDate, '');
+      assert.deepEqual(await trialDetailScreen.firstAuthenticationDatetimes, '2020-09-14 11:25:44');
+      assert.deepEqual(await trialDetailScreen.expireDate, '2020-09-27');
       // ****************************
       // ** 後始末
       // ****************************
