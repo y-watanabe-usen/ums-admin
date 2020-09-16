@@ -7,7 +7,6 @@ var sleep = require('sleep');
 
 const { Dir, Const, Utils } = require('lib');
 const { LoginScreen, TrialSearchScreen, TrialDetailScreen } = require('screen');
-const { count } = require('console');
 
 let driver;
 
