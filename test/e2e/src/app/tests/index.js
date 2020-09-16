@@ -8,5 +8,6 @@ module.exports = {
     ExtractionTests: require(`${Dir.tests}/extraction_tests`),
     DedicatedTests: require(`${Dir.tests}/dedicated_tests`),
     BranchTests: require(`${Dir.tests}/branch_tests`),
+    BulkTests: require(`${Dir.tests}/bulk_tests`),
     RoleTests: require(`${Dir.tests}/role_tests`),
 };
