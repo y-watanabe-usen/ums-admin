@@ -7,7 +7,6 @@ var sleep = require('sleep');
 
 const { Dir, Const, Utils } = require('lib');
 const { LoginScreen, TrialSearchScreen, TrialDetailScreen } = require('screen');
-const { count } = require('console');
 
 let driver;
 
@@ -64,41 +63,36 @@ exports.testMain = () => {
       assert.deepEqual(await trialDetailScreen.firstAuthenticationDatetimes, '2020-09-14 11:25:44');
       assert.deepEqual(await trialDetailScreen.expireDate, '2020-09-27');
       assert.deepEqual(await trialDetailScreen.viewingHistoryTotal, '0時間00分');
-      const arr = [
-        '0時間00分',
-        '0時間00分',
-        '0時間00分',
-        '0時間00分',
-        '0時間00分',
-        '0時間00分',
-        '0時間00分',
-        '0時間00分',
-        '0時間00分',
-        '0時間00分',
-        '0時間00分',
-        '0時間00分',
-        '0時間00分',
-        '10時間00分',
-        '11時間11分',
-        '12時間22分',
-        '13時間33分',
-        '0時間01分',
-        '0時間02分',
-        '22時間44分',
-        '2時間30分',
-        '1時間02分',
-        '2時間33分',
-        '11時間11分',
-        '9時間59分',
-        '23時間00分',
-        '23時間59分',
-        '0時間00分',
-        '0時間00分',
-        '0時間00分'
-      ];
-      for (let n = 0; n < arr.length; n++) {
-        assert.deepEqual(await trialDetailScreen.viewingHistoryNth(n), arr[n]);
-      }
+      assert.deepEqual(await trialDetailScreen.viewingHistory1st, '0時間00分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory2nd, '0時間00分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory3rd, '0時間00分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory4th, '0時間00分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory5th, '0時間00分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory6th, '0時間00分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory7th, '0時間00分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory8th, '0時間00分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory9th, '0時間00分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory10th, '0時間00分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory11th, '0時間00分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory12th, '0時間00分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory13th, '0時間00分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory14th, '10時間00分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory15th, '11時間11分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory16th, '12時間22分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory17th, '13時間33分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory18th, '0時間01分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory19th, '0時間02分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory20th, '22時間44分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory21st, '2時間30分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory22nd, '1時間02分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory23rd, '2時間33分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory24th, '11時間11分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory25th, '9時間59分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory26th, '23時間00分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory27th, '23時間59分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory28th, '0時間00分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory29th, '0時間00分');
+      assert.deepEqual(await trialDetailScreen.viewingHistory30th, '0時間00分');
       // ****************************
       // ** 後始末
       // ****************************
