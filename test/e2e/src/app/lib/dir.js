@@ -36,6 +36,9 @@ module.exports = class Dir {
   static get screenBranch() {
     return path.resolve(this.screen, 'branch');
   }
+  static get screenBulk() {
+    return path.resolve(this.screen, 'bulk');
+  }
   static get screenRole() {
     return path.resolve(this.screen, 'role');
   }
@@ -53,5 +56,8 @@ module.exports = class Dir {
   }
   static get filesBranch() {
     return path.resolve(this.files, 'branch');
+  }
+  static get filesBulk() {
+    return path.resolve(this.files, 'bulk');
   }
 }
