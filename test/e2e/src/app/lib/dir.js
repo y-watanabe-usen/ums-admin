@@ -59,5 +59,5 @@ module.exports = class Dir {
   }
   static get filesBulk() {
     return path.resolve(this.files, 'bulk');
-}
+  }
 }
