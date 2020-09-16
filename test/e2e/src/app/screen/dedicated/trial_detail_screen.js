@@ -33,7 +33,20 @@ module.exports = class TrialDetailScreen extends AuthedScreen {
         return this.driver.findElement(By.xpath('//*[@id="grid"]/tbody/tr/td[7]')).getText();
     }
 
+    get viewingHistoryTotal() {
+        return this.driver.findElement(By.xpath('//*[@id="grid3"]/tbody/tr[1]/td')).getText();
+    }
+
+    async viewingHistoryNth(n) {
+        return await this.driver.findElement(By.xpath(`//*[@id="grid3"]/tbody/tr[${n+2}]/td`)).getText();
+    }
+
     async clickBtnReturnSearchList() {
         await this.driver.findElement(By.id('bt_back')).click();
     }
+
+    async clickBtnDownloadViewingHistory() {
+        await this.driver.findElement(By.id('bt_download')).click();
+    }
+
 }
