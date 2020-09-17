@@ -54,6 +54,7 @@ exports.testMain = () => {
       // ****************************
       await bulkScreen.clickBtnBulkServiceUploadSave();
       await bulkScreen.clickBtnBulkUploadAlertAccept();
+      sleep.sleep(1);
       await bulkScreen.clickBtnBulkUploadAlertClose();
 
       // ****************************
