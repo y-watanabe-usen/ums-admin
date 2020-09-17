@@ -60,8 +60,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await notArrivedUploadScreen.firstCustCd, '000000002');
-      assert.deepEqual(await notArrivedUploadScreen.UploadMessage, 'アップロードしました。');
+      assert.deepStrictEqual(await notArrivedUploadScreen.firstCustCd, '000000002');
+      assert.deepStrictEqual(await notArrivedUploadScreen.UploadMessage, 'アップロードしました。');
 
       // ****************************
       // ** 後始末

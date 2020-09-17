@@ -56,10 +56,10 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'extraction/issue_history_download/');
-      assert.deepEqual(await issueHistoryDownloadScreen.title, 'アカウント証発送履歴抽出');
-      assert.deepEqual(await issueHistoryDownloadScreen.from, '');
-      assert.deepEqual(await issueHistoryDownloadScreen.to, '');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'extraction/issue_history_download/');
+      assert.deepStrictEqual(await issueHistoryDownloadScreen.title, 'アカウント証発送履歴抽出');
+      assert.deepStrictEqual(await issueHistoryDownloadScreen.from, '');
+      assert.deepStrictEqual(await issueHistoryDownloadScreen.to, '');
 
       // ****************************
       // ** 後始末
@@ -93,8 +93,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await issueHistoryDownloadScreen.from, lastMonthFormatted + '01');
-      assert.deepEqual(await issueHistoryDownloadScreen.to, lastMonthFormatted + cntLastMonthDay);
+      assert.deepStrictEqual(await issueHistoryDownloadScreen.from, lastMonthFormatted + '01');
+      assert.deepStrictEqual(await issueHistoryDownloadScreen.to, lastMonthFormatted + cntLastMonthDay);
 
       // ****************************
       // ** 後始末
@@ -127,8 +127,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await issueHistoryDownloadScreen.from, thisMonthFormatted + '01');
-      assert.deepEqual(await issueHistoryDownloadScreen.to, thisMonthFormatted + cntThisMonthDay);
+      assert.deepStrictEqual(await issueHistoryDownloadScreen.from, thisMonthFormatted + '01');
+      assert.deepStrictEqual(await issueHistoryDownloadScreen.to, thisMonthFormatted + cntThisMonthDay);
 
       // ****************************
       // ** 後始末
@@ -159,7 +159,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await issueHistoryDownloadScreen.alert, '発送日FROMを正しく入力してください。');
+      assert.deepStrictEqual(await issueHistoryDownloadScreen.alert, '発送日FROMを正しく入力してください。');
 
       // ****************************
       // ** 後始末
@@ -190,7 +190,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await issueHistoryDownloadScreen.alert, '発送日FROMを正しく入力してください。');
+      assert.deepStrictEqual(await issueHistoryDownloadScreen.alert, '発送日FROMを正しく入力してください。');
 
       // ****************************
       // ** 後始末
@@ -222,7 +222,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await issueHistoryDownloadScreen.alert, '発送日TOを正しく入力してください。');
+      assert.deepStrictEqual(await issueHistoryDownloadScreen.alert, '発送日TOを正しく入力してください。');
 
       // ****************************
       // ** 後始末
@@ -254,7 +254,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await issueHistoryDownloadScreen.alert, '発送日TOを正しく入力してください。');
+      assert.deepStrictEqual(await issueHistoryDownloadScreen.alert, '発送日TOを正しく入力してください。');
 
       // ****************************
       // ** 後始末
@@ -286,7 +286,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await issueHistoryDownloadScreen.alert, '発送日はFrom <= Toで入力してください。');
+      assert.deepStrictEqual(await issueHistoryDownloadScreen.alert, '発送日はFrom <= Toで入力してください。');
 
       // ****************************
       // ** 後始末
@@ -318,7 +318,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await issueHistoryDownloadScreen.alert, '対象データはありません。');
+      assert.deepStrictEqual(await issueHistoryDownloadScreen.alert, '対象データはありません。');
 
       // ****************************
       // ** 後始末
@@ -358,7 +358,7 @@ exports.testMain = () => {
       const expected = fs.readFileSync(`${Dir.filesExtraction}/issue_history_download_test_1_expected.csv`).toString();
 
       // ファイル内容の比較
-      await assert.deepEqual(actual, expected);
+      await assert.deepStrictEqual(actual, expected);
 
       // ****************************
       // ** 後始末

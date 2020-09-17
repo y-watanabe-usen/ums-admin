@@ -54,15 +54,15 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'dedicated/trial_detail');
-      assert.deepEqual(await trialDetailScreen.accountId, '11');
-      assert.deepEqual(await trialDetailScreen.loginId, 'W7Pr56');
-      assert.deepEqual(await trialDetailScreen.password, 'CPhKCagj');
-      assert.deepEqual(await trialDetailScreen.salesChannel, 'USEN');
-      assert.deepEqual(await trialDetailScreen.issueDate, '2020-08-05');
-      assert.deepEqual(await trialDetailScreen.firstAuthenticationDatetimes, '2020-09-14 11:25:44');
-      assert.deepEqual(await trialDetailScreen.expireDate, '2020-09-27');
-      assert.deepEqual(await trialDetailScreen.viewingHistoryTotal, '0時間00分');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'dedicated/trial_detail');
+      assert.deepStrictEqual(await trialDetailScreen.accountId, '11');
+      assert.deepStrictEqual(await trialDetailScreen.loginId, 'W7Pr56');
+      assert.deepStrictEqual(await trialDetailScreen.password, 'CPhKCagj');
+      assert.deepStrictEqual(await trialDetailScreen.salesChannel, 'USEN');
+      assert.deepStrictEqual(await trialDetailScreen.issueDate, '2020-08-05');
+      assert.deepStrictEqual(await trialDetailScreen.firstAuthenticationDatetimes, '2020-09-14 11:25:44');
+      assert.deepStrictEqual(await trialDetailScreen.expireDate, '2020-09-27');
+      assert.deepStrictEqual(await trialDetailScreen.viewingHistoryTotal, '0時間00分');
       const arr = [
         '0時間00分',
         '0時間00分',
@@ -96,7 +96,7 @@ exports.testMain = () => {
         '0時間00分'
       ];
       for (let n = 0; n < arr.length; n++) {
-        assert.deepEqual(await trialDetailScreen.viewingHistoryNth(n), arr[n]);
+        assert.deepStrictEqual(await trialDetailScreen.viewingHistoryNth(n), arr[n]);
       }
       // ****************************
       // ** 後始末
@@ -123,7 +123,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'dedicated/trial_search');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'dedicated/trial_search');
       // ****************************
       // ** 後始末
       // ****************************
@@ -157,7 +157,7 @@ exports.testMain = () => {
       const actual = fs.readFileSync(`${Const.DOWNLOAD_PATH}/${csvFilename}`).toString();
       const expected = fs.readFileSync(`${Dir.filesDedicated}/expected_viewing_history.csv`).toString();
       // ファイル内容の比較
-      await assert.deepEqual(actual, expected);
+      await assert.deepStrictEqual(actual, expected);
       // ****************************
       // ** 後始末
       // ****************************

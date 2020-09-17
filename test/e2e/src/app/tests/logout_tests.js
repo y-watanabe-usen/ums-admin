@@ -51,7 +51,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'login');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'login');
       // ****************************
       // ** 後始末
       // ****************************

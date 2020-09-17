@@ -59,8 +59,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await bulkScreen.valkCustCd, '000000004');
-      assert.deepEqual(await bulkScreen.valkUpdateStatus, '開錠');
+      assert.deepStrictEqual(await bulkScreen.valkCustCd, '000000004');
+      assert.deepStrictEqual(await bulkScreen.valkUpdateStatus, '開錠');
 
       // ****************************
       // ** 後始末

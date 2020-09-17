@@ -55,9 +55,9 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await roleUserDetailScreen.employeeCd, 'iko');
-      assert.deepEqual(await roleUserDetailScreen.department, '不明');
-      assert.deepEqual(await roleUserDetailScreen.employeeName, 'システム 移行ユーザ');
+      assert.deepStrictEqual(await roleUserDetailScreen.employeeCd, 'iko');
+      assert.deepStrictEqual(await roleUserDetailScreen.department, '不明');
+      assert.deepStrictEqual(await roleUserDetailScreen.employeeName, 'システム 移行ユーザ');
       // ****************************
       // ** 後始末
       // ****************************
@@ -84,7 +84,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'role/user_search');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'role/user_search');
       // ****************************
       // ** 後始末
       // ****************************
@@ -114,7 +114,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await roleUserDetailScreen.updateCompleted, '更新しました。');
+      assert.deepStrictEqual(await roleUserDetailScreen.updateCompleted, '更新しました。');
       // ****************************
       // ** 後始末
       // ****************************
