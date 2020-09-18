@@ -5,9 +5,9 @@ const NotArrivedUploadTests = require(`${Dir.tests}/issue/not_arrived_upload_tes
 const PublishUploadTests = require(`${Dir.tests}/issue/publish_upload_tests`);
 
 exports.testMain = () => {
-    describe('発送管理のテスト', () => {
-        PublishDownloadTests.testMain();
-        NotArrivedUploadTests.testMain();
-        PublishUploadTests.testMain();
-    });
+  describe('発送管理のテスト', () => {
+    PublishDownloadTests.testMain();
+    NotArrivedUploadTests.testMain();
+    PublishUploadTests.testMain();
+  });
 }
