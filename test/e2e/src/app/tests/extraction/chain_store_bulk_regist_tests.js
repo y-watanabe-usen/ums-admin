@@ -57,10 +57,10 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'extraction/chain_store_bulk_regist/');
-      assert.deepEqual(await chainStoreBulkRegistScreen.title, 'USEN CART利用申込済顧客用メールアドレス登録・ID/PW抽出画面');
-      assert.deepEqual(await chainStoreBulkRegistScreen.radioBranch, true);
-      assert.deepEqual(await chainStoreBulkRegistScreen.radioClient, false);
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'extraction/chain_store_bulk_regist/');
+      assert.deepStrictEqual(await chainStoreBulkRegistScreen.title, 'USEN CART利用申込済顧客用メールアドレス登録・ID/PW抽出画面');
+      assert.deepStrictEqual(await chainStoreBulkRegistScreen.radioBranch, true);
+      assert.deepStrictEqual(await chainStoreBulkRegistScreen.radioClient, false);
 
       // ****************************
       // ** 後始末
@@ -90,8 +90,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await chainStoreBulkRegistScreen.radioBranch, false);
-      assert.deepEqual(await chainStoreBulkRegistScreen.radioClient, true);
+      assert.deepStrictEqual(await chainStoreBulkRegistScreen.radioBranch, false);
+      assert.deepStrictEqual(await chainStoreBulkRegistScreen.radioClient, true);
 
       // ****************************
       // ** 後始末
@@ -121,7 +121,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await chainStoreBulkRegistScreen.alert, 'CSVファイルを選択してください。');
+      assert.deepStrictEqual(await chainStoreBulkRegistScreen.alert, 'CSVファイルを選択してください。');
 
       // ****************************
       // ** 後始末
@@ -152,7 +152,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await chainStoreBulkRegistScreen.alert, 'CSVファイルを選択してください。');
+      assert.deepStrictEqual(await chainStoreBulkRegistScreen.alert, 'CSVファイルを選択してください。');
 
       // ****************************
       // ** 後始末

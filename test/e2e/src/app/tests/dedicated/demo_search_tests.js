@@ -55,8 +55,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'dedicated/demo_search/');
-      assert.deepEqual(await demoAccountSearchScreen.firstLoginId, 'NGXAL5');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'dedicated/demo_search/');
+      assert.deepStrictEqual(await demoAccountSearchScreen.firstLoginId, 'NGXAL5');
       // ****************************
       // ** 後始末
       // ****************************
@@ -82,8 +82,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'dedicated/demo_search/');
-      assert.deepEqual(await demoAccountSearchScreen.firstLoginId, 'kCFjZB');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'dedicated/demo_search/');
+      assert.deepStrictEqual(await demoAccountSearchScreen.firstLoginId, 'kCFjZB');
       // ****************************
       // ** 後始末
       // ****************************
@@ -111,7 +111,7 @@ exports.testMain = () => {
       // ** 検証
       // ****************************
       var thisMonthFormatted = moment().format('YYYY-MM-DD');
-      assert.deepEqual(await demoAccountSearchScreen.stoppedDate, thisMonthFormatted);
+      assert.deepStrictEqual(await demoAccountSearchScreen.stoppedDate, thisMonthFormatted);
       // ****************************
       // ** 後始末
       // ****************************

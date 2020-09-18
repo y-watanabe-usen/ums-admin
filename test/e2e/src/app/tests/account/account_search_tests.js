@@ -54,8 +54,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'account/search');
-      assert.deepEqual(await accountSearchScreen.firstCustCd, 'admin0001');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'account/search');
+      assert.deepStrictEqual(await accountSearchScreen.firstCustCd, 'admin0001');
 
       // ****************************
       // ** 後始末
@@ -82,8 +82,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'account/search');
-      assert.deepEqual(await accountSearchScreen.firstCustCd, '000000002');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'account/search');
+      assert.deepStrictEqual(await accountSearchScreen.firstCustCd, '000000002');
 
       // ****************************
       // ** 後始末
@@ -110,7 +110,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'account/account_list');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'account/account_list');
 
       // ****************************
       // ** 後始末

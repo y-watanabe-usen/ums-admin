@@ -54,8 +54,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'role/user_search/');
-      assert.deepEqual(await roleSearchScreen.firstEmployeeCd, 'iko');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'role/user_search/');
+      assert.deepStrictEqual(await roleSearchScreen.firstEmployeeCd, 'iko');
       // ****************************
       // ** 後始末
       // ****************************
@@ -80,7 +80,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'role/user_detail');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'role/user_detail');
       // ****************************
       // ** 後始末
       // ****************************

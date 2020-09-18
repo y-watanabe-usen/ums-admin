@@ -62,8 +62,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await publishUploadScreen.firstCustCd, '000000015');
-      assert.deepEqual(await publishUploadScreen.UploadMessage, 'アップロードしました。');
+      assert.deepStrictEqual(await publishUploadScreen.firstCustCd, '000000015');
+      assert.deepStrictEqual(await publishUploadScreen.UploadMessage, 'アップロードしました。');
 
       // ****************************
       // ** 後始末
@@ -96,8 +96,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await publishUploadScreen.firstCustCd, '000000014');
-      assert.deepEqual(await publishUploadScreen.UploadMessage, 'アップロードしました。');
+      assert.deepStrictEqual(await publishUploadScreen.firstCustCd, '000000014');
+      assert.deepStrictEqual(await publishUploadScreen.UploadMessage, 'アップロードしました。');
 
       // ****************************
       // ** 後始末
@@ -130,8 +130,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await publishUploadScreen.firstCustCd, '000000012');
-      assert.deepEqual(await publishUploadScreen.UploadMessage, 'アップロードしました。');
+      assert.deepStrictEqual(await publishUploadScreen.firstCustCd, '000000012');
+      assert.deepStrictEqual(await publishUploadScreen.UploadMessage, 'アップロードしました。');
 
       // ****************************
       // ** 後始末
@@ -164,8 +164,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await publishUploadScreen.firstCustCd, '000000013');
-      assert.deepEqual(await publishUploadScreen.UploadMessage, '発送データを出力しました。');
+      assert.deepStrictEqual(await publishUploadScreen.firstCustCd, '000000013');
+      assert.deepStrictEqual(await publishUploadScreen.UploadMessage, '発送データを出力しました。');
 
       // ****************************
       // ** 後始末

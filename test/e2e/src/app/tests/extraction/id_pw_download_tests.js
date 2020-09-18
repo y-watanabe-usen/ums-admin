@@ -57,10 +57,10 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'extraction/id_pw_download/');
-      assert.deepEqual(await idPwDownloadScreen.title, 'ID/PW抽出（顧客CD指定）');
-      assert.deepEqual(await idPwDownloadScreen.serviceCd, '100'); // valueを取得（テキストの取得調査中）
-      assert.deepEqual(await idPwDownloadScreen.alert, '');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'extraction/id_pw_download/');
+      assert.deepStrictEqual(await idPwDownloadScreen.title, 'ID/PW抽出（顧客CD指定）');
+      assert.deepStrictEqual(await idPwDownloadScreen.serviceCd, '100'); // valueを取得（テキストの取得調査中）
+      assert.deepStrictEqual(await idPwDownloadScreen.alert, '');
 
       // ****************************
       // ** 後始末
@@ -90,7 +90,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await idPwDownloadScreen.serviceCd, '120');
+      assert.deepStrictEqual(await idPwDownloadScreen.serviceCd, '120');
 
       // ****************************
       // ** 後始末
@@ -120,7 +120,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await idPwDownloadScreen.serviceCd, '130');
+      assert.deepStrictEqual(await idPwDownloadScreen.serviceCd, '130');
 
       // ****************************
       // ** 後始末
@@ -150,7 +150,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await idPwDownloadScreen.serviceCd, '140');
+      assert.deepStrictEqual(await idPwDownloadScreen.serviceCd, '140');
 
       // ****************************
       // ** 後始末
@@ -180,7 +180,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await idPwDownloadScreen.serviceCd, '150');
+      assert.deepStrictEqual(await idPwDownloadScreen.serviceCd, '150');
 
       // ****************************
       // ** 後始末
@@ -210,7 +210,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await idPwDownloadScreen.serviceCd, '160');
+      assert.deepStrictEqual(await idPwDownloadScreen.serviceCd, '160');
 
       // ****************************
       // ** 後始末
@@ -240,7 +240,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await idPwDownloadScreen.serviceCd, '170');
+      assert.deepStrictEqual(await idPwDownloadScreen.serviceCd, '170');
 
       // ****************************
       // ** 後始末
@@ -270,7 +270,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await idPwDownloadScreen.alert, 'CSVファイルを選択してください。');
+      assert.deepStrictEqual(await idPwDownloadScreen.alert, 'CSVファイルを選択してください。');
 
       // ****************************
       // ** 後始末
@@ -301,7 +301,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await idPwDownloadScreen.alert, 'CSVファイルを選択してください。');
+      assert.deepStrictEqual(await idPwDownloadScreen.alert, 'CSVファイルを選択してください。');
 
       // ****************************
       // ** 後始末
@@ -341,7 +341,7 @@ exports.testMain = () => {
       const expected = fs.readFileSync(`${Dir.filesExtraction}/id_pw_download_test_1_expected.csv`).toString(); // todo: 期待結果CSV作成
 
       // ファイル内容の比較
-      await assert.deepEqual(actual, expected);
+      await assert.deepStrictEqual(actual, expected);
 
       // ****************************
       // ** 後始末

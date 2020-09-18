@@ -54,11 +54,11 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'extraction/inited_cust_cd_download/');
-      assert.deepEqual(await initedCustCdDownloadScreen.title, '初回認証済顧客抽出');
-      assert.deepEqual(await initedCustCdDownloadScreen.from, '');
-      assert.deepEqual(await initedCustCdDownloadScreen.to, '');
-      assert.deepEqual(await initedCustCdDownloadScreen.service, '100'); // valueを取得（テキストの取得調査中）
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'extraction/inited_cust_cd_download/');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.title, '初回認証済顧客抽出');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.from, '');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.to, '');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.service, '100'); // valueを取得（テキストの取得調査中）
 
       // ****************************
       // ** 後始末
@@ -89,8 +89,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await initedCustCdDownloadScreen.from, lastMonthFormatted + '01');
-      assert.deepEqual(await initedCustCdDownloadScreen.to, lastMonthFormatted + cntLastMonthDay);
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.from, lastMonthFormatted + '01');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.to, lastMonthFormatted + cntLastMonthDay);
 
       // ****************************
       // ** 後始末
@@ -120,8 +120,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await initedCustCdDownloadScreen.from, thisMonthFormatted + '01');
-      assert.deepEqual(await initedCustCdDownloadScreen.to, thisMonthFormatted + cntThisMonthDay);
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.from, thisMonthFormatted + '01');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.to, thisMonthFormatted + cntThisMonthDay);
 
       // ****************************
       // ** 後始末
@@ -149,7 +149,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await initedCustCdDownloadScreen.alert, '初回認証日FROMを正しく入力してください。');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.alert, '初回認証日FROMを正しく入力してください。');
 
       // ****************************
       // ** 後始末
@@ -177,7 +177,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await initedCustCdDownloadScreen.alert, '初回認証日FROMを正しく入力してください。');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.alert, '初回認証日FROMを正しく入力してください。');
 
       // ****************************
       // ** 後始末
@@ -206,7 +206,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await initedCustCdDownloadScreen.alert, '初回認証日TOを正しく入力してください。');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.alert, '初回認証日TOを正しく入力してください。');
 
       // ****************************
       // ** 後始末
@@ -235,7 +235,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await initedCustCdDownloadScreen.alert, '初回認証日TOを正しく入力してください。');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.alert, '初回認証日TOを正しく入力してください。');
 
       // ****************************
       // ** 後始末
@@ -264,7 +264,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await initedCustCdDownloadScreen.alert, '初回認証日はFrom <= Toで入力してください。');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.alert, '初回認証日はFrom <= Toで入力してください。');
 
       // ****************************
       // ** 後始末
@@ -291,7 +291,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await initedCustCdDownloadScreen.service, '120');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.service, '120');
 
       // ****************************
       // ** 後始末
@@ -318,7 +318,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await initedCustCdDownloadScreen.service, '130');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.service, '130');
 
       // ****************************
       // ** 後始末
@@ -345,7 +345,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await initedCustCdDownloadScreen.service, '140');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.service, '140');
 
       // ****************************
       // ** 後始末
@@ -372,7 +372,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await initedCustCdDownloadScreen.service, '150');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.service, '150');
 
       // ****************************
       // ** 後始末
@@ -399,7 +399,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await initedCustCdDownloadScreen.service, '160');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.service, '160');
 
       // ****************************
       // ** 後始末
@@ -426,7 +426,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await initedCustCdDownloadScreen.service, '170');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.service, '170');
 
       // ****************************
       // ** 後始末
@@ -454,7 +454,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await initedCustCdDownloadScreen.alert, '対象データはありません。');
+      assert.deepStrictEqual(await initedCustCdDownloadScreen.alert, '対象データはありません。');
 
       // ****************************
       // ** 後始末
@@ -490,7 +490,7 @@ exports.testMain = () => {
       const expected = fs.readFileSync(`${Dir.filesExtraction}/inited_cust_cd_download_test_1_expected.csv`).toString();
 
       // ファイル内容の比較
-      await assert.deepEqual(actual, expected);
+      await assert.deepStrictEqual(actual, expected);
 
       // ****************************
       // ** 後始末

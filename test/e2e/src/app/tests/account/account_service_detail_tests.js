@@ -61,30 +61,30 @@ exports.testMain = () => {
       // ** 検証
       // ****************************
       // UNIS情報
-      assert.deepEqual(await accountServiceDetailScreen.firstCustCd, 'admin0001');
-      assert.deepEqual(await accountServiceDetailScreen.name, 'テストデータ0001(ﾃｽﾄﾃﾞｰﾀ0001)');
-      assert.deepEqual(await accountServiceDetailScreen.clientStatus, '確定');
-      assert.deepEqual(await accountServiceDetailScreen.address, '〒150-0045 渋谷区神泉町９－８ビル１Ｆ');
-      assert.deepEqual(await accountServiceDetailScreen.tel, '0120-117-448');
-      assert.deepEqual(await accountServiceDetailScreen.branch, '東京統括支店青山(0204140700)');
-      assert.deepEqual(await accountServiceDetailScreen.regularStore, '');
-      assert.deepEqual(await accountServiceDetailScreen.industry, 'その他　会社関連(001699)');
-      assert.deepEqual(await accountServiceDetailScreen.launch, '2014-10-01');
-      assert.deepEqual(await accountServiceDetailScreen.close, '');
-      assert.deepEqual(await accountServiceDetailScreen.cancell, '');
-      assert.deepEqual(await accountServiceDetailScreen.lastUpdate, '2014-11-20 15:21:24');
+      assert.deepStrictEqual(await accountServiceDetailScreen.firstCustCd, 'admin0001');
+      assert.deepStrictEqual(await accountServiceDetailScreen.name, 'テストデータ0001(ﾃｽﾄﾃﾞｰﾀ0001)');
+      assert.deepStrictEqual(await accountServiceDetailScreen.clientStatus, '確定');
+      assert.deepStrictEqual(await accountServiceDetailScreen.address, '〒150-0045 渋谷区神泉町９－８ビル１Ｆ');
+      assert.deepStrictEqual(await accountServiceDetailScreen.tel, '0120-117-448');
+      assert.deepStrictEqual(await accountServiceDetailScreen.branch, '東京統括支店青山(0204140700)');
+      assert.deepStrictEqual(await accountServiceDetailScreen.regularStore, '');
+      assert.deepStrictEqual(await accountServiceDetailScreen.industry, 'その他　会社関連(001699)');
+      assert.deepStrictEqual(await accountServiceDetailScreen.launch, '2014-10-01');
+      assert.deepStrictEqual(await accountServiceDetailScreen.close, '');
+      assert.deepStrictEqual(await accountServiceDetailScreen.cancell, '');
+      assert.deepStrictEqual(await accountServiceDetailScreen.lastUpdate, '2014-11-20 15:21:24');
       // サービス情報
-      assert.deepEqual(await accountServiceDetailScreen.serviceName, 'USEN CART');
-      assert.deepEqual(await accountServiceDetailScreen.contractNo, '');
-      assert.deepEqual(await accountServiceDetailScreen.StatementNo, '');
-      assert.deepEqual(await accountServiceDetailScreen.contractStatus, '');
-      assert.deepEqual(await accountServiceDetailScreen.billingStartDate, '');
-      assert.deepEqual(await accountServiceDetailScreen.endMonth, '');
-      assert.deepEqual(await accountServiceDetailScreen.contractItem, '');
-      assert.deepEqual(await accountServiceDetailScreen.FixedDate, '');
-      assert.deepEqual(await accountServiceDetailScreen.firstTimeDate, '2014-10-01');
-      assert.deepEqual(await accountServiceDetailScreen.firstAuthDate, '2015-06-02 11:47:59');
-      assert.deepEqual(await accountServiceDetailScreen.endDate, '');
+      assert.deepStrictEqual(await accountServiceDetailScreen.serviceName, 'USEN CART');
+      assert.deepStrictEqual(await accountServiceDetailScreen.contractNo, '');
+      assert.deepStrictEqual(await accountServiceDetailScreen.StatementNo, '');
+      assert.deepStrictEqual(await accountServiceDetailScreen.contractStatus, '');
+      assert.deepStrictEqual(await accountServiceDetailScreen.billingStartDate, '');
+      assert.deepStrictEqual(await accountServiceDetailScreen.endMonth, '');
+      assert.deepStrictEqual(await accountServiceDetailScreen.contractItem, '');
+      assert.deepStrictEqual(await accountServiceDetailScreen.FixedDate, '');
+      assert.deepStrictEqual(await accountServiceDetailScreen.firstTimeDate, '2014-10-01');
+      assert.deepStrictEqual(await accountServiceDetailScreen.firstAuthDate, '2015-06-02 11:47:59');
+      assert.deepStrictEqual(await accountServiceDetailScreen.endDate, '');
 
       // ****************************
       // ** 後始末
@@ -116,7 +116,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'account/detail');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'account/detail');
 
       // ****************************
       // ** 後始末
@@ -150,7 +150,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await accountServiceDetailScreen.serviceEnable, false);
+      assert.deepStrictEqual(await accountServiceDetailScreen.serviceEnable, false);
 
       // ****************************
       // ** 後始末
@@ -187,7 +187,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await accountServiceDetailScreen.closedStore, '休店');
+      assert.deepStrictEqual(await accountServiceDetailScreen.closedStore, '休店');
 
       // ****************************
       // ** 後始末
@@ -223,7 +223,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await accountServiceDetailScreen.forcedUnlockDisable, '');
+      assert.deepStrictEqual(await accountServiceDetailScreen.forcedUnlockDisable, '');
 
       // ****************************
       // ** 後始末
@@ -262,7 +262,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await accountServiceDetailScreen.closedStore, '強制施錠');
+      assert.deepStrictEqual(await accountServiceDetailScreen.closedStore, '強制施錠');
 
       // ****************************
       // ** 後始末
@@ -296,7 +296,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await accountServiceDetailScreen.forcedUnlockDisable, '');
+      assert.deepStrictEqual(await accountServiceDetailScreen.forcedUnlockDisable, '');
 
       // ****************************
       // ** 後始末

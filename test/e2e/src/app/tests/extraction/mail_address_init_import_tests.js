@@ -57,9 +57,9 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'extraction/mail_address_init_import/');
-      assert.deepEqual(await mailAddressInitImportScreen.title, 'メールアドレス初回登録・仮ID/PW抽出画面');
-      assert.deepEqual(await mailAddressInitImportScreen.enableBtnDownload, false);
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'extraction/mail_address_init_import/');
+      assert.deepStrictEqual(await mailAddressInitImportScreen.title, 'メールアドレス初回登録・仮ID/PW抽出画面');
+      assert.deepStrictEqual(await mailAddressInitImportScreen.enableBtnDownload, false);
 
       // ****************************
       // ** 後始末
@@ -89,7 +89,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await mailAddressInitImportScreen.alert, 'CSVファイルを選択してください。');
+      assert.deepStrictEqual(await mailAddressInitImportScreen.alert, 'CSVファイルを選択してください。');
 
       // ****************************
       // ** 後始末
@@ -120,7 +120,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await mailAddressInitImportScreen.alert, 'CSVファイルを選択してください。');
+      assert.deepStrictEqual(await mailAddressInitImportScreen.alert, 'CSVファイルを選択してください。');
 
       // ****************************
       // ** 後始末

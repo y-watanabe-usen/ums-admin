@@ -47,9 +47,9 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL);
-      assert.deepEqual(await loginScreen.code, '');
-      assert.deepEqual(await loginScreen.password, '');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL);
+      assert.deepStrictEqual(await loginScreen.code, '');
+      assert.deepStrictEqual(await loginScreen.password, '');
 
       // ****************************
       // ** 後始末
@@ -72,8 +72,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'login');
-      assert.deepEqual(await loginScreen.alert, 'ログインID、またはパスワードに誤りがあります。');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'login');
+      assert.deepStrictEqual(await loginScreen.alert, 'ログインID、またはパスワードに誤りがあります。');
 
       // ****************************
       // ** 後始末
@@ -96,8 +96,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'login');
-      assert.deepEqual(await loginScreen.alert, 'ログインID、またはパスワードに誤りがあります。');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'login');
+      assert.deepStrictEqual(await loginScreen.alert, 'ログインID、またはパスワードに誤りがあります。');
 
       // ****************************
       // ** 後始末
@@ -117,7 +117,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'login/');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'login/');
 
       // ****************************
       // ** 後始末
@@ -141,8 +141,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'account/search');
-      assert.deepEqual(await accountSearchScreen.title, 'アカウント検索');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'account/search');
+      assert.deepStrictEqual(await accountSearchScreen.title, 'アカウント検索');
 
       // ****************************
       // ** 後始末

@@ -59,7 +59,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await branchScreen.branchName, '東京統括支店青山');
+      assert.deepStrictEqual(await branchScreen.branchName, '東京統括支店青山');
 
       // ****************************
       // ** 後始末
@@ -99,7 +99,7 @@ exports.testMain = () => {
       const actual = fs.readFileSync(`${Const.DOWNLOAD_PATH}/${csvFilename}`).toString();
       const expected = fs.readFileSync(`${Dir.filesBranch}/not_arrived_expected.csv`).toString();
       // ファイル内容の比較
-      await assert.deepEqual(actual, expected);
+      await assert.deepStrictEqual(actual, expected);
 
       // ****************************
       // ** 後始末
@@ -130,7 +130,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'account/account_list');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'account/account_list');
 
       // ****************************
       // ** 後始末
@@ -170,7 +170,7 @@ exports.testMain = () => {
       const actual = fs.readFileSync(`${Const.DOWNLOAD_PATH}/${csvFilename}`).toString();
       const expected = fs.readFileSync(`${Dir.filesBranch}/prospects_expected.csv`).toString();
       // ファイル内容の比較
-      await assert.deepEqual(actual, expected);
+      await assert.deepStrictEqual(actual, expected);
 
       // ****************************
       // ** 後始末
