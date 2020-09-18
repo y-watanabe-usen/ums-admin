@@ -1,5 +1,5 @@
 module.exports = class Screen {
-    constructor(driver) {
-        this.driver = driver;
-    }
+  constructor(driver) {
+    this.driver = driver;
+  }
 }
