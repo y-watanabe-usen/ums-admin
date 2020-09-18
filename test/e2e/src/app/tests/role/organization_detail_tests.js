@@ -58,10 +58,10 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await organizationDetailScreen.infoOrganizationCd, '9920830003');
-      assert.deepEqual(await organizationDetailScreen.infoOrganizationName, '(株)U-NEXT（出向）');
-      assert.deepEqual(await organizationDetailScreen.updateTargetOrganizationCd, '9920830003');
-      assert.deepEqual(await organizationDetailScreen.updateTargetOrganizationName, '(株)U-NEXT（出向）');
+      assert.deepStrictEqual(await organizationDetailScreen.infoOrganizationCd, '9920830003');
+      assert.deepStrictEqual(await organizationDetailScreen.infoOrganizationName, '(株)U-NEXT（出向）');
+      assert.deepStrictEqual(await organizationDetailScreen.updateTargetOrganizationCd, '9920830003');
+      assert.deepStrictEqual(await organizationDetailScreen.updateTargetOrganizationName, '(株)U-NEXT（出向）');
       // ****************************
       // ** 後始末
       // ****************************
@@ -91,7 +91,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'role/organization_search');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'role/organization_search');
       // ****************************
       // ** 後始末
       // ****************************
@@ -124,7 +124,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await organizationDetailScreen.updateCompleted, '更新しました。');
+      assert.deepStrictEqual(await organizationDetailScreen.updateCompleted, '更新しました。');
       // ****************************
       // ** 後始末
       // ****************************

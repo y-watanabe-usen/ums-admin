@@ -54,8 +54,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'issue/publish_download/');
-      assert.deepEqual(await publishDownloadScreen.firstFileName, '20190527201444_技術発送(CAN).zip');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'issue/publish_download/');
+      assert.deepStrictEqual(await publishDownloadScreen.firstFileName, '20190527201444_技術発送(CAN).zip');
 
       // ****************************
       // ** 後始末
@@ -89,7 +89,7 @@ exports.testMain = () => {
       const actual = fs.readFileSync(`${Const.DOWNLOAD_PATH}/${pdfFilename}`).toString();
       const expected = fs.readFileSync(`${Dir.filesIssue}/expected.pdf`).toString();
       // ファイル内容の比較
-      await assert.deepEqual(actual, expected);
+      await assert.deepStrictEqual(actual, expected);
 
       // ****************************
       // ** 後始末
@@ -124,8 +124,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************;
-      assert.deepEqual(await publishDownloadScreen.shippingMessage, '発送データの作成が完了しました。');
-      assert.deepEqual(result, expected);
+      assert.deepStrictEqual(await publishDownloadScreen.shippingMessage, '発送データの作成が完了しました。');
+      assert.deepStrictEqual(result, expected);
 
       // ****************************
       // ** 後始末

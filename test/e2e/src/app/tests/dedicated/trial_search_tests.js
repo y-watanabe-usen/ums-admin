@@ -52,8 +52,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'dedicated/trial_search/');
-      assert.deepEqual(await trialSearchScreen.firstAccountId, '11');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'dedicated/trial_search/');
+      assert.deepStrictEqual(await trialSearchScreen.firstAccountId, '11');
       // ****************************
       // ** 後始末
       // ****************************
@@ -77,8 +77,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'dedicated/trial_search/');
-      assert.deepEqual(await trialSearchScreen.firstLoginId, 'LJnaK2');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'dedicated/trial_search/');
+      assert.deepStrictEqual(await trialSearchScreen.firstLoginId, 'LJnaK2');
       // ****************************
       // ** 後始末
       // ****************************
@@ -102,8 +102,8 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'dedicated/trial_search/');
-      assert.deepEqual(await trialSearchScreen.firstAccountId, '12');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'dedicated/trial_search/');
+      assert.deepStrictEqual(await trialSearchScreen.firstAccountId, '12');
       // ****************************
       // ** 後始末
       // ****************************
@@ -136,7 +136,7 @@ exports.testMain = () => {
       const actual = fs.readFileSync(`${Const.DOWNLOAD_PATH}/${csvFilename}`).toString();
       const expected = fs.readFileSync(`${Dir.filesDedicated}/expected.csv`).toString();
       // ファイル内容の比較
-      await assert.deepEqual(actual, expected);
+      await assert.deepStrictEqual(actual, expected);
       // ****************************
       // ** 後始末
       // ****************************
@@ -160,7 +160,7 @@ exports.testMain = () => {
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'dedicated/trial_detail');
+      assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'dedicated/trial_detail');
       // ****************************
       // ** 後始末
       // ****************************
