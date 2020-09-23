@@ -6,7 +6,7 @@ const fs = require('fs');
 var sleep = require('sleep');
 const moment = require('moment');
 
-const { Dir, Const, Utils } = require('lib');
+const { Dir, Const, Utils, Database } = require('lib');
 const { LoginScreen, ExtractionScreen, InitedCustCdDownloadScreen, IssueHistoryDownloadScreen } = require('screen');
 
 let driver;
@@ -293,11 +293,15 @@ exports.testMain = () => {
       // ****************************
     });
 
-    // TODO: 9月になり先月のデータがある為にダウンロードできるので落ちてしまう。t_issue_history.issue_date、t_issue_history.not_arrived_dateを変更すればいい？
-    it.skip('抽出対象データがない場合エラーメッセージが表示されること', async () => {
+    it('抽出対象データがない場合エラーメッセージが表示されること', async () => {
       // ****************************
       // ** 準備
-      // ****************************
+      // **************************** 
+      
+      // t_issue_history.issue_date、t_issue_history.not_arrived_dateを変更
+      let updateId = [2,4]
+      Database.executeQuery('UPDATE t_issue_history SET issue_date="2020/07/01", not_arrived_date="2020/07/31" WHERE id IN (?,?)', updateId);
+
       const loginScreen = new LoginScreen(driver);
       const extractionScreen = new ExtractionScreen(driver);
       const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
@@ -323,10 +327,13 @@ exports.testMain = () => {
       // ****************************
       // ** 後始末
       // ****************************
+
+      // t_issue_history.issue_date、t_issue_history.not_arrived_dateを変更
+      let returnUpdateId = [2,4]
+      Database.executeQuery('UPDATE t_issue_history SET issue_date="2020-08-01 16:21:19", not_arrived_date="2020-08-01 16:21:19" WHERE id IN (?,?)', returnUpdateId);
     });
 
-    // TODO: 何故か落ちるので後で調査
-    it.skip('アカウント証発送履歴データが抽出され、ファイルがダウンロードされていることを確認', async () => {
+    it('アカウント証発送履歴データが抽出され、ファイルがダウンロードされていることを確認', async () => {
       // ****************************
       // ** 準備
       // ****************************
