@@ -29,4 +29,10 @@ module.exports = class MailAddressInitImportScreen extends AuthedScreen {
   async clickBtnDownload() {
     await this.driver.findElement(By.id('bt_download')).click();
   }
+
+  async downloadClick() {
+    await this.driver.wait(until.alertIsPresent());
+    let alert = await this.driver.switchTo().alert();
+    await alert.accept();
+  }
 }
