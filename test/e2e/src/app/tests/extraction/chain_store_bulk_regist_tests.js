@@ -111,7 +111,7 @@ exports.testMain = () => {
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
       await initedCustCdDownloadScreen.clickTabExtraction();
-      await extractionScreen.clickExtractionMenuMailAddressInitImport();
+      await extractionScreen.clickExtractionMenuChainStoreBulkRegist();
 
       // ****************************
       // ** 実行
@@ -141,7 +141,7 @@ exports.testMain = () => {
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
       await initedCustCdDownloadScreen.clickTabExtraction();
-      await extractionScreen.clickExtractionMenuMailAddressInitImport();
+      await extractionScreen.clickExtractionMenuChainStoreBulkRegist();
 
       // ****************************
       // ** 実行
@@ -159,25 +159,83 @@ exports.testMain = () => {
       // ****************************
     });
 
-    // TODO: ダウンロードが上手くいかないためスキップ
-    it.skip('アカウント証発送履歴抽出され、ファイルがダウンロードされていることを確認', async () => {
+    it('CSVファイルがアップロードできること（支店CD毎に出力）', async () => {
       // ****************************
       // ** 準備
       // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const chainStoreBulkRegistScreen = new ChainStoreBulkRegistScreen(driver);
+      await loginScreen.access();
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuChainStoreBulkRegist();
 
       // ****************************
       // ** 実行
       // ****************************
+      await chainStoreBulkRegistScreen.clickBtnFile('/extraction/chain_store_bulk_regist_test_1_upload.csv');
+      await chainStoreBulkRegistScreen.clickBtnUpload();
+      await chainStoreBulkRegistScreen.clickBtnDownload();
+      await chainStoreBulkRegistScreen.downloadClick();
+      sleep.sleep(2);
 
       // ****************************
       // ** 検証
       // ****************************
+      // ファイル名取得
+      const stdout = execSync(`ls ${Const.DOWNLOAD_PATH}`);
+      const zipFilename = stdout.toString().replace("\n", "");
+
+      // ファイル内容の比較
+      await assert.match(zipFilename, /^[0-9]{14}_.*.zip$/);
 
       // ****************************
       // ** 後始末
       // ****************************
     });
+    it('CSVファイルがアップロードできること（顧客CD毎に出力）', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const chainStoreBulkRegistScreen = new ChainStoreBulkRegistScreen(driver);
+      await loginScreen.access();
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuChainStoreBulkRegist();
 
+      // ****************************
+      // ** 実行
+      // ****************************
+      await chainStoreBulkRegistScreen.chooseRadioBtnCustCd();
+      await chainStoreBulkRegistScreen.clickBtnFile('/extraction/chain_store_bulk_regist_test_1_upload.csv');
+      await chainStoreBulkRegistScreen.clickBtnUpload();
+      await chainStoreBulkRegistScreen.clickBtnDownload();
+      await chainStoreBulkRegistScreen.downloadClick();
+      sleep.sleep(2);
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      // ファイル名取得
+      const stdout = execSync(`ls ${Const.DOWNLOAD_PATH}`);
+      const zipFilename = stdout.toString().replace("\n", "");
+
+      // ファイル内容の比較
+      await assert.match(zipFilename, /^[0-9]{14}_.*.zip$/);
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
   });
 }
 
