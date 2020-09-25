@@ -128,18 +128,43 @@ exports.testMain = () => {
     });
 
     // TODO: ダウンロードが上手くいかないためスキップ
-    it.skip('アカウント証発送履歴抽出され、ファイルがダウンロードされていることを確認', async () => {
+    it('アカウント証発送履歴抽出され、ファイルがダウンロードされていることを確認', async () => {
       // ****************************
       // ** 準備
       // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const extractionScreen = new ExtractionScreen(driver);
+      const initedCustCdDownloadScreen = new InitedCustCdDownloadScreen(driver);
+      const mailAddressInitImportScreen = new MailAddressInitImportScreen(driver);
+      await loginScreen.access();
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await initedCustCdDownloadScreen.clickTabExtraction();
+      await extractionScreen.clickExtractionMenuMailAddressInitImport();
 
       // ****************************
       // ** 実行
       // ****************************
+      await mailAddressInitImportScreen.clickBtnFile('/extraction/mail_address_init_import_test_1_upload.csv');
+      await mailAddressInitImportScreen.clickBtnUpload();
+      await mailAddressInitImportScreen.clickBtnDownload();
+      await mailAddressInitImportScreen.downloadClick();
+      sleep.sleep(1);
 
       // ****************************
       // ** 検証
       // ****************************
+      // ファイル名取得
+      const stdout = execSync(`ls ${Const.DOWNLOAD_PATH}`);
+      const csvFilename = stdout.toString().replace("\n", "");
+
+      // ファイル読み込み
+      const actual = fs.readFileSync(`${Const.DOWNLOAD_PATH}/${csvFilename}`).toString();
+      const expected = fs.readFileSync(`${Dir.filesExtraction}/mail_address_init_import_test_1_expected.csv`).toString();
+
+      // ファイル内容の比較
+      await assert.deepStrictEqual(actual, expected);
 
       // ****************************
       // ** 後始末
