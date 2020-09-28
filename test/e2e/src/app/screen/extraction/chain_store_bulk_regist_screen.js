@@ -45,4 +45,14 @@ module.exports = class ChainStoreBulkRegistScreen extends AuthedScreen {
   async clickBtnDownload() {
     await this.driver.findElement(By.id('bt_download')).click();
   }
+
+  async downloadClick() {
+    await this.driver.wait(until.alertIsPresent());
+    let alert = await this.driver.switchTo().alert();
+    await alert.accept();
+  }
+
+  async chooseRadioBtnCustCd() {
+    await this.driver.findElement(By.xpath('//*[@id="fr_upload"]/table/tbody/tr[1]/td[2]/input[2]')).click();
+  }
 }
