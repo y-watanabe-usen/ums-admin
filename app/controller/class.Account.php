@@ -378,6 +378,18 @@ class Account extends Controller {
             throw new BadRequestException();
         }
 
+        // 初期パスワード
+        $init_password = Cipher::rsaDecrypt($account_info["init_password"]);
+        // 初期パスワードをハッシュ化
+        $hash_init_password = Cipher::getPasswordHash($init_password);
+        // ハッシュ化してある現在のパスワード
+        $password = $account_info["password"];        
+        // パスワードが変更されているかのフラグ(true:変更済 false:未変更)
+        $init_password_change = false;
+        if (hash_init_password !== password) {
+            $init_password_change = true;
+        }
+
         //UNIS情報
         $unis_info = $this->get_unis_info($account_info["t_unis_cust_id"]);
         if (!isset($unis_info["cust_cd"]) || $unis_info["cust_cd"] == "") {
@@ -410,6 +422,8 @@ class Account extends Controller {
         $this->set("account_info", $account_info);
         $this->set("service_info", $service_info);
         $this->set("issue_info", $issue_info);
+        $this->set("init_password", $init_password);
+        $this->set("init_password_change", $init_password_change);
         $this->render('account' . DS . 'detail.tpl');
     }
 
@@ -1544,7 +1558,7 @@ class Account extends Controller {
      * アカウント情報の取得
      */
     private function get_account_info($m_account_id) {
-        $query = "SELECT id, t_unis_cust_id, login_id,mail_address, start_date, end_date, init_date, status_flag, admin_status_flag FROM m_account WHERE id = :id AND delete_flag = '0'";
+        $query = "SELECT id, t_unis_cust_id, login_id, init_password, password, mail_address, start_date, end_date, init_date, status_flag, admin_status_flag FROM m_account WHERE id = :id AND delete_flag = '0'";
         $param = array("id" => $m_account_id);
         $account_info = Database::getInstance()->dbExecFetch(Configure::read('DB_MASTER'), $query, $param);
         $account_info["login_id"] = Cipher::rsaDecrypt($account_info["login_id"]);

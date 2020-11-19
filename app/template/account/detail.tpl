@@ -49,6 +49,26 @@
                     });
                 }
             });
+
+            <?php if ($this->Acl->check($this->Auth->user("role_id"), "/account/init_password_display")) { ?>
+                // 初期パスワード確認
+                $("#bt_password_change").click(function () {
+                    var l = ($(".main-panel").width() - 600) / 2;
+                    $.blockUI({
+                        message: $("#pop_password_change"),
+                        css: {
+                            width: "600px",
+                            height: "130px",
+                            top: "100px",
+                            left: l,
+                            textAlign: "left",
+                            border: "0",
+                            background: "none",
+                            cursor: "default",
+                            borderRadius: "3px"}
+                    });
+                });
+            <?php } ?>
             
             //システム日時
             function now_date() {
@@ -188,7 +208,11 @@
                     <table style="padding:0;margin:0;position:absolute;top:5px;">
                     <?php
                         if ($this->Acl->check($this->Auth->user("role_id"), "/account/save_account")) {
-                            echo '<tr><td style="width:170px;"><button id="bt_account_modify">メールアドレス変更</button></td></tr>';
+                            echo '<tr><td style="width:140px;"><button id="bt_account_modify">メールアドレス変更</button></td>';
+                            if ($this->Acl->check($this->Auth->user("role_id"), "/account/init_password_display")) {
+                                echo '<td><button id="bt_password_change">初期パスワード確認</button></td>';
+                            }
+                            echo '</tr>';
                         } else {
                             echo '<tr><td style="width:170px;"><button class="bt_noactive" disabled>メールアドレス変更</button></td></tr>';
                         }
@@ -303,6 +327,27 @@
             </div>
             <!-- /ユニット -->
         </div>
+
+        <?php if ($this->Acl->check($this->Auth->user("role_id"), "/account/init_password_display")) { ?>
+            <div id="pop_password_change" class="panel-pop" style="padding-top:25px;">
+                <div class="panel-title">初期パスワード確認</div>
+                <!-- ユニット -->
+                <div class="unit" style="padding:10px 20px 10px 20px;">
+                    <table style="width:100%;">
+                        <tr>
+                            <td style='width:100%;text-align:center;'><?php echo $init_password; ?></td>
+                        </tr>
+                    </table>
+                    <div class="pop_password_message" style="text-align:center;margin:2px 0;height:20px;color:red;">
+                        <?php echo $init_password_change ? "初期パスワードから変更されています。" : "初期パスワードのまま変更されていません。"; ?>
+                    </div>
+                    <div style="text-align:center;">
+                        <button class="bt_pop_close" style="margin:0 10px;">閉じる</button>
+                    </div>
+                </div>
+            <!-- /ユニット -->
+            </div>
+        <?php } ?>
         <!-- ポップアップ -->
 
         <form id="fr_detail_account_stop" action="/account/detail_account_stop" method="POST">

@@ -49,6 +49,8 @@ $acl = array(
         '22'  => array('Bulk/index', 'Bulk/services'),
         //Ucart・OTORAKUの強制開錠権限
         '23'  => array('Account/forced_unlock'),
+        //初期パスワードの表示権限
+        '24'  => array('Account/init_password_display'),
      'deny' => array(),
     ),
 );
