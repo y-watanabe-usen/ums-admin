@@ -386,7 +386,7 @@ class Account extends Controller {
         $password = $account_info["password"];        
         // パスワードが変更されているかのフラグ(true:変更済 false:未変更)
         $init_password_change = false;
-        if (hash_init_password !== password) {
+        if ($hash_init_password !== $password) {
             $init_password_change = true;
         }
 
