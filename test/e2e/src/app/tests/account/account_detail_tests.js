@@ -241,6 +241,100 @@ exports.testMain = () => {
       // ****************************
     });
 
+    it('初期パスワード確認ボタンを押下すると初期パスワードが表示され、変更済のメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const accountSearchScreen = new AccountSearchScreen(driver);
+      const accountDetailScreen = new AccountDetailScreen(driver);
+      await loginScreen.access();
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await accountSearchScreen.inputCustCd('admin0001');
+      await accountSearchScreen.clickBtnSearch();
+      await accountSearchScreen.clickBtnDetail();
+      await accountDetailScreen.clickBtnAccountDetail();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await accountDetailScreen.clickBtnInitPassword();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepStrictEqual(await accountDetailScreen.initPassword, 'tmFcg5kP');
+      assert.deepStrictEqual(await accountDetailScreen.initPasswordMessage, '初期パスワードから変更されています。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('初期パスワード確認ボタンを押下すると初期パスワードが表示され、未変更のメッセージが表示されること', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const accountSearchScreen = new AccountSearchScreen(driver);
+      const accountDetailScreen = new AccountDetailScreen(driver);
+      await loginScreen.access();
+      await loginScreen.inputCode('admin');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await accountSearchScreen.inputCustCd('000000016');
+      await accountSearchScreen.clickBtnSearch();
+      await accountSearchScreen.clickBtnDetail();
+      await accountDetailScreen.clickBtnAccountDetail();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+      await accountDetailScreen.clickBtnInitPassword();
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepStrictEqual(await accountDetailScreen.initPassword, 'GvsLPKD2');
+      assert.deepStrictEqual(await accountDetailScreen.initPasswordMessage, '初期パスワードのまま変更されていません。');
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
+    it('初期パスワード確認ボタンが表示されないこと', async () => {
+      // ****************************
+      // ** 準備
+      // ****************************
+      const loginScreen = new LoginScreen(driver);
+      const accountSearchScreen = new AccountSearchScreen(driver);
+      const accountDetailScreen = new AccountDetailScreen(driver);
+      await loginScreen.access();
+      await loginScreen.inputCode('iko');
+      await loginScreen.inputPassword('!QAZ2wsx');
+      await loginScreen.clickBtnLogin();
+      await accountSearchScreen.inputCustCd('000000016');
+      await accountSearchScreen.clickBtnSearch();
+      await accountSearchScreen.clickBtnDetail();
+      await accountDetailScreen.clickBtnAccountDetail();
+
+      // ****************************
+      // ** 実行
+      // ****************************
+
+      // ****************************
+      // ** 検証
+      // ****************************
+      assert.deepStrictEqual(await accountDetailScreen.InitPasswordDisplay, undefined);
+
+      // ****************************
+      // ** 後始末
+      // ****************************
+    });
+
     it('サービス詳細ボタンを押下すると、サービス詳細画面に遷移すること', async () => {
       // ****************************
       // ** 準備

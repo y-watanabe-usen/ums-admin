@@ -53,6 +53,15 @@ module.exports = class AccountDetailScreen extends AuthedScreen {
   get mailAddress() {
     return this.driver.findElement(By.xpath('//*[@id="account_table"]/tbody/tr[2]/td[4]')).getText();
   }
+  get initPassword() {
+    return this.driver.findElement(By.xpath('//*[@id="pop_password_change"]/div[2]/table/tbody/tr/td')).getText();
+  }
+  get initPasswordMessage() {
+    return this.driver.findElement(By.xpath('//*[@id="pop_password_change"]/div[2]/div[1]')).getText();
+  }
+  get initPasswordDisplay() {
+    return this.driver.findElement(By.id('bt_password_change'));
+  }
   get umsidStartDate() {
     return this.driver.findElement(By.xpath('//*[@id="account_table"]/tbody/tr[2]/td[5]')).getText();
   }
@@ -315,6 +324,9 @@ module.exports = class AccountDetailScreen extends AuthedScreen {
   }
   async clickBtnMailAddressChange() {
     await this.driver.findElement(By.xpath('//*[@id="bt_account_modify"]')).click();
+  }
+  async clickBtnInitPassword() {
+    await this.driver.findElement(By.xpath('//*[@id="bt_password_change"]')).click();
   }
   async clearMailAddress() {
     await this.driver.findElement(By.id('new_mail_address')).clear();
