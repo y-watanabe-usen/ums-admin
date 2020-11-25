@@ -206,17 +206,18 @@
 
                 <div class="unit" style="padding:35px 10px 10px 10px;">
                     <table style="padding:0;margin:0;position:absolute;top:5px;">
-                    <?php
-                        if ($this->Acl->check($this->Auth->user("role_id"), "/account/save_account")) {
-                            echo '<tr><td style="width:140px;"><button id="bt_account_modify">メールアドレス変更</button></td>';
+                        <tr>
+                        <?php
+                            if ($this->Acl->check($this->Auth->user("role_id"), "/account/save_account")) {
+                                echo '<td style="width:140px;"><button id="bt_account_modify">メールアドレス変更</button></td>';
+                            } else {
+                                echo '<td style="width:140px;"><button class="bt_noactive" disabled>メールアドレス変更</button></td>';
+                            }
                             if ($this->Acl->check($this->Auth->user("role_id"), "/account/init_password_display")) {
                                 echo '<td><button id="bt_password_change">初期パスワード確認</button></td>';
                             }
-                            echo '</tr>';
-                        } else {
-                            echo '<tr><td style="width:170px;"><button class="bt_noactive" disabled>メールアドレス変更</button></td></tr>';
-                        }
-                    ?>
+                          ?>
+                      </tr>
                     </table>
                     <table id="account_table" class="nogrid_table">
                         <tr>
