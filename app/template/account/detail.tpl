@@ -216,8 +216,8 @@
                             if ($this->Acl->check($this->Auth->user("role_id"), "/account/init_password_display")) {
                                 echo '<td><button id="bt_password_change">初期パスワード確認</button></td>';
                             }
-                          ?>
-                      </tr>
+                        ?>
+                        </tr>
                     </table>
                     <table id="account_table" class="nogrid_table">
                         <tr>
