@@ -158,7 +158,7 @@
         <!-- /left -->
 
         <!-- right -->
-        <div style="width:auto;height:100%;box-sizing: border-box;-moz-box-sizing: border-box;margin:0;padding-top:28px;overflow:hidden;">
+        <div style="width:auto;box-sizing: border-box;-moz-box-sizing: border-box;margin:0;padding-top:28px;overflow:hidden;">
             <div class="main-title" style="left:210px;">部署別権限詳細
                 <button id="bt_back" style="bottom:3px;right:0;position:absolute;" onclick='window.location.href = "/role/organization_search"'>検索へ戻る</button>
             </div>
@@ -235,24 +235,21 @@
                                 <col style="width:160px;">
                                 <col style="width:120px;">
                                 <col style="width:90px;">
-                                <col style="width:10px;">
                             </colgroup>
                             <tr>
                                 <th>権限名称</th>
                                 <th>説明</th>
-                                <th style="width:100px;">親部署権限</th>
-                                <th></th>
+                                <th>親部署権限</th>
                                 <th></th>
                             </tr>
                         </table>
-                        <div id="search_table_div" style="height: 95%; overflow-y: scroll; overflow-x: hidden;">
+                        <div id="search_table_div">
                             <table id="search_table" class="nogrid_table">
                                 <colgroup>
                                     <col style="width:100px;">
                                     <col style="width:160px;">
                                     <col style="width:120px;">
                                     <col style="width:90px;">
-                                    <col style="width:1px;">
                                 </colgroup>
                                 <?php foreach ($m_role_state_list as $val) { ?>
                                     <tr>
