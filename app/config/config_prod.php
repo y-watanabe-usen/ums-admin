@@ -157,7 +157,7 @@ Configure::$database = array(
 );
 
 // DRAGONサーバーIP
-Configure::write('DRAGON_SERVER', array('10.210.12.68'));
+Configure::write('DRAGON_SERVER', array('10.222.9.237'));
 //Configure::write('DRAGON_SERVER', array('localhost', 'localhost'));
 // DRAGONサーバーログインID
 Configure::write('DRAGON_LOGIN_ID', 'crmadm00');
