@@ -29,7 +29,7 @@ Configure::write('ENVIROMENT', 'prod');
 Configure::write('DOMAIN', 'members.usen.com');
 
 // 管理機能URL
-Configure::write('ADMIN_URL', 'http://10.222.9.237/');
+Configure::write('ADMIN_URL', 'http://10.222.41.242/');
 
 // パスワードソルト
 Configure::write('PASSWORD_SALT', 'd133ca2162a19c3cc60b570cc35642e8');
@@ -157,7 +157,7 @@ Configure::$database = array(
 );
 
 // DRAGONサーバーIP
-Configure::write('DRAGON_SERVER', array('10.210.12.68'));
+Configure::write('DRAGON_SERVER', array('10.222.9.237'));
 //Configure::write('DRAGON_SERVER', array('localhost', 'localhost'));
 // DRAGONサーバーログインID
 Configure::write('DRAGON_LOGIN_ID', 'crmadm00');
