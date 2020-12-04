@@ -158,7 +158,7 @@
         <!-- /left -->
 
         <!-- right -->
-        <div style="width:auto;height:100%;box-sizing: border-box;-moz-box-sizing: border-box;margin:0;padding-top:28px;overflow:hidden;">
+        <div style="width:auto;box-sizing: border-box;-moz-box-sizing: border-box;margin:0;padding-top:28px;overflow:hidden;">
             <div class="main-title" style="left:210px;">社員別権限詳細
                 <button id="bt_back" style="bottom:3px;right:0;position:absolute;" onclick='window.location.href = "/role/user_search"'>検索へ戻る</button>
             </div>
@@ -186,7 +186,7 @@
             <!-- /パネル -->
 
             <!-- パネル2 -->
-            <div class="panel-base" style="width:100%;height:80%;">
+            <div class="panel-base">
                 <div class="panel" style="padding-top:25px;">
                     <div class="panel-title"><div style="float: left;">権限一覧</div><div style="float: right; padding-right: 10px; font-weight: normal;"><button class="bt_edit">保存</button></div></div>
                     <div class="unit" style="padding:20px 10px 10px 10px;">
@@ -195,22 +195,19 @@
                                 <col style="width:100px;">
                                 <col style="width:240px;">
                                 <col style="width:110px;">
-                                <col style="width:10px;">
                             </colgroup>
                             <tr>
                                 <th>権限名称</th>
                                 <th>説明</th>
                                 <th></th>
-                                <th></th>
                             </tr>
                         </table>
-                        <div id="search_table_div" style="height: 98%; overflow-y: scroll; overflow-x: hidden;">
+                        <div id="search_table_div">
                             <table id="search_table" class="nogrid_table">
                                 <colgroup>
                                     <col style="width:100px;">
                                     <col style="width:240px;">
                                     <col style="width:110px;">
-                                    <col style="width:1px;">
                                 </colgroup>
                                 <?php foreach ($m_role_state_list as $val) { ?>
                                     <tr>
