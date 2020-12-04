@@ -29,7 +29,7 @@ Configure::write('ENVIROMENT', 'prod');
 Configure::write('DOMAIN', 'members.usen.com');
 
 // 管理機能URL
-Configure::write('ADMIN_URL', 'http://10.222.41.242/');
+Configure::write('ADMIN_URL', 'http://10.222.9.237/');
 
 // パスワードソルト
 Configure::write('PASSWORD_SALT', 'd133ca2162a19c3cc60b570cc35642e8');
