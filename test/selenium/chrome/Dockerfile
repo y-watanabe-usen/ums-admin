@@ -1,4 +1,4 @@
-FROM selenium/node-chrome:4.0.0-alpha-6-20200730
+FROM selenium/node-chrome:4.0.0-beta-1-prerelease-20201208
 
 RUN mkdir /tmp/test_data && \
   chmod 777 /tmp/test_data
