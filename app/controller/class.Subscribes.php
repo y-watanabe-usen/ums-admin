@@ -77,7 +77,7 @@ class subscribes extends Controller {
         //** 配信種別判定
         //*******************************************
         if (!isset($this->RequestPost['processType']) || empty($this->RequestPost['processType'])) {
-            Logger::err('processType invalid');
+            // Logger::err('processType invalid');
             throw new BadRequestException();
         }
 
