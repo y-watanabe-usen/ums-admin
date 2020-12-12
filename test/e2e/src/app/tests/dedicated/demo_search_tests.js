@@ -107,6 +107,7 @@ exports.testMain = () => {
       // ****************************
       await demoAccountSearchScreen.clickBtnDemoAccountStop();
       await demoAccountSearchScreen.clickBtnDemoAccountStopSave();
+      sleep.sleep(1)
       // ****************************
       // ** 検証
       // ****************************
