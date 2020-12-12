@@ -36,8 +36,6 @@ Configure::write('PASSWORD_SALT', 'd133ca2162a19c3cc60b570cc35642e8');
 Configure::write('PASSWORD_STRETCH_COUNT', 2);
 
 // 個人情報用ソルト
-// 2015/12/21 本番のデータ使用のためコメントアウト
-// Configure::write('PERSONAL_SALT', 'L3CJXnQJCGHke9MQhNpuaWiVaa2agaeAc6cUZLc2');
 Configure::write('PERSONAL_SALT', 'zSpVbSzXYVzJHn9FVN47PrT75idHAZsTh52cDFtx');
 
 // メールアクセス有効期限
