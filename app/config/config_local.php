@@ -32,11 +32,11 @@ Configure::write('DOMAIN', 'local-members.usen.com');
 Configure::write('ADMIN_URL', 'http://local-admin-members.usen.com/');
 
 // パスワードソルト
-Configure::write('PASSWORD_SALT', 'a7eca38ad7bca647d4d53de29ea649e7');
+Configure::write('PASSWORD_SALT', 'd133ca2162a19c3cc60b570cc35642e8');
 Configure::write('PASSWORD_STRETCH_COUNT', 2);
 
 // 個人情報用ソルト
-Configure::write('PERSONAL_SALT', 'L3CJXnQJCGHke9MQhNpuaWiVaa2agaeAc6cUZLc2');
+Configure::write('PERSONAL_SALT', 'zSpVbSzXYVzJHn9FVN47PrT75idHAZsTh52cDFtx');
 
 // メールアクセス有効期限
 Configure::write('INIT_ACCSESS_EXPIRE_HOUR', '+1 day');
