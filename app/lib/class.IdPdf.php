@@ -2,6 +2,8 @@
 
 require_once(PLUGIN_DIR . DS . 'tcpdf' . DS . 'tcpdf.php');
 require_once(PLUGIN_DIR . DS . 'fpdi' . DS . 'fpdi.php');
+require_once(LIB_DIR . DS . 'class.Cipher.php');
+
 /**
  * ID通知書PDF出力クラス
  *
@@ -288,8 +290,15 @@ class IdPdf extends FPDI {
             $message = "";
             $password = $account->init_password;
         } else {
-            $message = "既に初回登録済みです。";
-            $password = "(お客様にて設定されたパスワード)";
+            // 初期パスワードとパスワードが同じの場合はパスワード印字
+            $hashPassword = Cipher::getPasswordHash($account->init_password);
+            if (!empty($account->hash_password) && $hashPassword == $account->hash_password) {
+                $message = "既に初回登録済みです。";
+                $password = $account->init_password;
+            } else {
+                $message = "既に初回登録済みです。";
+                $password = "(お客様にて設定されたパスワード)";
+            }
         }
         $this->Cell(141, 5, "パスワード：{$password}", 0, 0, "", true);
         $this->_y += 5.5;
