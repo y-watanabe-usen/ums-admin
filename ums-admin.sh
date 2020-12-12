@@ -10,7 +10,7 @@ start() {
   cd $HOME_DIR && docker-compose up -d --build
   cd $SELENIUM_DIR && docker-compose up -d --build
   RETVAL=$?
-  echo"Started ums-admin"
+  echo "Started ums-admin"
 }
 stop() {
   echo "Stopping ums-admin"
