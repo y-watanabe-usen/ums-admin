@@ -1392,7 +1392,7 @@ class Account extends Controller {
                 $account->id = $accountRow["m_account_id"];
                 $account->login_id = Cipher::rsaDecrypt($accountRow["login_id"]);
                 $account->init_password = Cipher::rsaDecrypt($accountRow["init_password"]);
-                $account->hash_password = $accountRow["password"];
+                $account->password_hash = $accountRow["password"];
                 $account->init_date = $accountRow["init_date"];
 
                 // OTORAKUトライアル移行はデータ連携時点で、アカウントの初回登録日を設定してしまうので、
