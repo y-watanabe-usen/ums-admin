@@ -290,13 +290,12 @@ class IdPdf extends FPDI {
             $message = "";
             $password = $account->init_password;
         } else {
+            $message = "既に初回登録済みです。";
             // 初期パスワードとパスワードが同じの場合はパスワード印字
             $passwordHashForInitPassword = Cipher::getPasswordHash($account->init_password);
             if (!empty($account->password_hash) && $passwordHashForInitPassword == $account->password_hash) {
-                $message = "既に初回登録済みです。";
                 $password = $account->init_password;
             } else {
-                $message = "既に初回登録済みです。";
                 $password = "(お客様にて設定されたパスワード)";
             }
         }
