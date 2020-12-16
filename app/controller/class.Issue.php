@@ -824,6 +824,7 @@ class Issue extends Controller {
             $query = "SELECT ma.id AS m_account_id "
                     . "             , ma.login_id "
                     . "             , ma.init_password "
+                    . "             , ma.password "
                     . "             , ma.init_date "
                     . "FROM m_account ma "
                     . "WHERE ma.t_unis_cust_id = :t_unis_cust_id "
@@ -841,6 +842,7 @@ class Issue extends Controller {
                 $account->id = $accountRow["m_account_id"];
                 $account->login_id = Cipher::rsaDecrypt($accountRow["login_id"]);
                 $account->init_password = Cipher::rsaDecrypt($accountRow["init_password"]);
+                $account->password_hash = $accountRow["password"];
                 $account->init_date = $accountRow["init_date"];
 
                 // OTORAKUトライアル移行はデータ連携時点で、アカウントの初回登録日を設定してしまうので、
