@@ -603,8 +603,6 @@ __EOT__;
             curl_setopt($ch, CURLOPT_SSH_AUTH_TYPES, CURLSSH_AUTH_PUBLICKEY);
             curl_setopt($ch, CURLOPT_SSH_PRIVATE_KEYFILE, Configure::read('DRAGON_AUTH_PRIVATE_KEY'));
             curl_setopt($ch, CURLOPT_SSH_PUBLIC_KEYFILE, Configure::read('DRAGON_AUTH_PUBLIC_KEY'));
-            Logger::info(Configure::read('DRAGON_AUTH_PRIVATE_KEY'));
-            Logger::info(Configure::read('DRAGON_AUTH_PUBLIC_KEY'));
 
             $result = curl_exec($ch);
 
