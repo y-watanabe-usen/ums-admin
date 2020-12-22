@@ -157,12 +157,12 @@ Configure::$database = array(
 );
 
 // DRAGONサーバーIP
-Configure::write('DRAGON_SERVER', array('10.222.29.187', '10.222.29.188'));
-//Configure::write('DRAGON_SERVER', array('localhost', 'localhost'));
+Configure::write('DRAGON_SERVER', array('10.222.192.143', '10.222.192.144'));
+// DRAGON認証用鍵情報
+Configure::write('DRAGON_AUTH_PRIVATE_KEY', RSA_DIR . DS . 'id_rsa_bird');
+Configure::write('DRAGON_AUTH_PUBLIC_KEY', RSA_DIR . DS . 'id_rsa_bird.pub');
 // DRAGONサーバーログインID
 Configure::write('DRAGON_LOGIN_ID', 'crmadm60');
-// DRAGONサーバーパスワード
-Configure::write('DRAGON_PASSWORD', 'crmadmin60');
 // DRAGONデータ授受ディレクトリ
 Configure::write('DRAGON_DATA_DIR', '/igus_crm/ap/iguswork/cr60/data/csv/mst');
 // DRAGON連携スイッチ
