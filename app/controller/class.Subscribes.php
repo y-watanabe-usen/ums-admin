@@ -584,11 +584,11 @@ __EOT__;
             throw new InternalErrorException("file open error, " . $localFile);
         }
         $dragonServers = Configure::read('DRAGON_SERVER');
-        $iPass = Configure::read('DRAGON_LOGIN_ID') . ":" . Configure::read('DRAGON_PASSWORD');
+        $userName = Configure::read('DRAGON_LOGIN_ID');
         $fileGetFlag = false;
         $errors = array();
         foreach ($dragonServers as $dragonServer) {
-            $url = "scp://" . $dragonServer . $remoteFile;
+            $url = "scp://${userName}@${dragonServer}${remoteFile}";
             // CURLオブジェクトの初期化
             $ch = curl_init($url);
             // 転送内容が書き込まれるファイル
@@ -597,10 +597,12 @@ __EOT__;
             curl_setopt($ch, CURLOPT_HEADER, false);
             // タイムアウト
             curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-            // パスワードによる認証
-            curl_setopt($ch, CURLOPT_SSH_AUTH_TYPES, CURLSSH_AUTH_PASSWORD);
-            // Id:Password
-            curl_setopt($ch, CURLOPT_USERPWD, $iPass);
+            // プロトコル指定
+            curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_SCP);
+            // 鍵認証
+            curl_setopt($ch, CURLOPT_SSH_AUTH_TYPES, CURLSSH_AUTH_PUBLICKEY);
+            curl_setopt($ch, CURLOPT_SSH_PRIVATE_KEYFILE, Configure::read('DRAGON_AUTH_PRIVATE_KEY'));
+            curl_setopt($ch, CURLOPT_SSH_PUBLIC_KEYFILE, Configure::read('DRAGON_AUTH_PUBLIC_KEY'));
 
             $result = curl_exec($ch);
 
