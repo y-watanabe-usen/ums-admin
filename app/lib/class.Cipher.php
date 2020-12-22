@@ -1,5 +1,4 @@
 <?php
-define('RSA_DIR', ETC_DIR . DS . 'rsa');
 
 class Cipher {
 

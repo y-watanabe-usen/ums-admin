@@ -12,6 +12,7 @@ define('CTL_DIR', HOME_DIR . DS . 'controller');
 define('TPL_DIR', HOME_DIR . DS . 'template');
 define('LOG_DIR', HOME_DIR . DS . 'log');
 define('TMP_DIR', HOME_DIR . DS . 'tmp');
+define('RSA_DIR', ETC_DIR . DS . 'rsa');
 define('PLUGIN_DIR', ETC_DIR . DS . 'plugin');
 
 // core class 読み込み
