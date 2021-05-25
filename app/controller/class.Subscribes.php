@@ -691,7 +691,7 @@ __EOT__;
         }
         fclose($fp);
         if ($errorLog !== '') {
-            Logger::err($errorLog);
+            Logger::warning($errorLog);
         }
         @unlink($localFile);
     }
