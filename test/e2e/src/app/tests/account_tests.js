@@ -7,9 +7,9 @@ const AccountServiceDetailTests = require(`${Dir.tests}/account/account_service_
 
 exports.testMain = () => {
   describe('アカウント管理のテスト', () => {
-    AccountSearchTests.testMain();
-    AccountListTests.testMain();
-    AccountDetailTests.testMain();
+    // AccountSearchTests.testMain();
+    // AccountListTests.testMain();
+    // AccountDetailTests.testMain();
     AccountServiceDetailTests.testMain();
   });
 }
