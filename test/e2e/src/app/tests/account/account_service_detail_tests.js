@@ -192,8 +192,6 @@ exports.testMain = () => {
       // ****************************
       // ** 後始末
       // ****************************
-      // TODO: 「休店解除できること」のテストを復活したらこの後始末は削除
-      // Database.executeQuery('DELETE FROM t_service_stop_history', []);
       const sql = `
       DELETE FROM t_service_stop_history
       WHERE t_unis_service_id IN (
@@ -231,7 +229,6 @@ exports.testMain = () => {
       // ****************************
       await accountServiceDetailScreen.clickBtnAddForcedUnlock();
       await accountServiceDetailScreen.clickBtnUnlockSave();
-      // await accountServiceDetailScreen.clickBtnUnlockClose();
 
       // ****************************
       // ** 検証
@@ -244,7 +241,7 @@ exports.testMain = () => {
       // ****************************
       Database.executeQuery('UPDATE t_service_stop_history SET release_datetime = NULL WHERE id = ?', [10012]);
     });
-    it.skip('強制施錠登録できること', async () => {
+    it('強制施錠登録できること', async () => {
       // ****************************
       // ** 準備
       // ****************************
@@ -282,7 +279,7 @@ exports.testMain = () => {
       // ** 後始末
       // ****************************
     });
-    it.skip('強制施錠解除できること', async () => {
+    it('強制施錠解除できること', async () => {
       // ****************************
       // ** 準備
       // ****************************
