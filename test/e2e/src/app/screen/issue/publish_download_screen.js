@@ -21,7 +21,7 @@ module.exports = class PublishDownloadScreen extends AuthedScreen {
     await this.driver.findElement(By.xpath('/html/body/div[1]/div[3]/ul/li[2]/a')).click();
   }
   async clickBtnDownload() {
-    await this.driver.findElement(By.xpath('//*[@id="grid1"]/tbody/tr/td/div/table/tbody/tr[3]/td[4]/span/button')).click();
+    await this.driver.findElement(By.xpath('//*[@id="grid1"]/tbody/tr/td/div/table/tbody/tr[5]/td[4]/span/button')).click();
   }
   async clickBtnCreateShippingData() {
     await this.driver.findElement(By.xpath('//*[@id="bt_no_publish"]')).click();

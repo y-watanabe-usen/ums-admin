@@ -291,7 +291,7 @@ exports.testMain = () => {
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
-      await accountSearchScreen.inputCustCd('admin0001');
+      await accountSearchScreen.inputCustCd('admin0003');
       await accountSearchScreen.clickBtnSearch();
       await accountSearchScreen.clickBtnDetail();
       await accountDetailScreen.clickBtnAccountDetail();
@@ -302,17 +302,17 @@ exports.testMain = () => {
       // ****************************
       await accountServiceDetailScreen.clickBtnAddForcedUnlock();
       await accountServiceDetailScreen.clickBtnUnlockSave();
-      await accountServiceDetailScreen.clickBtnUnlockClose();
 
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepStrictEqual(await accountServiceDetailScreen.forcedUnlockDisable, '');
+      sleep.sleep(2);
+      assert.deepStrictEqual(await accountServiceDetailScreen.forceUnlockCompletedMessage, '強制解除しました。');
 
       // ****************************
       // ** 後始末
       // ****************************
-      Database.executeQuery('DELETE FROM t_service_stop_history', []);
+      Database.executeQuery('UPDATE t_service_stop_history SET release_datetime = NULL WHERE id = ?', [3]);
     });
   });
 

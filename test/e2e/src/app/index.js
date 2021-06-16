@@ -8,13 +8,13 @@ describe('USEN MEMBERS管理機能のSeleniumテスト', () => {
   after(() => {
     Database.disconnect();
   });
-  // LoginTests.testMain();
-  // LogoutTests.testMain();
+  LoginTests.testMain();
+  LogoutTests.testMain();
   AccountTests.testMain();
-  // IssueTests.testMain();
-  // ExtractionTests.testMain();
-  // DedicatedTests.testMain();
-  // BranchTests.testMain();
-  // BulkTests.testMain();
-  // RoleTests.testMain();
+  IssueTests.testMain();
+  ExtractionTests.testMain();
+  DedicatedTests.testMain();
+  BranchTests.testMain();
+  BulkTests.testMain();
+  RoleTests.testMain();
 });

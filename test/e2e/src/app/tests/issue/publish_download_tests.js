@@ -55,7 +55,7 @@ exports.testMain = () => {
       // ** 検証
       // ****************************
       assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'issue/publish_download/');
-      assert.deepStrictEqual(await publishDownloadScreen.firstFileName, '20190527201444_技術発送(CAN).zip');
+      assert.deepStrictEqual(await publishDownloadScreen.firstFileName, '20191029083138_チェーン店発送.zip');
 
       // ****************************
       // ** 後始末
