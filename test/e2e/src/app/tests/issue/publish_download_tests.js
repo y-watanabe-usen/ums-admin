@@ -55,7 +55,7 @@ exports.testMain = () => {
       // ** 検証
       // ****************************
       assert.deepStrictEqual(await driver.getCurrentUrl(), Const.ADMIN_URL + 'issue/publish_download/');
-      assert.deepStrictEqual(await publishDownloadScreen.firstFileName, '20191029083138_チェーン店発送.zip');
+      assert.deepStrictEqual(await publishDownloadScreen.getfirstFileText("20191029083138_チェーン店発送.zip"), true);
 
       // ****************************
       // ** 後始末
@@ -76,7 +76,7 @@ exports.testMain = () => {
       // ****************************
       // ** 実行
       // ****************************
-      await publishDownloadScreen.clickBtnDownload();
+      await publishDownloadScreen.clickBtnDownload("20190527201448_顧客発送_複数枚フォーマット.pdf", "ダウンロード");
       sleep.sleep(1);
 
       // ****************************
