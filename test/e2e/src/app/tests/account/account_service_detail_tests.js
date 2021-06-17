@@ -192,10 +192,21 @@ exports.testMain = () => {
       // ****************************
       // ** 後始末
       // ****************************
-      // TODO: 「休店解除できること」のテストを復活したらこの後始末は削除
-      Database.executeQuery('DELETE FROM t_service_stop_history', []);
+      const sql = `
+      DELETE FROM t_service_stop_history
+      WHERE t_unis_service_id IN (
+        SELECT id
+        FROM t_unis_service
+        WHERE t_unis_cust_id = (
+          SELECT id
+          FROM t_unis_cust
+          WHERE cust_cd = ?
+        )
+      )
+    `;
+      Database.executeQuery(sql, ['admin0001']);
     });
-    it.skip('休店解除できること', async () => {
+    it('休店解除できること', async () => {
       // ****************************
       // ** 準備
       // ****************************
@@ -207,7 +218,7 @@ exports.testMain = () => {
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
-      await accountSearchScreen.inputCustCd('admin0001');
+      await accountSearchScreen.inputCustCd('000010012');
       await accountSearchScreen.clickBtnSearch();
       await accountSearchScreen.clickBtnDetail();
       await accountDetailScreen.clickBtnAccountDetail();
@@ -218,19 +229,19 @@ exports.testMain = () => {
       // ****************************
       await accountServiceDetailScreen.clickBtnAddForcedUnlock();
       await accountServiceDetailScreen.clickBtnUnlockSave();
-      await accountServiceDetailScreen.clickBtnUnlockClose();
 
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepStrictEqual(await accountServiceDetailScreen.forcedUnlockDisable, '');
+      sleep.sleep(2);
+      assert.deepStrictEqual(await accountServiceDetailScreen.forceUnlockCompletedMessage, '強制解除しました。');
 
       // ****************************
       // ** 後始末
       // ****************************
-      Database.executeQuery('DELETE FROM t_service_stop_history', []);
+      Database.executeQuery('UPDATE t_service_stop_history SET release_datetime = NULL WHERE id = ?', [10012]);
     });
-    it.skip('強制施錠登録できること', async () => {
+    it('強制施錠登録できること', async () => {
       // ****************************
       // ** 準備
       // ****************************
@@ -268,7 +279,7 @@ exports.testMain = () => {
       // ** 後始末
       // ****************************
     });
-    it.skip('強制施錠解除できること', async () => {
+    it('強制施錠解除できること', async () => {
       // ****************************
       // ** 準備
       // ****************************
@@ -280,7 +291,7 @@ exports.testMain = () => {
       await loginScreen.inputCode('admin');
       await loginScreen.inputPassword('!QAZ2wsx');
       await loginScreen.clickBtnLogin();
-      await accountSearchScreen.inputCustCd('admin0001');
+      await accountSearchScreen.inputCustCd('admin0003');
       await accountSearchScreen.clickBtnSearch();
       await accountSearchScreen.clickBtnDetail();
       await accountDetailScreen.clickBtnAccountDetail();
@@ -291,17 +302,17 @@ exports.testMain = () => {
       // ****************************
       await accountServiceDetailScreen.clickBtnAddForcedUnlock();
       await accountServiceDetailScreen.clickBtnUnlockSave();
-      await accountServiceDetailScreen.clickBtnUnlockClose();
 
       // ****************************
       // ** 検証
       // ****************************
-      assert.deepStrictEqual(await accountServiceDetailScreen.forcedUnlockDisable, '');
+      sleep.sleep(2);
+      assert.deepStrictEqual(await accountServiceDetailScreen.forceUnlockCompletedMessage, '強制解除しました。');
 
       // ****************************
       // ** 後始末
       // ****************************
-      Database.executeQuery('DELETE FROM t_service_stop_history', []);
+      Database.executeQuery('UPDATE t_service_stop_history SET release_datetime = NULL WHERE id = ?', [3]);
     });
   });
 

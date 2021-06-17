@@ -87,6 +87,9 @@ module.exports = class AccountServiceDetailScreen extends AuthedScreen {
     this.driver.sleep(500);
     return this.driver.findElement(By.xpath('//*[@id="grid2"]/tbody/tr/td[4]')).getText();
   }
+  get forceUnlockCompletedMessage() {
+    return this.driver.findElement(By.xpath('//*[@id="pop_release"]/div[2]/div[2]')).getText();
+  }
 
   async clickBtnServiceDetail() {
     await this.driver.findElement(By.className('bt_detail_account_stop')).click();
@@ -116,7 +119,7 @@ module.exports = class AccountServiceDetailScreen extends AuthedScreen {
     await this.driver.findElement(By.xpath('//*[@id="pop_service_stop_add"]/div[2]/div[5]/button[2]')).click();
   }
   async clickBtnAddForcedUnlock() {
-    await this.driver.sleep(500);
+    await this.driver.wait(until.elementLocated(By.xpath('//*[@id="grid2"]/tbody/tr[1]/td[4]/button[2]')), 10000);
     await this.driver.findElement(By.xpath('//*[@id="grid2"]/tbody/tr[1]/td[4]/button[2]')).click();
   }
   async clickBtnUnlockSave() {

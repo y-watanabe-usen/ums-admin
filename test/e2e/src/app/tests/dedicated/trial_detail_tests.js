@@ -50,6 +50,7 @@ exports.testMain = () => {
       // ****************************
       // ** 実行
       // ****************************
+      sleep.sleep(1);
       await trialSearchScreen.clickBtnDetail();
       // ****************************
       // ** 検証
