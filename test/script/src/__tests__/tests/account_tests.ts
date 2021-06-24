@@ -5,9 +5,9 @@ import { accountServiceDetailTests } from "@/tests/account/account_service_detai
 
 export const accountTests = () => {
   describe("アカウント管理のテスト", () => {
-    accountSearchTests();
-    accountListTests();
     accountDetailTests();
+    accountListTests();
+    accountSearchTests();
     accountServiceDetailTests();
   });
 };

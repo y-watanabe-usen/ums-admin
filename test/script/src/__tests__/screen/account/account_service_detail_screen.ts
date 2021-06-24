@@ -246,18 +246,6 @@ export default class AccountServiceDetailScreen extends AuthedScreen {
     await this.driver
       .findElement(By.xpath('//*[@id="pop_release"]/div[2]/div[3]/button[1]'))
       .click();
-    await this.driver.wait(
-      until.elementLocated(
-        By.xpath('//*[@id="pop_release"]/div[2]/div[3]/button[2]')
-      ),
-      10000
-    ); // 検索結果が表示されるまで待機
-  }
-  async clickBtnUnlockClose(): Promise<void> {
-    await this.driver.sleep(500);
-    await this.driver
-      .findElement(By.xpath('//*[@id="pop_release"]/div[2]/div[3]/button[2]'))
-      .click();
   }
   async stopDivision(): Promise<void> {
     await this.driver.sleep(500);

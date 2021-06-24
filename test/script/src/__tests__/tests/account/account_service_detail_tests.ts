@@ -255,6 +255,7 @@ export const accountServiceDetailTests = () => {
       // ****************************
       // ** 検証
       // ****************************
+      await Utils.sleep(2);
       expect(
         await accountServiceDetailScreen.forceUnlockCompletedMessage
       ).toEqual("強制解除しました。");
@@ -305,7 +306,8 @@ export const accountServiceDetailTests = () => {
       // ** 後始末
       // ****************************
     });
-    test("強制施錠解除できること", async () => {
+    // skip: 「休店解除できること」と同様の手順なためskip
+    test.skip("強制施錠解除できること", async () => {
       // ****************************
       // ** 準備
       // ****************************
