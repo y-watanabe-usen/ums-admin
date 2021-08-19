@@ -19,5 +19,5 @@ module.exports = {
   transformIgnorePatterns: ["node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"],
   preset: "ts-jest",
   testEnvironment: "node",
-  testTimeout: 100000,
+  testTimeout: 3600000,
 };

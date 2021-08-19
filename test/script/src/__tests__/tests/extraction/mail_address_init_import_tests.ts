@@ -192,7 +192,7 @@ export const mailAddressInitImportTests = () => {
         .toString();
 
       // ファイル内容の比較
-      expect(actual).toEqual(expected);
+      expect(Utils.replaceNewLine(actual)).toEqual(Utils.replaceNewLine(expected));
 
       // ****************************
       // ** 後始末

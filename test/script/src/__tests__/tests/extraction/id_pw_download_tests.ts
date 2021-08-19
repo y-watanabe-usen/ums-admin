@@ -358,7 +358,7 @@ export const idPwDownloadTests = () => {
         .toString(); // todo: 期待結果CSV作成
 
       // ファイル内容の比較
-      expect(actual).toEqual(expected);
+      expect(Utils.replaceNewLine(actual)).toEqual(Utils.replaceNewLine(expected));
 
       // ****************************
       // ** 後始末
