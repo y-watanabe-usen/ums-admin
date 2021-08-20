@@ -8,4 +8,5 @@ RUN yarn install && \
     moment \
     mysql \
     selenium-webdriver \
-    sleep
+    sleep \
+    jest

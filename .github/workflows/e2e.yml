@@ -2,23 +2,23 @@ name: e2e
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
-#   ie:
-#     runs-on: windows-latest
-#     steps:
-#       - uses: actions/checkout@v1
-#       - uses: warrenbuckley/Setup-Nuget@v1
-#       - uses: actions/setup-node@v1
-#         with:
-#           node-version: 12
-#       - run: yarn install
-#       - run: yarn add selenium-webdriver
-#       - run: nuget install Selenium.WebDriver.IEDriver -Version 3.150.0
-#       - run: node scratch.js
-#         env:
-#           BROWSER: ie
+  #   ie:
+  #     runs-on: windows-latest
+  #     steps:
+  #       - uses: actions/checkout@v1
+  #       - uses: warrenbuckley/Setup-Nuget@v1
+  #       - uses: actions/setup-node@v1
+  #         with:
+  #           node-version: 12
+  #       - run: yarn install
+  #       - run: yarn add selenium-webdriver
+  #       - run: nuget install Selenium.WebDriver.IEDriver -Version 3.150.0
+  #       - run: node scratch.js
+  #         env:
+  #           BROWSER: ie
   # firefox:
   #   runs-on: ubuntu-latest
   #   services:
@@ -50,28 +50,37 @@ jobs:
     runs-on: ubuntu-latest
     services:
       selenium:
-        image: selenium/standalone-chrome
+        image: selenium/standalone-chrome:87.0
         ports:
           - 4444:4444
         volumes:
           - /dev/shm:/dev/shm
-          - /tmp/test_data:/tmp/test_data
+          - /tmp/download:/tmp/download
         options: "--name selenium"
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v1
         with:
-          node-version: 12
-      - run: chmod 777 app/log
-      - run: sudo chmod 777 /tmp/test_data && ls -la /tmp
-      - run: cd app/config && ln -s config_local.php config.php && ls -la
-      - run: docker-compose up -d --build
-      - run: yarn install
-      - run: yarn add mocha moment mysql selenium-webdriver sleep
-      - run: docker network connect ums-admin_default selenium
-      - run: sleep 30
-      - run: docker ps -a
-      - run: export NODE_PATH=$(pwd)/test/e2e/src/app && yarn mocha test/e2e/src/app/index.js --timeout 3600000
+          node-version: 14
+
+      - name: Setup env
+        run: |
+          chmod 777 app/log
+          cd app/config && ln -s config_local.php config.php && ls -la
+          docker-compose up -d --build
+
+      - name: e2e test
+        working-directory: ./test/script
+        run: |
+          yarn install
+          sudo chmod 777 /tmp/download && ls -la /tmp
+          docker network connect ums-admin_default selenium
+          sleep 30
+          docker ps -a
+          yarn jest src/__tests__/tests/index.ts
         env:
           BROWSER: chrome
           CI: true

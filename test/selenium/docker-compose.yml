@@ -12,7 +12,7 @@ services:
     container_name: selenium-chrome
     volumes:
       - /dev/shm:/dev/shm
-      - test_data:/tmp/test_data:rw
+      - ./download:/tmp/download
     depends_on:
       - selenium-hub
     environment:
@@ -46,5 +46,5 @@ networks:
     external:
       name: ums-admin_default
 
-volumes:
-  test_data:
+#volumes:
+  #test_data:
