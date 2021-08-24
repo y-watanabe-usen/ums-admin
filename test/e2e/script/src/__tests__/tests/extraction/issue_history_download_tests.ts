@@ -27,6 +27,7 @@ describe("アカウント証発送履歴抽出画面のテスト", () => {
       .build();
 
     driver.setFileDetector(new remote.FileDetector()); // ファイル検知モジュール
+    Database.connect();
 
     process.on("unhandledRejection", console.dir);
   });
@@ -37,6 +38,7 @@ describe("アカウント証発送履歴抽出画面のテスト", () => {
   });
 
   afterAll(() => {
+    Database.disconnect();
     return driver.quit();
   });
 

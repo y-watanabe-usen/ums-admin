@@ -24,6 +24,7 @@ describe("発送データアップロード画面のテスト", () => {
     driver.setFileDetector(new remote.FileDetector()); // ファイル検知モジュール
 
     process.on("unhandledRejection", console.dir);
+    Database.connect();
     Database.executeQuery(
       "DELETE FROM t_issue_history WHERE t_unis_cust_id = ?",
       [12]
@@ -36,6 +37,7 @@ describe("発送データアップロード画面のテスト", () => {
   });
 
   afterAll(() => {
+    Database.disconnect();
     return driver.quit();
   });
 

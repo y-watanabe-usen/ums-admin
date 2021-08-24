@@ -24,6 +24,7 @@ describe("サービス詳細画面のテスト", () => {
       .build();
 
     driver.setFileDetector(new remote.FileDetector()); // ファイル検知モジュール
+    Database.connect();
 
     process.on("unhandledRejection", console.dir);
   });
@@ -34,6 +35,7 @@ describe("サービス詳細画面のテスト", () => {
   });
 
   afterAll(() => {
+    Database.disconnect();
     return driver.quit();
   });
 
