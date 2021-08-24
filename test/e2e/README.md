@@ -8,7 +8,7 @@ docker-compose up -d --build
 
 ### seleniumを起動する
 ```bash
-cd ${REPOSITORY_HOME}/test/selenium
+cd ${REPOSITORY_HOME}/test/e2e/selenium
 docker-compose up -d --build
 ```
 
@@ -21,6 +21,6 @@ docker-compose up -d --build
 
 ### e2eテストを起動する
 ```
-cd ${REPOSITORY_HOME}/test/e2e
-docker-compose up --build
+cd ${REPOSITORY_HOME}/test/e2e/script
+yarn test
 ```

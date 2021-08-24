@@ -25,6 +25,7 @@ class Database {
     this.isConnected = false;
   }
 
+  // eslint-disable-next-line
   executeQuery(query: string, params: any) {
     if (!this.isConnected) this.connect();
     this.connection.query(query, params, (err) => {
