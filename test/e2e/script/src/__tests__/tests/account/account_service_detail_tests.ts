@@ -305,6 +305,19 @@ export const accountServiceDetailTests = () => {
       // ****************************
       // ** 後始末
       // ****************************
+      const sql = `
+      DELETE FROM t_service_stop_history
+      WHERE t_unis_service_id IN (
+        SELECT id
+        FROM t_unis_service
+        WHERE t_unis_cust_id = (
+          SELECT id
+          FROM t_unis_cust
+          WHERE cust_cd = ?
+        )
+      )
+    `;
+      Database.executeQuery(sql, ["admin0001"]);
     });
     // skip: 「休店解除できること」と同様の手順なためskip
     test.skip("強制施錠解除できること", async () => {
