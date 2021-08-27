@@ -73,14 +73,15 @@ jobs:
           docker-compose up -d --build
 
       - name: e2e test
-        working-directory: ./test/script
+        working-directory: ./test/e2e/script
         run: |
           yarn install
           sudo chmod 777 /tmp/download && ls -la /tmp
           docker network connect ums-admin_default selenium
           sleep 30
           docker ps -a
-          yarn jest src/__tests__/tests/index.ts
+          yarn lint
+          yarn test
         env:
           BROWSER: chrome
           CI: true
