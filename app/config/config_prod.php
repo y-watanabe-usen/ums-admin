@@ -42,7 +42,7 @@ Configure::write('PERSONAL_SALT', 'zSpVbSzXYVzJHn9FVN47PrT75idHAZsTh52cDFtx');
 Configure::write('INIT_ACCSESS_EXPIRE_HOUR', '+1 day');
 
 // SMTPサーバ
-Configure::write('MAIL_HOST', 'smtp.usen.co.jp');
+Configure::write('MAIL_HOST', '10.223.12.62');
 // メールのFROM
 Configure::write('MAIL_FROM', 'pj-app-dev@usen.co.jp');
 Configure::write('MAIL_FROM_NAME', 'pj-app-dev@usen.co.jp');
