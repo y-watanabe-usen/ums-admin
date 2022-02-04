@@ -5,9 +5,9 @@ ENV PHP_VERSION 5.3.3
 # timezone
 RUN cp -p /usr/share/zoneinfo/Japan /etc/localtime
 
-RUN sed -i "s|#baseurl=|baseurl=|g" /etc/yum.repos.d/CentOS-Base.repo \
-  && sed -i "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-Base.repo \
-  && sed -i "s|http://mirror\.centos\.org/centos/\$releasever|https://vault\.centos\.org/6.6|g" /etc/yum.repos.d/CentOS-Base.repo
+RUN sed -i -e "s|mirror\.centos\.org|mirror\.nsc\.liu\.se/centos-store|g" /etc/yum.repos.d/CentOS-Base.repo \
+  && sed -i -e "s|#baseurl=|baseurl=|g" /etc/yum.repos.d/CentOS-Base.repo \
+  && sed -i -e "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-Base.repo
 
 RUN yum update -y \
   && yum install -y epel-release \
