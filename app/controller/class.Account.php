@@ -1470,8 +1470,8 @@ class Account extends Controller {
                     $service->stop_count = $serviceRow["stop_count"];
                     $service->lock_count = $serviceRow["lock_count"];
                     $custs->accounts[$accountRowCount]->services[$serviceRowCount] = $service;
-                    // Rの場合はRサービス発送履歴テーブルにデータが有るか取得する（テストデータの場合は処理を行わない）
-                    if ($serviceRow["service_cd"] === "120" && $isIgnore === false) {
+                    // OTORAKU, 又はWeddingの場合はRサービス発送履歴テーブルにデータが有るか取得する（テストデータの場合は処理を行わない）
+                    if (($serviceRow["service_cd"] === "120" || $serviceRow["service_cd"] === "180") && $isIgnore === false) {
                         $query = "SELECT COUNT(*) AS count "
                                 . "FROM t_r_issue_history "
                                 . "WHERE t_unis_service_id = :t_unis_service_id "
