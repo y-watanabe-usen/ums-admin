@@ -1867,9 +1867,9 @@ class Account extends Controller {
         // 契約サービス取得
         $agreement_service = $this->get_agreement_service($t_unis_service_id);
 
-        // UCART, OTORAKU以外はエラーとする
-        if (!in_array($agreement_service["service_cd"], array("100", "120"))) {
-            Logger::warning("Error except for UCART,OTORAKU.");
+        // UCART, OTORAKU, WEDDING以外はエラーとする
+        if (!in_array($agreement_service["service_cd"], array("100", "120", "180"))) {
+            Logger::warning("Error except for UCART,OTORAKU,WEDDING.");
             throw new BadRequestException();
         }
 
