@@ -520,7 +520,7 @@ class Account extends Controller {
 
         // 強制開錠出力フラグ
         $unlock_flg = false;
-        if ($service_cd == "100" || $service_cd == "120" || $service_cd == "180" && !is_null($service_info[0]["cont_no"]) && !is_null($service_info[0]["detail_no"])){
+        if ($service_cd == "100" || $service_cd == "120" && !is_null($service_info[0]["cont_no"]) && !is_null($service_info[0]["detail_no"]) || $service_cd == "180" && !is_null($service_info[0]["cont_no"]) && !is_null($service_info[0]["detail_no"])) {
             $unlock_flg = true;
         }
 
