@@ -66,8 +66,6 @@ export default {
     const files = fs.readdirSync(getDir());
     const filename = files[files.length - 1];
     const dir = fullpath ? getDir() : "";
-    console.log('joinin');
-    console.log(path);
     return path.join(dir, filename);
   },
   removeAllDownloadFiles: () => {
