@@ -80,6 +80,7 @@ jobs:
           docker network connect ums-admin_default selenium
           sleep 30
           docker ps -a
+          yarn lint
           yarn test
         env:
           BROWSER: chrome
