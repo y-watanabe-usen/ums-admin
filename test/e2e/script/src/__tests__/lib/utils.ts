@@ -59,6 +59,8 @@ export default {
     await new Promise((resolve) => setTimeout(resolve, second * 1000));
   },
   getDownloadFilename: (fullpath = true) => {
+    console.log('test1');
+    console.log(process.env.CI);
     const getDir = () => {
       return process.env.CI ? Const.SELENIUM_DOWNLOAD_DIR : Const.LOCAL_DOWNLOAD_DIR;
     };
