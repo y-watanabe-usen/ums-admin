@@ -64,10 +64,10 @@ export default {
     };
 
     const files = fs.readdirSync(getDir());
+    console.log('test');
+    console.log(files);
     const filename = files[files.length - 1];
     const dir = fullpath ? getDir() : "";
-    console.log('test3');
-    console.log(getDir());
     return path.join(dir, filename);
   },
   removeAllDownloadFiles: () => {
