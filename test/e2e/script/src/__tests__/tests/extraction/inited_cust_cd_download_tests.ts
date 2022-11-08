@@ -485,7 +485,7 @@ describe("初回認証済顧客抽出画面のテスト", () => {
   });
 
   // skip: エラー回避の為、一旦skip
-  test.skip("初回認証済顧客データが抽出され、ファイルがダウンロードされていることを確認", async () => {
+  test("初回認証済顧客データが抽出され、ファイルがダウンロードされていることを確認", async () => {
     // ****************************
     // ** 準備
     // ****************************
@@ -508,6 +508,8 @@ describe("初回認証済顧客抽出画面のテスト", () => {
     // ****************************
     // ファイル名取得
     const csvFilename = Utils.getDownloadFilename();
+    console.log('test');
+    console.log(csvFilename);
     // ファイル読み込み
     const actual = fs.readFileSync(csvFilename).toString();
     const expected = fs

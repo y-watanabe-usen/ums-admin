@@ -59,11 +59,15 @@ export default {
     await new Promise((resolve) => setTimeout(resolve, second * 1000));
   },
   getDownloadFilename: (fullpath = true) => {
+    console.log('test1');
+    console.log(process.env.CI);
     const getDir = () => {
       return process.env.CI ? Const.SELENIUM_DOWNLOAD_DIR : Const.LOCAL_DOWNLOAD_DIR;
     };
 
     const files = fs.readdirSync(getDir());
+    console.log('test');
+    console.log(files);
     const filename = files[files.length - 1];
     const dir = fullpath ? getDir() : "";
     return path.join(dir, filename);
